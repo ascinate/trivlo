@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
   const pathname = usePathname();
-  
+
   const menuItems = [
     { name: "Dashboard", icon: "bi-grid", href: "/" },
     { name: "Inquiries", icon: "bi-chat-left-text", href: "/inquiries", badge: 12 },
@@ -37,13 +38,13 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-column">
             <h2 className="m-0">
-              TRIVLO <i className="bi bi-airplane-fill text-warning rotate-45" style={{ transform: "rotate(45deg)", display: "inline-block" }}></i>
+              <Image src="/images/logo.png" className="logos" alt="Logo" width={171} height={43} />
             </h2>
             <p className="m-0 mt-1">Travel CRM & Booking Management</p>
           </div>
           {/* Close button for mobile */}
-          <button 
-            className="btn btn-link text-white d-lg-none p-0 ms-auto" 
+          <button
+            className="btn btn-link text-white d-lg-none p-0 ms-auto"
             onClick={toggleSidebar}
             aria-label="Close Sidebar"
           >
