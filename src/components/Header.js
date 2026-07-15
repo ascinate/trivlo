@@ -128,7 +128,7 @@ export default function Header({
 
                 {showNotifications && (
                   <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "300px", zIndex: 1050 }}>
-                    <div className="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+                    <div className="p-3  border-bottom d-flex justify-content-between align-items-center">
                       <h6 className="m-0 fw-700">Notifications</h6>
                       <span className="badge bg-danger rounded-pill">
                         {forcePageHeaderLayout ? "2 New" : "14 New"}
@@ -206,7 +206,7 @@ export default function Header({
 
                 {showNotifications && (
                   <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "300px", zIndex: 1050 }}>
-                    <div className="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+                    <div className="p-3  border-bottom d-flex justify-content-between align-items-center">
                       <h6 className="m-0 fw-700">Notifications</h6>
                       <span className="badge bg-danger rounded-pill">3 New</span>
                     </div>
@@ -223,8 +223,8 @@ export default function Header({
                         </a>
                       ))}
                     </div>
-                    <div className="p-2 border-top text-center bg-light">
-                      <a href="#" className="small text-decoration-none fw-700 text-dark" onClick={(e) => e.preventDefault()}>View All Notifications</a>
+                    <div className="p-2 border-top text-center ">
+                      <a href="#" className="small text-decoration-none fw-700" onClick={(e) => e.preventDefault()}>View All Notifications</a>
                     </div>
                   </div>
                 )}
