@@ -4,7 +4,15 @@ import { useState } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { LuSunMedium } from "react-icons/lu";
 
-export default function Header({ toggleSidebar, title, subtitle, searchPlaceholder }) {
+export default function Header({
+  toggleSidebar,
+  title,
+  subtitle,
+  searchPlaceholder,
+  hideWelcome = false,
+  forcePageHeaderLayout = false,
+  actionButton = null
+}) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -26,6 +34,8 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
     { id: 3, text: "Booking confirmed by David", time: "2h ago", icon: "bi-check-circle text-info" }
   ];
 
+  const isPageHeader = title || forcePageHeaderLayout;
+
   return (
     <header className="header border-bottom border-light">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 w-100">
@@ -40,21 +50,23 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
             <i className="bi bi-list"></i>
           </button>
 
-          <div className="welcome-message">
-            {title ? (
-              <>
-                <h1 className="fs-4 fw-800 text-dark m-0">{title}</h1>
-                {subtitle && (
-                  <span className="text-secondary fs-7 fw-500 d-block mt-1">{subtitle}</span>
-                )}
-              </>
-            ) : (
-              <>
-                <span className="text-secondary fs-7 fw-500 d-block">Good Morning, John! 👋</span>
-                <h1 className="fs-4 fw-800 text-dark m-0 mt-1">Here&apos;s what&apos;s happening with your business today.</h1>
-              </>
-            )}
-          </div>
+          {!hideWelcome && (
+            <div className="welcome-message">
+              {title ? (
+                <>
+                  <h1 className="fs-4 fw-800 text-dark m-0">{title}</h1>
+                  {subtitle && (
+                    <span className="text-secondary fs-7 fw-500 d-block mt-1">{subtitle}</span>
+                  )}
+                </>
+              ) : (
+                <>
+                  <span className="text-secondary fs-7 fw-500 d-block">Good Morning, John! 👋</span>
+                  <h1 className="fs-4 fw-800 text-dark m-0 mt-1">Here&apos;s what&apos;s happening with your business today.</h1>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Center Search & Right Action Group */}
@@ -71,7 +83,10 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
             <kbd className="header-search-kbd d-none d-sm-inline-block">⌘ K</kbd>
           </div>
 
-          {title ? (
+          {/* Optional Page Action Button */}
+          {actionButton}
+
+          {isPageHeader ? (
             // Page-specific header elements (matches Inquiries image)
             <>
               {/* Chat Icon with Badge */}
@@ -82,7 +97,9 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
                   aria-label="Chat messages"
                 >
                   <i className="bi bi-chat-left-text"></i>
-                  <span className="header-badge" style={{ backgroundColor: "#5D59E1" }}>8</span>
+                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#5D59E1" }}>
+                    {forcePageHeaderLayout ? 5 : 8}
+                  </span>
                 </button>
                 {showChat && (
                   <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "260px", zIndex: 1050 }}>
@@ -104,14 +121,18 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
                   aria-label="Notifications"
                 >
                   <FaRegBell />
-                  <span className="header-badge" style={{ backgroundColor: "#5D59E1" }}>14</span>
+                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#5D59E1" }}>
+                    {forcePageHeaderLayout ? 2 : 14}
+                  </span>
                 </button>
 
                 {showNotifications && (
                   <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "300px", zIndex: 1050 }}>
                     <div className="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
                       <h6 className="m-0 fw-700">Notifications</h6>
-                      <span className="badge bg-danger rounded-pill">14 New</span>
+                      <span className="badge bg-danger rounded-pill">
+                        {forcePageHeaderLayout ? "2 New" : "14 New"}
+                      </span>
                     </div>
                     <div className="list-group list-group-flush" style={{ maxHeight: "240px", overflowY: "auto" }}>
                       {notifications.map((notif) => (

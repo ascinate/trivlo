@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -183,6 +184,7 @@ const initialInquiries = [
 const ROWS_PER_PAGE = 7;
 
 export default function InquiriesPage() {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [inquiries, setInquiries] = useState(initialInquiries);
   const [activeTab, setActiveTab] = useState("All");
@@ -900,8 +902,13 @@ export default function InquiriesPage() {
                     <tbody>
                       {pagedInquiries.length > 0 ? (
                         pagedInquiries.map((inquiry) => (
-                          <tr key={inquiry.id} className="border-bottom border-light">
-                            <td style={{ padding: "1.25rem 0.5rem" }}>
+                          <tr
+                            key={inquiry.id}
+                            className="border-bottom border-light"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => router.push(`/inquiries/${inquiry.id}`)}
+                          >
+                            <td style={{ padding: "1.25rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                               <input
                                 type="checkbox"
                                 className="form-check-input shadow-none"
@@ -962,12 +969,16 @@ export default function InquiriesPage() {
                               </div>
                             </td>
                             <td className="text-secondary fw-500 bd-labe" style={{ padding: "1.25rem 0.5rem" }}>{inquiry.createdOn}</td>
-                            <td className="text-end pe-3" style={{ padding: "1.25rem 0.5rem" }}>
+                            <td className="text-end pe-3" style={{ padding: "1.25rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                               <div className="d-flex align-items-center justify-content-end gap-2 text-secondary">
-                                <button className="btn btn-link eye-links text-secondary p-1 border bg-transparent" aria-label="View Details">
+                                <button
+                                  className="btn btn-link eye-links text-secondary p-1 border bg-transparent"
+                                  aria-label="View Details"
+                                  onClick={() => router.push(`/inquiries/${inquiry.id}`)}
+                                >
                                   <FaRegEye />
                                 </button>
-                                <button className="btn btn-link text-secondary p-1 border bg-transparent" aria-label="More Actions">
+                                <button className="btn btn-link text-secondary p-1 border bg-transparent" aria-label="More Actions" onClick={e => e.stopPropagation()}>
                                   <i className="bi bi-three-dots-vertical fs-6"></i>
                                 </button>
                               </div>

@@ -7,17 +7,38 @@ import Image from "next/image";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
   const pathname = usePathname();
+  const [crmExpanded, setCrmExpanded] = useState(true);
+  const [suppliersExpanded, setSuppliersExpanded] = useState(true);
 
   const menuItems = [
     { name: "Dashboard", icon: "bi-grid", href: "/" },
-    { name: "Inquiries", icon: "bi-chat-left-text", href: "/inquiries", badge: 12 },
-    { name: "Itineraries", icon: "bi-map", href: "#" },
-    { name: "Quotations", icon: "bi-file-earmark-text", href: "#" },
+    {
+      name: "CRM",
+      icon: "bi-person",
+      isParent: true,
+      expanded: crmExpanded,
+      setExpanded: setCrmExpanded,
+      subItems: [
+        { name: "Inquiries", href: "/inquiries", badge: 12 },
+        { name: "Leads", href: "/leads" },
+        { name: "Customers", href: "/customers" }
+      ]
+    },
+    { name: "Itineraries", icon: "bi-map", href: "/itineraries" },
+    { name: "Quotations", icon: "bi-file-earmark-text", href: "/quotations" },
     { name: "Bookings", icon: "bi-journal-bookmark", href: "#" },
-    { name: "Customers", icon: "bi-people", href: "#" },
-    { name: "Suppliers", icon: "bi-building", href: "#" },
+    {
+      name: "Suppliers",
+      icon: "bi-building",
+      isParent: true,
+      expanded: suppliersExpanded,
+      setExpanded: setSuppliersExpanded,
+      subItems: [
+        { name: "Hotels", href: "/suppliers/hotels" }
+      ]
+    },
     { name: "Flights", icon: "bi-airplane", href: "#" },
-    { name: "Hotels", icon: "bi-house", href: "#" },
+    { name: "Transfers", icon: "bi-car-front", href: "#" },
     { name: "Visa & Docs", icon: "bi-passport", href: "#" },
     { name: "Insurance", icon: "bi-shield-check", href: "#" },
     { name: "Finance", icon: "bi-wallet2", href: "#" },
@@ -38,7 +59,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-column">
             <h2 className="m-0">
-              <Image src="/images/logo.png" className="logos" alt="Logo" width={171} height={43} />
+              <Image src="/images/logo.svg" className="logos" alt="Logo" width={140} height={43} />
             </h2>
             <p className="m-0 mt-1">Travel CRM & Booking Management</p>
           </div>
@@ -56,6 +77,49 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       {/* Navigation Links */}
       <nav className="sidebar-nav">
         {menuItems.map((item) => {
+          if (item.isParent) {
+            const isAnySubActive = item.subItems.some(sub => pathname === sub.href);
+            return (
+              <div key={item.name} className="d-flex flex-column">
+                <button
+                  className={`nav-parent-btn text-start d-flex align-items-center justify-content-between ${isAnySubActive ? "active-parent" : ""}`}
+                  onClick={() => item.setExpanded(!item.expanded)}
+                  aria-expanded={item.expanded}
+                >
+                  <div className="d-flex align-items-center">
+                    <i className={`bi ${item.icon} me-2 fs-5`}></i>
+                    <span>{item.name}</span>
+                  </div>
+                  <i className={`bi bi-chevron-${item.expanded ? "up" : "down"} ms-auto`} style={{ fontSize: "0.75rem", opacity: 0.7 }}></i>
+                </button>
+                {item.expanded && (
+                  <div className="nav-sub-menu d-flex flex-column">
+                    {item.subItems.map((sub) => {
+                      const isSubActive = pathname === sub.href;
+                      return (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          className={`nav-sub-link ${isSubActive ? "active" : ""}`}
+                          onClick={(e) => {
+                            if (sub.href === "#") {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          <span>{sub.name}</span>
+                          {sub.badge && (
+                            <span className="sidebar-badge">{sub.badge}</span>
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
           const isActive = item.href === "/" ? pathname === "/" : pathname === item.href;
           return (
             <Link
@@ -113,3 +177,4 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     </aside>
   );
 }
+

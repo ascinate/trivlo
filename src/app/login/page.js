@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -431,11 +432,7 @@ export default function LoginPage() {
         <div className="login-topbar">
           <div className="login-brand">
             <h2>
-              TRIVLO{" "}
-              <i
-                className="bi bi-airplane-fill text-warning"
-                style={{ transform: "rotate(45deg)", display: "inline-block", fontSize: "1.1rem" }}
-              ></i>
+              <Image src="/images/logo.svg" className="logos" alt="Logo" width={140} height={43} />
             </h2>
             <p>Travel CRM &amp; Booking Management</p>
           </div>
