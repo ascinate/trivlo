@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { FaRegBell } from "react-icons/fa";
+import { LuSunMedium } from "react-icons/lu";
 
 export default function Header({ toggleSidebar, title, subtitle, searchPlaceholder }) {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -27,17 +29,17 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
   return (
     <header className="header border-bottom border-light">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 w-100">
-        
+
         {/* Left Welcome Section & Hamburger Menu */}
         <div className="d-flex align-items-center gap-3">
-          <button 
-            className="sidebar-toggler p-0 me-2" 
+          <button
+            className="sidebar-toggler p-0 me-2"
             onClick={toggleSidebar}
             aria-label="Toggle Sidebar"
           >
             <i className="bi bi-list"></i>
           </button>
-          
+
           <div className="welcome-message">
             {title ? (
               <>
@@ -57,13 +59,13 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
 
         {/* Center Search & Right Action Group */}
         <div className="d-flex align-items-center gap-3 ms-auto flex-grow-1 flex-md-grow-0 justify-content-end">
-          
+
           {/* Search Box */}
           <div className="header-search flex-grow-1 flex-md-grow-0">
             <i className="bi bi-search header-search-icon"></i>
-            <input 
-              type="text" 
-              placeholder={searchPlaceholder || "Search anything..."} 
+            <input
+              type="text"
+              placeholder={searchPlaceholder || "Search anything..."}
               aria-label="Search"
             />
             <kbd className="header-search-kbd d-none d-sm-inline-block">⌘ K</kbd>
@@ -74,7 +76,7 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
             <>
               {/* Chat Icon with Badge */}
               <div className="position-relative">
-                <button 
+                <button
                   className="header-action-btn"
                   onClick={() => setShowChat(!showChat)}
                   aria-label="Chat messages"
@@ -96,12 +98,12 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
 
               {/* Notifications Icon with Badge */}
               <div className="position-relative">
-                <button 
+                <button
                   className="header-action-btn"
                   onClick={() => setShowNotifications(!showNotifications)}
                   aria-label="Notifications"
                 >
-                  <i className="bi bi-bell"></i>
+                  <FaRegBell />
                   <span className="header-badge" style={{ backgroundColor: "#5D59E1" }}>14</span>
                 </button>
 
@@ -161,7 +163,7 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
             // Default Welcome Header elements (original dashboard layout)
             <>
               {/* Theme Toggler */}
-              <button 
+              <button
                 className="header-action-btn"
                 onClick={toggleTheme}
                 aria-label="Toggle Dark Mode"
@@ -171,7 +173,7 @@ export default function Header({ toggleSidebar, title, subtitle, searchPlacehold
 
               {/* Notifications Dropdown */}
               <div className="position-relative">
-                <button 
+                <button
                   className="header-action-btn"
                   onClick={() => setShowNotifications(!showNotifications)}
                   aria-expanded={showNotifications}

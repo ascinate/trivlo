@@ -85,11 +85,11 @@ export default function LoginPage() {
           background: rgba(255,255,255,0.15);
           backdrop-filter: blur(8px);
           border: 1px solid rgba(255,255,255,0.25);
+          border: solid 1px #e9e9e9;
           border-radius: 10px;
           padding: 0.45rem 0.9rem;
-          color: #FFFFFF;
           font-size: 0.85rem;
-          font-weight: 600;
+          font-weight: 400;
           cursor: pointer;
           transition: all 0.2s;
         }
@@ -125,8 +125,7 @@ export default function LoginPage() {
           border-radius: 50%;
           background: rgba(255,255,255,0.15);
           backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.25);
-          color: #FFFFFF;
+          border: solid 1px #e9e9e9;
           display: flex; align-items: center; justify-content: center;
           font-size: 1rem;
           cursor: pointer;
@@ -167,14 +166,14 @@ export default function LoginPage() {
         .login-hero-headline { margin-top: 2rem; }
         .login-hero-headline h1 {
           font-size: clamp(2rem, 3.5vw, 2.8rem);
-          font-weight: 800;
+          font-weight: 500;
           color: #FFFFFF;
           line-height: 1.15;
           margin: 0 0 0.25rem 0;
           text-shadow: 0 2px 16px rgba(0,0,0,0.2);
         }
         .login-hero-headline .accent {
-          color: #F8EFE4;
+          color: #ffc107;
           display: block;
         }
         .login-hero-divider {
@@ -212,7 +211,7 @@ export default function LoginPage() {
           font-size: 1.2rem; flex-shrink: 0;
         }
         .hero-stat-value {
-          font-size: 1.25rem; font-weight: 800;
+          font-size: 1.25rem; font-weight: 500;
           color: #FFFFFF; line-height: 1;
         }
         .hero-stat-label {
@@ -270,7 +269,7 @@ export default function LoginPage() {
     padding: 30px;
         }
         .login-form-title {
-          font-size: 1.55rem; font-weight: 800;
+          font-size: 1.55rem; font-weight: 600;
           color: var(--dark); margin: 0 0 0.2rem 0; line-height: 1.2;
         }
         .login-form-subtitle {
@@ -338,7 +337,7 @@ export default function LoginPage() {
           color: #FFFFFF; border: none;
           border-radius: 12px;
           padding: 0.8rem 1.5rem;
-          font-size: 1rem; font-weight: 700;
+          font-size: 1rem; font-weight: 500;
           display: flex; align-items: center; justify-content: center; gap: 0.5rem;
           cursor: pointer; transition: all 0.2s ease; font-family: inherit;
         }
@@ -497,7 +496,7 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <div className="hero-stats-card">
+                <div className="hero-stats-card col-lg-10">
                   <div className="row g-3">
                     {stats.map((s) => (
                       <div key={s.label} className="col-6 col-sm-3">
@@ -516,7 +515,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <div className="hero-testimonial">
+                <div className="hero-testimonial col-lg-7">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/john-smith.png"
