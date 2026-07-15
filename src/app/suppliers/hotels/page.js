@@ -200,7 +200,7 @@ const generateMockHotels = () => {
     const category = categories[Math.floor(Math.random() * categories.length)];
     const priority = priorities[Math.floor(Math.random() * priorities.length)];
     const rating = Math.random() > 0.3 ? 5 : (Math.random() > 0.5 ? 4.5 : 4);
-    
+
     list.push({
       id: `H-${idNum}`,
       name: `${brand} ${city}`,
@@ -385,7 +385,7 @@ export default function HotelsPage() {
   const handleCreateHotelSubmit = (e) => {
     const form = e.currentTarget;
     e.preventDefault();
-    
+
     if (form.checkValidity() === false) {
       e.stopPropagation();
       setFormValidated(true);
@@ -435,7 +435,7 @@ export default function HotelsPage() {
     const total = hotels.length;
     const active = hotels.filter(h => h.status === "Active").length;
     const rooms = hotels.reduce((acc, h) => acc + h.rooms, 0);
-    
+
     // Average Rate is hardcoded in mockup, but we will make it look authentic
     return [
       {
@@ -601,7 +601,7 @@ export default function HotelsPage() {
   const newHotelButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       onClick={() => setShowModal(true)}
       aria-label="Add new hotel"
     >
@@ -618,11 +618,12 @@ export default function HotelsPage() {
 
       {/* Main Workspace Container */}
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
-        
+
         {/* Header */}
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Hotels"
+          subtitle="Home > Hotels"
           forcePageHeaderLayout={true}
           searchPlaceholder="Search inquiries, customers, bookings, quotations..."
           actionButton={newHotelButton}
@@ -630,11 +631,10 @@ export default function HotelsPage() {
 
         {/* Main Contents */}
         <main className="main-content d-flex flex-column gap-4 py-4">
-          
+
           {/* Sub-Header Row */}
           <div>
-            <span className="text-secondary fs-7 fw-500 d-block">Home &gt; Suppliers &gt; Hotels</span>
-            <h1 className="fs-3 fw-800 text-dark m-0 mt-1">Hotels</h1>
+
             <p className="text-secondary fs-7 mt-1">Manage your hotel database and contracts.</p>
           </div>
 
@@ -671,9 +671,9 @@ export default function HotelsPage() {
           <section className="filter-toolbar-section">
             <div className="section-card border border-light p-3">
               <div className="d-flex flex-wrap gap-2 align-items-center justify-content-between">
-                
+
                 <div className="d-flex flex-wrap gap-2 flex-grow-1">
-                  
+
                   {/* Countries Select */}
                   <select
                     className="form-select rounded-3 border-light shadow-sm text-dark bg-white py-2 px-3 fw-600"
@@ -768,7 +768,7 @@ export default function HotelsPage() {
 
                   <button
                     className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-                    style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600", fontSize: "0.85rem" }}
+                    style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400", fontSize: "0.85rem" }}
                     onClick={handleExport}
                   >
                     <i className="bi bi-download"></i>
@@ -783,7 +783,7 @@ export default function HotelsPage() {
           {/* 3. Main content row */}
           <section className="main-grids-section">
             <div className="row g-3">
-              
+
               {/* Left Column: Hotels Table */}
               <div className="col-12 col-xl-8">
                 <div className="section-card border border-light p-4">
@@ -981,11 +981,11 @@ export default function HotelsPage() {
               {/* Right Column: Widgets */}
               <div className="col-12 col-xl-4">
                 <div className="d-flex flex-column gap-3">
-                  
+
                   {/* Doughnut Card */}
                   <div className="section-card border border-light p-4">
                     <h3 className="section-card-title mb-4">Hotels by Status</h3>
-                    
+
                     <div className="row align-items-center">
                       <div className="col-6 position-relative d-flex justify-content-center align-items-center" style={{ height: "130px" }}>
                         <div style={{ height: "130px", width: "130px" }}>
@@ -1031,7 +1031,7 @@ export default function HotelsPage() {
                       <h3 className="section-card-title">Top Hotel Destinations</h3>
                       <a href="#" className="section-card-link" onClick={e => e.preventDefault()}>View All</a>
                     </div>
-                    
+
                     <div className="d-flex flex-column gap-3">
                       {[
                         { dest: "Dubai, UAE", flag: "https://flagcdn.com/w40/ae.png", count: 245, pct: 100 },
@@ -1139,7 +1139,7 @@ export default function HotelsPage() {
           <div className="modal fade show d-block" style={{ zIndex: 1070 }} tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
               <div className="modal-content border-0 rounded-4 shadow-lg">
-                
+
                 <div className="modal-header border-bottom border-light px-4 py-3 bg-light rounded-top-4 d-flex justify-content-between align-items-center">
                   <h5 className="modal-title fw-700 text-dark m-0">Add New Hotel</h5>
                   <button
@@ -1152,7 +1152,7 @@ export default function HotelsPage() {
 
                 <form className={formValidated ? "was-validated" : ""} noValidate onSubmit={handleCreateHotelSubmit}>
                   <div className="modal-body p-4" style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-                    
+
                     <h6 className="fw-700 text-primary mb-3">General Information</h6>
                     <div className="row g-3 mb-4">
                       <div className="col-md-6">

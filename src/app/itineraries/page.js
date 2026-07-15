@@ -293,17 +293,18 @@ export default function ItineraryPage() {
 
       {/* Main Workspace Container */}
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
-        
+
         {/* Header */}
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Inquiries"
+          subtitle="Home > Inquiries"
           forcePageHeaderLayout={true}
           searchPlaceholder="Search inquiries, customers, bookings..."
           actionButton={
             <button
               className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-              style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+              style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
               aria-label="Add new inquiry"
               onClick={() => alert("New inquiry modal trigger")}
             >
@@ -316,13 +317,11 @@ export default function ItineraryPage() {
 
         {/* Main Contents */}
         <main className="main-content d-flex flex-column gap-4 py-4">
-          
+
           {/* Sub-Header Row: Breadcrumbs & Page Action Buttons */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
             <div>
-              <span className="text-secondary fs-7 fw-500 d-block">
-                Home &gt; CRM &gt; Inquiries &gt; INQ-1256 &gt; Itinerary Ideas
-              </span>
+
               <div className="d-flex align-items-center gap-2 mt-1 flex-wrap">
                 <h1 className="fs-3 fw-800 text-dark m-0">Itinerary Idea #1</h1>
                 <span className="badge rounded-2 fw-700 px-2 py-1 fs-9" style={{ backgroundColor: "#E9F4EE", color: "#1E6C45" }}>
@@ -334,7 +333,7 @@ export default function ItineraryPage() {
 
             {/* Subheader page actions */}
             <div className="d-flex align-items-center gap-2 w-100 w-md-auto">
-              
+
               {/* Actions Dropdown */}
               <select
                 className="form-select rounded-3 border-light shadow-sm text-dark bg-white py-2 px-3 fw-600 w-auto"
@@ -374,7 +373,7 @@ export default function ItineraryPage() {
           <section className="summary-block-section">
             <div className="section-card border border-light p-3" style={{ backgroundColor: "#FFFBF7" }}>
               <div className="row g-3 row-cols-2 row-cols-sm-3 row-cols-lg-6">
-                
+
                 {/* Field 1: Customer */}
                 <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -493,17 +492,17 @@ export default function ItineraryPage() {
           {/* 3. Main Split columns */}
           <section className="itinerary-details-section">
             <div className="row g-3">
-              
+
               {/* Left timeline planner (8 cols) */}
               <div className="col-12 col-xl-8">
-                
+
                 {/* Sub-card container */}
                 <div className="section-card border border-light p-4 bg-white">
-                  
+
                   {/* Planner header */}
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <h3 className="section-card-title">Trip Itinerary</h3>
-                    
+
                     <button
                       className="btn btn-outline-secondary border-light shadow-sm rounded-3 py-1 px-3 d-inline-flex align-items-center gap-1 fw-700"
                       style={{ fontSize: "0.8rem", height: "36px" }}
@@ -516,7 +515,7 @@ export default function ItineraryPage() {
 
                   {/* Split timelines body */}
                   <div className="row g-3">
-                    
+
                     {/* Side day indexes (4 cols) */}
                     <div className="col-12 col-md-4 border-end-md border-light">
                       <div className="d-flex flex-row flex-md-column gap-2 overflow-auto" style={{ maxHeight: "400px", paddingRight: "0.5rem" }}>
@@ -524,7 +523,7 @@ export default function ItineraryPage() {
                           const dayNum = parseInt(dayKey, 10);
                           const dayItem = daysData[dayNum];
                           const isDayActive = activeDay === dayNum;
-                          
+
                           return (
                             <button
                               key={dayNum}
@@ -571,7 +570,7 @@ export default function ItineraryPage() {
 
                     {/* Day Detailed schedule (8 cols) */}
                     <div className="col-12 col-md-8 px-md-3">
-                      
+
                       {/* Day summary title */}
                       <div className="d-flex justify-content-between align-items-start border-bottom border-light pb-2 mb-3">
                         <div>
@@ -582,7 +581,7 @@ export default function ItineraryPage() {
                             {activeDayObj.location}
                           </span>
                         </div>
-                        
+
                         <div className="d-inline-flex gap-2">
                           <button className="btn btn-outline-light border rounded-3 px-2 py-1 text-secondary fs-8 fw-700 d-inline-flex align-items-center gap-1" style={{ height: "32px" }}>
                             <i className="bi bi-pencil"></i>
@@ -602,13 +601,13 @@ export default function ItineraryPage() {
                         <div className="d-flex flex-column gap-3">
                           {activeDayObj.activities.map((act) => {
                             const iconClass = TYPE_ICONS[act.type] || "bi-compass";
-                            const statusColor = act.status === "Included" 
+                            const statusColor = act.status === "Included"
                               ? { backgroundColor: "#E9F4EE", color: "#1E6C45" }
                               : { backgroundColor: "#FFF6EE", color: "#B97C2B" };
 
                             return (
                               <div key={act.id} className="d-flex gap-3 position-relative" style={{ zIndex: 2 }}>
-                                
+
                                 {/* Left Time label */}
                                 <div className="text-secondary fw-700 fs-9 py-1" style={{ width: "65px", flexShrink: 0 }}>
                                   {act.time}
@@ -670,7 +669,7 @@ export default function ItineraryPage() {
                     >
                       Back
                     </button>
-                    
+
                     <div className="d-inline-flex gap-2">
                       <button
                         className="btn btn-light border rounded-3 px-4 py-2 d-inline-flex align-items-center gap-1"
@@ -698,14 +697,14 @@ export default function ItineraryPage() {
               {/* Right column: pricing and info widgets (4 cols) */}
               <div className="col-12 col-xl-4">
                 <div className="d-flex flex-column gap-3">
-                  
+
                   {/* Quote Summary widget */}
                   <div className="section-card border border-light p-4 bg-white">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <h3 className="section-card-title">Quote Summary</h3>
                       <a href="#" className="section-card-link" onClick={e => e.preventDefault()}>View Price Breakup</a>
                     </div>
-                    
+
                     <div className="d-flex flex-column gap-2 mb-3" style={{ fontSize: "0.85rem" }}>
                       <div className="d-flex justify-content-between">
                         <span className="text-secondary">Subtotal (2 Adults)</span>
@@ -746,7 +745,7 @@ export default function ItineraryPage() {
                   {/* Included Checklist widget */}
                   <div className="section-card border border-light p-4 bg-white">
                     <h3 className="section-card-title mb-3">Included in this Itinerary</h3>
-                    
+
                     <div className="d-flex flex-column gap-2 fs-8 fw-600 text-dark">
                       {[
                         "Hotels (4 Nights)",
@@ -768,7 +767,7 @@ export default function ItineraryPage() {
                   {/* Customer Preferences widget */}
                   <div className="section-card border border-light p-4 bg-white">
                     <h3 className="section-card-title mb-3">Customer Preferences</h3>
-                    
+
                     <div className="bg-light-subtle border p-3 rounded-3 mb-3" style={{ backgroundColor: "#FCFAF6" }}>
                       <div className="d-flex align-items-center gap-2 mb-2">
                         <i className="bi bi-heart-fill text-danger fs-8"></i>
@@ -813,7 +812,7 @@ export default function ItineraryPage() {
           <div className="modal fade show d-block" style={{ zIndex: 1070 }} tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content border-0 rounded-4 shadow-lg">
-                
+
                 <div className="modal-header border-bottom border-light px-4 py-3 bg-light rounded-top-4 d-flex justify-content-between align-items-center">
                   <h5 className="modal-title fw-700 text-dark m-0">Add New Activity</h5>
                   <button
@@ -826,7 +825,7 @@ export default function ItineraryPage() {
 
                 <form className={formValidated ? "was-validated" : ""} noValidate onSubmit={handleAddActivitySubmit}>
                   <div className="modal-body p-4" style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-                    
+
                     <div className="mb-3">
                       <label className="form-label fw-600 text-secondary" style={{ fontSize: "0.78rem" }}>Time</label>
                       <input

@@ -151,7 +151,7 @@ export default function LeadDetailPage() {
         .lead-info-label { flex-shrink: 0; min-width: 170px; color: var(--secondary); font-weight: 600; font-size: 0.82rem; }
         .lead-info-value { font-weight: 600; color: var(--dark); flex: 1; }
         .lead-stat-card { border: 1px solid var(--border); border-radius: 14px; background: #fff; padding: 1.5rem 1.75rem; }
-        .lead-tab-btn { background: none; border: none; border-bottom: 2.5px solid transparent; padding: 0.6rem 1rem; font-size: 0.88rem; font-weight: 700; color: var(--secondary); cursor: pointer; white-space: nowrap; transition: color 0.15s; }
+        .lead-tab-btn { background: none; border: none; border-bottom: 2.5px solid transparent; padding: 0.6rem 1rem; font-size: 0.88rem; font-weight: 500; color: var(--secondary); cursor: pointer; white-space: nowrap; transition: color 0.15s; }
         .lead-tab-btn.active { color: #112E24; border-bottom-color: #112E24; }
         .lead-tab-btn:hover:not(.active) { color: var(--dark); }
         .lead-activity-wrap { position: relative; padding-left: 2.2rem; }
@@ -167,7 +167,8 @@ export default function LeadDetailPage() {
         <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
           <Header
             toggleSidebar={toggleSidebar}
-            hideWelcome={true}
+            title="Leads Details"
+            subtitle="Home > CRM > Leads > Leads Details"
             forcePageHeaderLayout={true}
             searchPlaceholder="Search inquiries, customers, bookings..."
             actionButton={newLeadButton}
@@ -175,10 +176,6 @@ export default function LeadDetailPage() {
 
           <main className="main-content d-flex flex-column gap-3 py-4">
 
-            {/* Breadcrumb */}
-            <div>
-              <span className="text-secondary fs-7 fw-500">Home &gt; CRM &gt; Leads &gt; {lead.leadId}</span>
-            </div>
 
             {/* Page title */}
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">

@@ -115,7 +115,7 @@ export default function CustomerDetailPage() {
   const newCustomerButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       id="btn-new-customer-detail"
     >
       <i className="bi bi-plus-lg fs-6"></i>
@@ -148,7 +148,8 @@ export default function CustomerDetailPage() {
         <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
           <Header
             toggleSidebar={toggleSidebar}
-            hideWelcome={true}
+            title="Customers"
+            subtitle="Home > CRM >  Customers"
             forcePageHeaderLayout={true}
             searchPlaceholder="Search inquiries, customers, bookings, quotations..."
             actionButton={newCustomerButton}

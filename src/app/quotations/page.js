@@ -198,12 +198,12 @@ const generateMockQuotations = () => {
     const lName = lastNames[Math.floor(Math.random() * lastNames.length)];
     const dest = destinations[Math.floor(Math.random() * destinations.length)];
     const agent = agents[Math.floor(Math.random() * agents.length)];
-    
+
     // Generate valid date range in mid 2025
     const day = Math.floor(Math.random() * 28) + 1;
     const months = ["May", "Jun", "Jul", "Aug"];
     const month = months[Math.floor(Math.random() * months.length)];
-    
+
     list.push({
       id: `QT-${idNum}`,
       customer: {
@@ -233,11 +233,11 @@ export default function QuotationsPage() {
   const [destFilter, setDestFilter] = useState("All Destinations");
   const [agentFilter, setAgentFilter] = useState("All Agents");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Datepicker states
   const datePickerRef = useRef(null);
   const [datePickerValue, setDatePickerValue] = useState("");
-  
+
   // Sorting states
   const [sortKey, setSortKey] = useState("id");
   const [sortDir, setSortDir] = useState("desc");
@@ -414,7 +414,7 @@ export default function QuotationsPage() {
   const handleCreateQuotationSubmit = (e) => {
     const form = e.currentTarget;
     e.preventDefault();
-    
+
     if (form.checkValidity() === false) {
       e.stopPropagation();
       setFormValidated(true);
@@ -651,7 +651,7 @@ export default function QuotationsPage() {
   const newQuotationButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       onClick={() => setShowModal(true)}
       aria-label="Add new quotation"
     >
@@ -668,11 +668,12 @@ export default function QuotationsPage() {
 
       {/* Main Workspace Container */}
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
-        
+
         {/* Header */}
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Quotations"
+          subtitle="Home > Quotations"
           forcePageHeaderLayout={true}
           searchPlaceholder="Search inquiries, customers, bookings, quotations..."
           actionButton={newQuotationButton}
@@ -680,12 +681,11 @@ export default function QuotationsPage() {
 
         {/* Main Contents */}
         <main className="main-content d-flex flex-column gap-4 py-4">
-          
+
           {/* Sub-Header Row: Breadcrumb & Datepicker */}
           <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
             <div>
-              <span className="text-secondary fs-7 fw-500 d-block">Home &gt; Quotations</span>
-              <h1 className="fs-3 fw-800 text-dark m-0 mt-1">Quotations</h1>
+
             </div>
 
             {/* Datepicker dropdown */}
@@ -755,10 +755,10 @@ export default function QuotationsPage() {
           <section className="filter-toolbar-section">
             <div className="section-card border border-light p-3">
               <div className="d-flex flex-wrap gap-2 align-items-center justify-content-between">
-                
+
                 {/* Filters group */}
                 <div className="d-flex flex-wrap gap-2 flex-grow-1">
-                  
+
                   {/* Status Selector */}
                   <select
                     className="form-select rounded-3 border-light shadow-sm text-dark bg-white py-2 px-3 fw-600"
@@ -863,7 +863,7 @@ export default function QuotationsPage() {
 
                   <button
                     className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-                    style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600", fontSize: "0.85rem" }}
+                    style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400", fontSize: "0.85rem" }}
                     onClick={handleExport}
                   >
                     <i className="bi bi-download"></i>
@@ -878,7 +878,7 @@ export default function QuotationsPage() {
           {/* 3. Main content row (Table on left, stats widgets on right) */}
           <section className="main-grids-section">
             <div className="row g-3">
-              
+
               {/* Left Column - Table (8 cols) */}
               <div className="col-12 col-xl-8">
                 <div className="section-card border border-light p-4">
@@ -1024,7 +1024,7 @@ export default function QuotationsPage() {
                     <div className="d-flex align-items-center gap-3">
                       <nav aria-label="Page navigation" className="shadow-none">
                         <ul className="pagination pagination-sm m-0 border-0">
-                          
+
                           {/* Prev button */}
                           <li className={`page-item ${safePage === 1 ? "disabled" : ""}`}>
                             <button
@@ -1101,11 +1101,11 @@ export default function QuotationsPage() {
               {/* Right Column - Stats Widgets (4 cols) */}
               <div className="col-12 col-xl-4">
                 <div className="d-flex flex-column gap-3">
-                  
+
                   {/* Card 1: Quotation Summary */}
                   <div className="section-card border border-light p-4">
                     <h3 className="section-card-title mb-4">Quotation Summary</h3>
-                    
+
                     <div className="row align-items-center">
                       <div className="col-6 position-relative d-flex justify-content-center align-items-center" style={{ height: "130px" }}>
                         <div style={{ height: "130px", width: "130px" }}>
@@ -1159,7 +1159,7 @@ export default function QuotationsPage() {
                         </div>
                         <span className="text-secondary d-block" style={{ fontSize: "0.75rem", marginTop: "-3px" }}>vs last month</span>
                       </div>
-                      
+
                       {/* Mini Sparkline Chart */}
                       <div style={{ width: "90px", height: "45px" }}>
                         <Line data={sparklineData} options={sparklineOptions} />
@@ -1173,7 +1173,7 @@ export default function QuotationsPage() {
                       <h3 className="section-card-title">Top Destinations</h3>
                       <a href="#" className="section-card-link" onClick={e => e.preventDefault()}>View All</a>
                     </div>
-                    
+
                     <div className="d-flex flex-column gap-3">
                       {[
                         { dest: "Bali, Indonesia", flag: "https://flagcdn.com/w40/id.png", amount: 45230, pct: 100 },
@@ -1281,7 +1281,7 @@ export default function QuotationsPage() {
           <div className="modal fade show d-block" style={{ zIndex: 1070 }} tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
               <div className="modal-content border-0 rounded-4 shadow-lg">
-                
+
                 {/* Modal Header */}
                 <div className="modal-header border-bottom border-light px-4 py-3 bg-light rounded-top-4 d-flex justify-content-between align-items-center">
                   <h5 className="modal-title fw-700 text-dark m-0">Create New Quotation</h5>
@@ -1295,10 +1295,10 @@ export default function QuotationsPage() {
 
                 {/* Form */}
                 <form className={formValidated ? "was-validated" : ""} noValidate onSubmit={handleCreateQuotationSubmit}>
-                  
+
                   {/* Modal Body */}
                   <div className="modal-body p-4" style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-                    
+
                     {/* Block 1: Customer Details */}
                     <h6 className="fw-700 text-primary mb-3">Customer Information</h6>
                     <div className="row g-3 mb-4">
@@ -1335,7 +1335,7 @@ export default function QuotationsPage() {
                     {/* Block 2: Destination & Travel Details */}
                     <h6 className="fw-700 text-primary mb-3">Trip & Destination Details</h6>
                     <div className="row g-3 mb-4">
-                      
+
                       {/* Destination preset selection */}
                       <div className="col-md-6">
                         <label className="form-label fw-600 text-secondary" style={{ fontSize: "0.78rem" }}>Destination Preset</label>

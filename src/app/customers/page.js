@@ -164,7 +164,7 @@ export default function CustomersPage() {
   const newCustomerButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       id="btn-new-customer"
       onClick={() => alert("New customer modal")}
     >
@@ -181,7 +181,8 @@ export default function CustomersPage() {
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Customers Details"
+          subtitle="Home > CRM >  Customers > Customers Details"
           forcePageHeaderLayout={true}
           searchPlaceholder="Search inquiries, customers, bookings, quotations..."
           actionButton={newCustomerButton}
@@ -192,8 +193,7 @@ export default function CustomersPage() {
           {/* Page header */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2">
             <div>
-              <span className="text-secondary fs-7 fw-500">Home &gt; CRM &gt; Customers</span>
-              <h1 className="fs-3 fw-800 text-dark m-0 mt-1">Customers</h1>
+
               <p className="text-secondary fs-7 mt-1 mb-0">Manage your customers and their travel history.</p>
             </div>
             <div className="d-flex align-items-center gap-2 border rounded-3 border-light bg-white px-3 py-2 shadow-sm" style={{ fontSize: "0.82rem", fontWeight: 600, color: "#495057" }}>
@@ -288,11 +288,11 @@ export default function CustomersPage() {
                         const avatar = AVATAR_URLS[idx % AVATAR_URLS.length];
                         return (
                           <tr
-                              key={c.id}
-                              className="border-bottom border-light"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => router.push(`/customers/${c.id}`)}
-                            >
+                            key={c.id}
+                            className="border-bottom border-light"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => router.push(`/customers/${c.id}`)}
+                          >
                             <td style={{ padding: "0.9rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                               <input type="checkbox" className="form-check-input shadow-none"
                                 checked={selectedIds.includes(c.id)}

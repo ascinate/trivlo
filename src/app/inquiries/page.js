@@ -758,7 +758,7 @@ export default function InquiriesPage() {
 
               <button
                 className="btn text-white rounded-3 px-3 px-md-4 d-flex align-items-center gap-2"
-                style={{ backgroundColor: "#072e1b", height: "42px", fontWeight: "500", flexShrink: 0 }}
+                style={{ backgroundColor: "#072e1b", height: "42px", fontWeight: "400", flexShrink: 0 }}
                 onClick={() => setShowModal(true)}
               >
                 <i className="bi bi-plus-lg fs-6"></i>

@@ -302,7 +302,7 @@ body {
   border-radius: 12px;
   padding: 0.6rem 1.25rem;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 400;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -341,7 +341,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  padding: 1rem;
+  padding: 0.9rem;
   display: flex;
   align-items: start;
   gap: 1rem;

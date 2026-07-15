@@ -174,9 +174,10 @@ export default function LeadsPage() {
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Leads"
+          subtitle="Home > CRM > Leads"
+          searchPlaceholder="Search for inquiries, customers, bookings..."
           forcePageHeaderLayout={true}
-          searchPlaceholder="Search inquiries, customers, bookings, quotations..."
           actionButton={newLeadButton}
         />
 
@@ -185,9 +186,9 @@ export default function LeadsPage() {
           {/* Page header row */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2">
             <div>
-              <span className="text-secondary fs-7 fw-500">Home &gt; CRM &gt; Leads</span>
-              <h1 className="fs-3 fw-800 text-dark m-0 mt-1">Leads</h1>
+
               <p className="text-secondary fs-7 mt-1 mb-0">Manage and track your leads from various sources.</p>
+
             </div>
             <div className="d-flex align-items-center gap-2 border rounded-3 border-light bg-white px-3 py-2 shadow-sm" style={{ fontSize: "0.82rem", fontWeight: 600, color: "#495057" }}>
               <i className="bi bi-calendar3 text-secondary"></i>
@@ -271,11 +272,11 @@ export default function LeadsPage() {
                         const agentAvatar = AGENT_AVATARS[lead.assignedTo];
                         return (
                           <tr
-                              key={lead.id}
-                              className="border-bottom border-light"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => router.push(`/leads/${lead.id}`)}
-                            >
+                            key={lead.id}
+                            className="border-bottom border-light"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => router.push(`/leads/${lead.id}`)}
+                          >
                             <td style={{ padding: "1rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                               <input type="checkbox" className="form-check-input shadow-none"
                                 checked={selectedIds.includes(lead.id)}
