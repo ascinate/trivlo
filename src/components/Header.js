@@ -97,7 +97,7 @@ export default function Header({
                   aria-label="Chat messages"
                 >
                   <i className="bi bi-chat-left-text"></i>
-                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#5D59E1" }}>
+                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#da272b" }}>
                     {forcePageHeaderLayout ? 5 : 8}
                   </span>
                 </button>
@@ -121,7 +121,7 @@ export default function Header({
                   aria-label="Notifications"
                 >
                   <FaRegBell />
-                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#5D59E1" }}>
+                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#da272b" }}>
                     {forcePageHeaderLayout ? 2 : 14}
                   </span>
                 </button>

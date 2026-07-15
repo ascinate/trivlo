@@ -482,13 +482,13 @@ export default function InquiriesPage() {
     let styles = {};
     switch (status) {
       case "New":
-        styles = { backgroundColor: "#ECEFFE", color: "#5D59E1" };
+        styles = { backgroundColor: "#dff5de", color: "#3f6745" };
         break;
       case "In Progress":
-        styles = { backgroundColor: "#E6F0FF", color: "#0A58CA" };
+        styles = { backgroundColor: "#ebe3fb", color: "#0A58CA" };
         break;
       case "Converted":
-        styles = { backgroundColor: "#E9F4EE", color: "#1E6C45" };
+        styles = { backgroundColor: "#fceadc", color: "#ff7900" };
         break;
       case "Lost":
         styles = { backgroundColor: "#FCEAEA", color: "#D05E5E" };
@@ -587,7 +587,7 @@ export default function InquiriesPage() {
       }
       .inq-card-id {
         font-size: 0.72rem; font-weight: 700;
-        color: #5D59E1; background: #ECEFFE;
+        color: #5D59E1; background: #dff5de;
         border-radius: 6px; padding: 0.15rem 0.45rem;
         white-space: nowrap; flex-shrink: 0;
       }
@@ -758,7 +758,7 @@ export default function InquiriesPage() {
 
               <button
                 className="btn text-white rounded-3 px-3 px-md-4 d-flex align-items-center gap-2"
-                style={{ backgroundColor: "#5D59E1", height: "42px", fontWeight: "600", flexShrink: 0 }}
+                style={{ backgroundColor: "#072e1b", height: "42px", fontWeight: "500", flexShrink: 0 }}
                 onClick={() => setShowModal(true)}
               >
                 <i className="bi bi-plus-lg fs-6"></i>

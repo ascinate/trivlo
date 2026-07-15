@@ -283,7 +283,7 @@ body {
   position: absolute;
   top: 4px;
   right: 4px;
-  background-color: #D36C45;
+  background-color: #da272b;
   color: white;
   font-size: 0.65rem;
   width: 16px;
@@ -1097,4 +1097,12 @@ span.bd-labe.d-block.small-text01 {
 
 .nav-parent-btn.active-parent {
   color: #FFFFFF;
+}
+
+.text-primary {
+  color: #00971e !important;
+}
+
+.fw-700 {
+  font-weight: 600 !important;
 }
