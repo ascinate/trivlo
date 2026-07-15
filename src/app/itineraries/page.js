@@ -733,7 +733,7 @@ export default function ItineraryPage() {
                     </div>
 
                     <button
-                      className="btn text-white rounded-3 w-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-700 fs-7"
+                      className="btn text-white rounded-3 w-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-500 fs-7"
                       style={{ backgroundColor: "#112E24" }}
                       onClick={handleConvertToQuote}
                     >
