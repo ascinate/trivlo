@@ -148,8 +148,8 @@ export default function CustomerDetailPage() {
         <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
           <Header
             toggleSidebar={toggleSidebar}
-            title="Customers"
-            subtitle="Home > CRM >  Customers"
+            title="Customers Details"
+            subtitle="Home > CRM >  Customers > Customers Details"
             forcePageHeaderLayout={true}
             searchPlaceholder="Search inquiries, customers, bookings, quotations..."
             actionButton={newCustomerButton}

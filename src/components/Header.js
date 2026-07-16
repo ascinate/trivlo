@@ -89,6 +89,53 @@ export default function Header({
           {isPageHeader ? (
             // Page-specific header elements (matches Inquiries image)
             <>
+              {/* Theme Toggler */}
+              <button
+                className="header-action-btn"
+                onClick={toggleTheme}
+                aria-label="Toggle Dark Mode"
+              >
+                <i className={`bi ${isDarkMode ? "bi-moon-fill text-warning" : "bi-sun"}`}></i>
+              </button>
+
+              {/* Notifications Icon with Badge */}
+              <div className="position-relative">
+                <button
+                  className="header-action-btn"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  aria-label="Notifications"
+                >
+                  <FaRegBell />
+                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#da272b" }}>
+                    {forcePageHeaderLayout ? 3 : 14}
+                  </span>
+                </button>
+
+                {showNotifications && (
+                  <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "300px", zIndex: 1050 }}>
+                    <div className="p-3  border-bottom d-flex justify-content-between align-items-center">
+                      <h6 className="m-0 fw-700">Notifications</h6>
+                      <span className="badge bg-danger rounded-pill">
+                        {forcePageHeaderLayout ? "3 New" : "14 New"}
+                      </span>
+                    </div>
+                    <div className="list-group list-group-flush" style={{ maxHeight: "240px", overflowY: "auto" }}>
+                      {notifications.map((notif) => (
+                        <a key={notif.id} href="#" className="list-group-item list-group-item-action p-3" onClick={(e) => e.preventDefault()}>
+                          <div className="d-flex align-items-start gap-2">
+                            <i className={`bi ${notif.icon} mt-1`}></i>
+                            <div>
+                              <p className="m-0 small text-dark fw-600">{notif.text}</p>
+                              <span className="xsmall text-secondary">{notif.time}</span>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Chat Icon with Badge */}
               <div className="position-relative">
                 <button
@@ -108,44 +155,6 @@ export default function Header({
                     </div>
                     <div className="p-3 text-center text-muted small">
                       No unread messages.
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Notifications Icon with Badge */}
-              <div className="position-relative">
-                <button
-                  className="header-action-btn"
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  aria-label="Notifications"
-                >
-                  <FaRegBell />
-                  <span className="header-badge" style={{ backgroundColor: forcePageHeaderLayout ? "#D36C45" : "#da272b" }}>
-                    {forcePageHeaderLayout ? 2 : 14}
-                  </span>
-                </button>
-
-                {showNotifications && (
-                  <div className="dropdown-menu show position-absolute end-0 mt-2 p-0 overflow-hidden" style={{ width: "300px", zIndex: 1050 }}>
-                    <div className="p-3  border-bottom d-flex justify-content-between align-items-center">
-                      <h6 className="m-0 fw-700">Notifications</h6>
-                      <span className="badge bg-danger rounded-pill">
-                        {forcePageHeaderLayout ? "2 New" : "14 New"}
-                      </span>
-                    </div>
-                    <div className="list-group list-group-flush" style={{ maxHeight: "240px", overflowY: "auto" }}>
-                      {notifications.map((notif) => (
-                        <a key={notif.id} href="#" className="list-group-item list-group-item-action p-3" onClick={(e) => e.preventDefault()}>
-                          <div className="d-flex align-items-start gap-2">
-                            <i className={`bi ${notif.icon} mt-1`}></i>
-                            <div>
-                              <p className="m-0 small text-dark fw-600">{notif.text}</p>
-                              <span className="xsmall text-secondary">{notif.time}</span>
-                            </div>
-                          </div>
-                        </a>
-                      ))}
                     </div>
                   </div>
                 )}

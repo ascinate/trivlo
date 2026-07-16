@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     },
     { name: "Itineraries", icon: "bi-map", href: "/itineraries" },
     { name: "Quotations", icon: "bi-file-earmark-text", href: "/quotations" },
-    { name: "Bookings", icon: "bi-journal-bookmark", href: "#" },
+    { name: "Bookings", icon: "bi-journal-bookmark", href: "/bookings" },
     {
       name: "Suppliers",
       icon: "bi-building",
