@@ -323,7 +323,7 @@ export default function BookingsPage() {
                           key={b.id}
                           className="border-bottom border-light"
                           style={{ cursor: "pointer" }}
-                          onClick={() => router.push("/bookings/new")}
+                          onClick={() => router.push(`/bookings/${b.id}`)}
                         >
                           <td style={{ padding: "0.9rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                             <input
@@ -390,7 +390,7 @@ export default function BookingsPage() {
                           </td>
                           <td style={{ padding: "0.9rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                             <div className="d-inline-flex gap-1">
-                              <button className="btn btn-outline-light border rounded-3 p-1 text-secondary" style={{ width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => router.push("/bookings/new")} aria-label="View">
+                              <button className="btn btn-outline-light border rounded-3 p-1 text-secondary" style={{ width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => router.push(`/bookings/${b.id}`)} aria-label="View">
                                 <i className="bi bi-eye" style={{ fontSize: "0.8rem" }}></i>
                               </button>
                               <button className="btn btn-outline-light border rounded-3 p-1 text-secondary" style={{ width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => router.push("/bookings/new")} aria-label="Edit">

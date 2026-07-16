@@ -166,7 +166,7 @@ export default function CustomersPage() {
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
       style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       id="btn-new-customer"
-      onClick={() => alert("New customer modal")}
+      onClick={() => router.push("/customers/new")}
     >
       <i className="bi bi-plus-lg fs-6"></i>
       <span>New Customer</span>

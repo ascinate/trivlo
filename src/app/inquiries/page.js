@@ -1001,7 +1001,7 @@ export default function InquiriesPage() {
                 <div className="inq-card-list">
                   {pagedInquiries.length > 0 ? (
                     pagedInquiries.map((inquiry) => (
-                      <div key={inquiry.id} className="inq-card position-relative">
+                      <div key={inquiry.id} className="inq-card position-relative cursor-pointer" onClick={() => router.push(`/inquiries/${inquiry.id}`)}>
                         <div className="inq-card-top">
                           <div className="inq-card-customer">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1011,7 +1011,7 @@ export default function InquiriesPage() {
                               <div className="inq-card-email">{inquiry.customer.email}</div>
                             </div>
                           </div>
-                          <div className="d-flex flex-column align-items-end gap-2">
+                          <div className="d-flex flex-column align-items-end gap-2" onClick={e => e.stopPropagation()}>
                             <span className="inq-card-id">{inquiry.id}</span>
                             {renderStatusBadge(inquiry.status)}
                           </div>
@@ -1045,14 +1045,14 @@ export default function InquiriesPage() {
                           </div>
                         </div>
 
-                        <div className="inq-card-footer">
+                        <div className="inq-card-footer" onClick={e => e.stopPropagation()}>
                           <div className="inq-card-agent">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={inquiry.assignedTo.avatar} alt={inquiry.assignedTo.name} />
                             <span className="inq-card-agent-name">{inquiry.assignedTo.name}</span>
                           </div>
                           <div className="inq-card-actions">
-                            <button aria-label="View Details">
+                            <button aria-label="View Details" onClick={() => router.push(`/inquiries/${inquiry.id}`)}>
                               <i className="bi bi-eye"></i>
                             </button>
                             <button aria-label="More Actions">
