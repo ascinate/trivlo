@@ -4,6 +4,8 @@ import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { MdDateRange, MdFlightTakeoff } from "react-icons/md";
+import { LuWalletMinimal } from "react-icons/lu";
 
 // Custom activity type icon map
 const TYPE_ICONS = {
@@ -375,7 +377,7 @@ export default function ItineraryPage() {
               <div className="row g-3 row-cols-2 row-cols-sm-3 row-cols-lg-6">
 
                 {/* Field 1: Customer */}
-                <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
+                <div className="d-flex align-items-start gap-2 border-end-lg border-light pr-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80"
@@ -384,72 +386,69 @@ export default function ItineraryPage() {
                     style={{ width: "36px", height: "36px", objectFit: "cover" }}
                   />
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Customer</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>John Doe</span>
-                    <span className="text-secondary fs-9">2 Adults</span>
+                    <span className="text-secondary d-block fs-9 sm-text fw-600">Customer</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>John Doe</span>
+                    <span className="text-secondary fs-9 sm-text">2 Adults</span>
                   </div>
                 </div>
 
                 {/* Field 2: Destination */}
-                <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
+                <div className="d-flex align-items-start gap-2 border-end-lg border-light pr-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://flagcdn.com/w40/id.png"
-                    alt="Indonesia"
-                    className="rounded-1 border"
-                    style={{ width: "24px", height: "16px", objectFit: "cover" }}
-                  />
+                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px" }}>
+                    <MdDateRange />
+                  </div>
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Destination</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>Bali, Indonesia</span>
-                    <span className="text-secondary fs-9">Primary Destination</span>
+                    <span className="text-secondary d-block fs-9 fw-600 sm-text">Destination</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>Bali, Indonesia</span>
+                    <span className="text-secondary fs-9 sm-text">Primary Destination</span>
                   </div>
                 </div>
 
                 {/* Field 3: Trip Type */}
-                <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
+                <div className="d-flex align-items-start gap-2 border-end-lg border-light pr-2">
                   <div className="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px" }}>
-                    <i className="bi bi-compass fs-6"></i>
+                    <MdFlightTakeoff />
                   </div>
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Trip Type</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>Leisure</span>
+                    <span className="text-secondary d-block fs-9 fw-600 sm-text">Trip Type</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>Leisure</span>
                   </div>
                 </div>
 
                 {/* Field 4: Duration */}
-                <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
-                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px" }}>
-                    <i className="bi bi-calendar3 fs-6"></i>
+                <div className="d-flex align-items-start gap-2 border-end-lg border-light pr-2">
+                  <div className="rounded-circle d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px", background: "#f6eee3", color: '#3c2f22' }}>
+                    <i className="bi bi-calendar3 fs-6" style={{ color: '#3c2f22' }}></i>
                   </div>
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Duration</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>5 Days / 4 Nights</span>
-                    <span className="text-secondary fs-9">18 Jun - 22 Jun 2025</span>
+                    <span className="text-secondary d-block fs-9 fw-600 sm-text">Duration</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>5 Days / 4 Nights</span>
+                    <span className="text-secondary fs-9 sm-text">18 Jun - 22 Jun 2025</span>
                   </div>
                 </div>
 
                 {/* Field 5: Budget */}
-                <div className="d-flex align-items-center gap-2 border-end-lg border-light pr-2">
-                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px" }}>
-                    <i className="bi bi-wallet2 fs-6"></i>
+                <div className="d-flex align-items-start gap-2 border-end-lg border-light pr-2">
+                  <div className="rounded-circle d-flex align-items-center justify-content-center text-primary" style={{ width: "32px", height: "32px", background: "#f6eee3", color: '#3c2f22' }}>
+                    <LuWalletMinimal style={{ color: '#3c2f22' }}></LuWalletMinimal>
                   </div>
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Budget</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>$1,000 - $2,000</span>
-                    <span className="text-secondary fs-9">Total Budget</span>
+                    <span className="text-secondary d-block fs-9 fw-600 sm-text">Budget</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>$1,000 - $2,000</span>
+                    <span className="text-secondary fs-9 sm-text">Total Budget</span>
                   </div>
                 </div>
 
                 {/* Field 6: Status */}
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex align-items-start gap-2">
                   <div className="rounded-circle bg-light d-flex align-items-center justify-content-center text-warning" style={{ width: "32px", height: "32px" }}>
                     <i className="bi bi-circle-fill fs-8"></i>
                   </div>
                   <div>
-                    <span className="text-secondary d-block fs-9 fw-600">Status</span>
-                    <span className="text-dark fw-800 fs-7 d-block" style={{ lineHeight: 1.1 }}>In Progress</span>
-                    <span className="text-secondary fs-9">Itinerary Stage</span>
+                    <span className="text-secondary d-block fs-9 fw-600 sm-text">Status</span>
+                    <span className="text-dark fw-800 width800 fs-7 d-block" style={{ lineHeight: 1.1 }}>In Progress</span>
+                    <span className="text-secondary fs-9 sm-text">Itinerary Stage</span>
                   </div>
                 </div>
 
