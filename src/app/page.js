@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { GoShieldLock } from "react-icons/go";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -48,13 +49,13 @@ export default function LoginPage() {
           font-family: var(--font-outfit), var(--font-inter), system-ui, sans-serif;
         }
         .login-topbar {
-          position: fixed;
+          position: relative;
           top: 0; left: 0; right: 0;
           z-index: 100;
           display: flex;
           align-items: start;
           justify-content: space-between;
-          padding: 1rem 2rem;
+          padding: 2rem 2rem 0 2rem;
           background: transparent;
         }
         .login-brand h2 {
@@ -81,6 +82,8 @@ export default function LoginPage() {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          justify-content: flex-end;
+          margin-bottom: 1.2rem;
         }
         .lang-btn {
           display: flex;
@@ -138,7 +141,7 @@ export default function LoginPage() {
         .theme-btn-login:hover { background: rgba(255,255,255,0.22); }
         .login-layout {
           display: grid;
-          grid-template-columns: 1fr 806px;
+          grid-template-columns: 1fr 650px;
           min-height: 100vh;
         }
         .login-hero {
@@ -163,9 +166,9 @@ export default function LoginPage() {
         }
         .login-hero-content {
           position: relative; z-index: 2;
-          padding: 7rem 3rem 3rem 3rem;
+          padding: 1rem 3rem 3rem 2rem;
           display: flex; flex-direction: column;
-          height: 100%; justify-content: space-between;
+          height: 100%;
         }
         .login-hero-headline { margin-top: 2rem; }
         .login-hero-headline h1 {
@@ -203,6 +206,7 @@ export default function LoginPage() {
           border-radius: 20px;
           padding: 1.25rem 1.5rem;
           margin-bottom: 1.25rem;
+          margin-top: 9rem;
         }
         .hero-stat-item {
           display: flex; flex-direction: column;
@@ -215,13 +219,13 @@ export default function LoginPage() {
           font-size: 1.2rem; flex-shrink: 0;
         }
         .hero-stat-value {
-          font-size: 1.25rem; font-weight: 500;
+          font-size: 1.1rem; font-weight: 500;
           color: #FFFFFF; line-height: 1;
         }
         .hero-stat-label {
           font-size: 0.7rem;
           color: rgba(255,255,255,0.7);
-          font-weight: 500;
+          font-weight: 400;
           text-align: center; line-height: 1.3;
         }
         .hero-testimonial {
@@ -261,16 +265,16 @@ export default function LoginPage() {
           border-left: 1px solid var(--border);
         }
         .login-form-inner {
-             flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 756px;
-    width: 100%;
-    margin: 0 auto;
-    border: solid 1px #e9e9e9;
-    border-radius: 8px;
-    padding: 48px 65px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          max-width: 542px;
+          width: 100%;
+          margin: 0 0 0 auto;
+          border: solid 1px #e9e9e9;
+          border-radius: 8px;
+          padding: 48px 65px;
         }
         .login-form-title {
           font-size: 1.55rem; font-weight: 600;
@@ -385,8 +389,8 @@ export default function LoginPage() {
           display: flex; align-items: center; gap: 0.75rem;
           margin-top: 1.5rem;
         }
-        .login-security-badge i { color: var(--primary); font-size: 1.1rem; opacity: 0.7; flex-shrink: 0; }
-        .login-security-badge p { font-size: 0.78rem; color: var(--secondary); margin: 0; line-height: 1.4; }
+        .login-security-badge svg { color: var(--primary); width: 28px; height: 28px; opacity: 0.7; flex-shrink: 0; }
+        .login-security-badge p { font-size: 0.95rem; color: var(--secondary); margin: 0; line-height: 1.4; }
         .login-signup-row {
           text-align: center; margin-top: 1.5rem;
           font-size: 0.85rem; color: var(--secondary); font-weight: 500;
@@ -398,9 +402,9 @@ export default function LoginPage() {
           font-size: 0.75rem; color: var(--secondary); opacity: 0.65;
         }
         @media (max-width: 1440px) {
-          .login-layout { grid-template-columns: 1fr 600px; }
+          .login-layout { grid-template-columns: 1fr 670px; }
           .login-hero-headline h1 { font-size: clamp(2rem, 3.5vw, 2.5rem); }
-          .login-form-panel { padding: 5rem 2.5rem 2rem 2.5rem; }
+          .login-form-panel { padding: 2rem 2.5rem 2rem 2.5rem; }
         }
         @media (max-width: 1200px) {
           .login-layout { grid-template-columns: 1fr 500px; }
@@ -460,54 +464,22 @@ export default function LoginPage() {
 
       <div className="login-page">
 
-        {/* Top Bar */}
-        <div className="login-topbar">
-          <div className="login-brand">
-            <h2>
-              <Image src="/images/logo.svg" className="logos" alt="Logo" width={140} height={43} />
-            </h2>
-            <p>Travel CRM &amp; Booking Management</p>
-          </div>
-
-          <div className="login-topbar-right">
-            <div className="position-relative">
-              <button
-                className="lang-btn"
-                onClick={() => setShowLangDropdown(!showLangDropdown)}
-                aria-expanded={showLangDropdown}
-                aria-label="Select language"
-              >
-                <i className="bi bi-globe2"></i>
-                <span>{language}</span>
-                <i className="bi bi-chevron-down" style={{ fontSize: "0.7rem", opacity: 0.8 }}></i>
-              </button>
-
-              {showLangDropdown && (
-                <div className="lang-dropdown">
-                  {languages.map((lang) => (
-                    <div
-                      key={lang}
-                      className={`lang-option ${lang === language ? "active-lang" : ""}`}
-                      onClick={() => { setLanguage(lang); setShowLangDropdown(false); }}
-                    >
-                      {lang}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <button className="theme-btn-login" onClick={toggleTheme} aria-label="Toggle theme">
-              <i className={`bi ${isDarkMode ? "bi-moon-fill" : "bi-moon"}`}></i>
-            </button>
-          </div>
-        </div>
 
         {/* Two-column layout */}
         <div className="login-layout">
 
           {/* Left Hero Panel */}
           <div className="login-hero">
+            <div className="login-topbar">
+              <div className="login-brand">
+                <h2>
+                  <Image src="/images/logo-login.svg" alt="Logo" width={140} height={43} />
+                </h2>
+                <p>Travel CRM &amp; Booking Management</p>
+              </div>
+
+            </div>
+
             <div className="login-hero-bg"></div>
             <div className="login-hero-overlay"></div>
 
@@ -569,6 +541,39 @@ export default function LoginPage() {
 
           {/* Right Form Panel */}
           <div className="login-form-panel">
+
+            <div className="login-topbar-right">
+              <div className="position-relative">
+                <button
+                  className="lang-btn"
+                  onClick={() => setShowLangDropdown(!showLangDropdown)}
+                  aria-expanded={showLangDropdown}
+                  aria-label="Select language"
+                >
+                  <i className="bi bi-globe2"></i>
+                  <span>{language}</span>
+                  <i className="bi bi-chevron-down" style={{ fontSize: "0.7rem", opacity: 0.8 }}></i>
+                </button>
+
+                {showLangDropdown && (
+                  <div className="lang-dropdown">
+                    {languages.map((lang) => (
+                      <div
+                        key={lang}
+                        className={`lang-option ${lang === language ? "active-lang" : ""}`}
+                        onClick={() => { setLanguage(lang); setShowLangDropdown(false); }}
+                      >
+                        {lang}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button className="theme-btn-login" onClick={toggleTheme} aria-label="Toggle theme">
+                <i className={`bi ${isDarkMode ? "bi-moon-fill" : "bi-moon"}`}></i>
+              </button>
+            </div>
             <div className="login-form-inner">
 
               <div className="position-relative mb-2" style={{ paddingRight: "2.5rem" }}>
@@ -696,8 +701,8 @@ export default function LoginPage() {
               </div>
 
               <div className="login-security-badge">
-                <i className="bi bi-shield-lock-fill"></i>
-                <p>Your data is secure with enterprise-grade encryption and 24/7 protection.</p>
+                <GoShieldLock />
+                <p>Your data is secure with enterprise-grade <br /> encryption and 24/7 protection.</p>
               </div>
 
 
