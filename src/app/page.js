@@ -270,7 +270,7 @@ export default function LoginPage() {
     margin: 0 auto;
     border: solid 1px #e9e9e9;
     border-radius: 8px;
-    padding: 30px;
+    padding: 48px 65px;
         }
         .login-form-title {
           font-size: 1.55rem; font-weight: 600;
@@ -700,17 +700,17 @@ export default function LoginPage() {
                 <p>Your data is secure with enterprise-grade encryption and 24/7 protection.</p>
               </div>
 
-              <div className="login-signup-row">
-                Don&apos;t have an account?{" "}
-                <Link href="#" onClick={(e) => e.preventDefault()}>
-                  Contact our team
-                </Link>
-              </div>
 
-              <div className="login-panel-footer">
-                © 2025 TRIVLO Travel CRM &amp; Booking Management.
-              </div>
 
+
+
+            </div>
+
+            <div className="login-signup-row">
+              Don&apos;t have an account?{" "}
+              <Link href="#" onClick={(e) => e.preventDefault()}>
+                Contact our team
+              </Link>
             </div>
           </div>
 
