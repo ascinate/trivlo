@@ -269,12 +269,12 @@ export default function LoginPage() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          max-width: 542px;
+          max-width: 572px;
           width: 100%;
           margin: 0 0 0 auto;
           border: solid 1px #e9e9e9;
           border-radius: 8px;
-          padding: 48px 65px;
+          padding: 48px ;
         }
         .login-form-title {
           font-size: 1.55rem; font-weight: 600;
@@ -402,7 +402,7 @@ export default function LoginPage() {
           font-size: 0.75rem; color: var(--secondary); opacity: 0.65;
         }
         @media (max-width: 1440px) {
-          .login-layout { grid-template-columns: 1fr 670px; }
+          .login-layout { grid-template-columns: 1fr 700px; }
           .login-hero-headline h1 { font-size: clamp(2rem, 3.5vw, 2.5rem); }
           .login-form-panel { padding: 2rem 2.5rem 2rem 2.5rem; }
         }
