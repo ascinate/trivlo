@@ -38,7 +38,7 @@
   --card-bg: #FFFFFF;
   --shadow: 0 4px 20px rgba(17, 46, 36, 0.02);
   /* Soft shadow */
-  --sidebar-width: 232px;
+  --sidebar-width: 235px;
 }
 
 body {
@@ -104,12 +104,12 @@ body {
 
 .sidebar-nav .nav-link {
   color: #A3B7AE;
-  padding: 0.55rem 0.85rem;
+  padding: 0.65rem 0.95rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
   margin-bottom: 0.25rem;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
@@ -1116,7 +1116,7 @@ span.bd-labe.d-block.small-text01 {
   display: flex;
   align-items: center;
   margin-bottom: 0.25rem;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.2s ease;
   width: 100%;
