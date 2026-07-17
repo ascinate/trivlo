@@ -59,7 +59,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         <div className="d-flex justify-content-between align-items-center w-100">
           <div className="d-flex flex-column">
             <h2 className="m-0">
-              <Image src="/images/logo.svg" className="logos" alt="Logo" width={140} height={43} />
+              <Image src="/images/logo-home.svg" className="logos" alt="Logo" width={140} height={43} />
             </h2>
             <p className="m-0 mt-1">Travel CRM & Booking Management</p>
           </div>

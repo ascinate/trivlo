@@ -175,7 +175,7 @@ export default function Header({
                     style={{ width: "40px", height: "40px", objectFit: "cover" }}
                   />
                   <div className="text-start d-none d-md-block">
-                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2" }}>John Smith</span>
+                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2", fontSize: "11px" }}>John Smith</span>
                     <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>Super Admin</span>
                   </div>
                   <i className="bi bi-chevron-down text-secondary ms-1 d-none d-md-block" style={{ fontSize: "0.75rem", transform: showProfile ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}></i>
