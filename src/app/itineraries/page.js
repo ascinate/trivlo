@@ -319,7 +319,7 @@ export default function ItineraryPage() {
         <main className="main-content d-flex flex-column gap-4 py-4">
 
           {/* Sub-Header Row: Breadcrumbs & Page Action Buttons */}
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 w-100">
             <div>
 
               <div className="d-flex align-items-center gap-2 mt-1 flex-wrap">
@@ -332,7 +332,7 @@ export default function ItineraryPage() {
             </div>
 
             {/* Subheader page actions */}
-            <div className="d-flex align-items-center gap-2 w-100 w-md-auto">
+            <div className="d-flex align-items-center gap-2 w-md-auto">
 
               {/* Actions Dropdown */}
               <select

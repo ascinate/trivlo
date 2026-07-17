@@ -11,7 +11,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const [suppliersExpanded, setSuppliersExpanded] = useState(true);
 
   const menuItems = [
-    { name: "Dashboard", icon: "bi-grid", href: "/" },
+    { name: "Dashboard", icon: "bi-grid", href: "/dashboard" },
     {
       name: "CRM",
       icon: "bi-person",
@@ -120,7 +120,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             );
           }
 
-          const isActive = item.href === "/" ? pathname === "/" : pathname === item.href;
+          const isActive = pathname === item.href || (item.href === "/dashboard" && pathname === "/");
           return (
             <Link
               key={item.name}

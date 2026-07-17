@@ -1022,11 +1022,11 @@ body {
 }
 
 .lablename {
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .bd-labe {
-  font-size: 12px;
+  font-size: 11px;
 }
 
 span.bd-labe.d-block.small-text01 {
@@ -1049,6 +1049,12 @@ span.bd-labe.d-block.small-text01 {
 /* Sidebar sub-navigation */
 .nav-sub-menu {
   margin-bottom: 0.5rem;
+}
+
+@media (min-width: 1200px) {
+  .fs-4 {
+    font-size: 1.3rem !important;
+  }
 }
 
 .sidebar-nav .nav-sub-link {

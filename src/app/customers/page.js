@@ -178,7 +178,7 @@ export default function CustomersPage() {
     <div className="d-flex position-relative">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
+      <div className="app-container flex-grow-1 min-vh-100 d-flex flex-column justify-content-between">
         <Header
           toggleSidebar={toggleSidebar}
           title="Customers Details"
@@ -264,7 +264,7 @@ export default function CustomersPage() {
           <div className="row g-3">
 
             {/* Left: Table */}
-            <div className="col-12 col-xl-8">
+            <div className="col-12 col-lg-8">
               <div className="section-card border border-light p-4">
                 <div className="table-responsive">
                   <table className="table table-hover align-middle mb-0">
@@ -391,7 +391,7 @@ export default function CustomersPage() {
             </div>
 
             {/* Right: Widgets */}
-            <div className="col-12 col-xl-4">
+            <div className="col-12 col-lg-4">
               <div className="d-flex flex-column gap-3">
 
                 {/* Doughnut: Customers by Type */}
