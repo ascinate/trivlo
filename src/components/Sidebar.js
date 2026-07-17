@@ -44,7 +44,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     { name: "Finance", icon: "bi-wallet2", href: "#" },
     { name: "Reports", icon: "bi-bar-chart-line", href: "#" },
     { name: "Marketing", icon: "bi-megaphone", href: "#" },
-    { name: "Calendar", icon: "bi-calendar3", href: "#" },
+    { name: "Calendar", icon: "bi-calendar3", href: "/calendar" },
     { name: "Tasks", icon: "bi-check2-square", href: "#" },
     { name: "Documents", icon: "bi-file-earmark-text", href: "#" },
     { name: "Settings", icon: "bi-gear", href: "#" }
