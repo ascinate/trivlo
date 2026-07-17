@@ -140,10 +140,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             </Link>
           );
         })}
-      </nav>
 
-      {/* User Footer Profile Card */}
-      <div className="sidebar-footer">
         <div className="position-relative w-100">
           <button
             className="sidebar-footer-card text-start w-100 btn p-2 border-0"
@@ -173,7 +170,10 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             </ul>
           )}
         </div>
-      </div>
+      </nav>
+
+      {/* User Footer Profile Card */}
+
     </aside>
   );
 }
