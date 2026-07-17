@@ -371,7 +371,7 @@ export default function ItineraryPage() {
 
           {/* 1. Page top summary details block */}
           <section className="summary-block-section">
-            <div className="section-card border border-light p-3" style={{ backgroundColor: "#FFFBF7" }}>
+            <div className="section-card border border-light p-3 bg-white" style={{ border: '1px solid #efece6 !important' }}>
               <div className="row g-3 row-cols-2 row-cols-sm-3 row-cols-lg-6">
 
                 {/* Field 1: Customer */}
