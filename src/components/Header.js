@@ -178,10 +178,11 @@ export default function Header({
                     <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2" }}>John Smith</span>
                     <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>Super Admin</span>
                   </div>
+                  <i className="bi bi-chevron-down text-secondary ms-1 d-none d-md-block" style={{ fontSize: "0.75rem", transform: showProfile ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}></i>
                 </button>
                 {showProfile && (
                   <ul className="dropdown-menu show position-absolute end-0 mt-2 w-100" style={{ minWidth: "160px", zIndex: 1050 }}>
-                    <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-person me-2"></i> Profile</a></li>
+                    <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-person me-2"></i> My Profile</a></li>
                     <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-gear me-2"></i> Settings</a></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
@@ -244,6 +245,36 @@ export default function Header({
                 <i className="bi bi-plus-lg"></i>
                 <span>New</span>
               </button>
+
+              {/* User profile avatar dropdown */}
+              <div className="position-relative">
+                <button
+                  className="d-flex align-items-center gap-2 border-0 bg-transparent p-0"
+                  onClick={() => setShowProfile(!showProfile)}
+                  aria-expanded={showProfile}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/john-smith.png"
+                    alt="John Smith avatar"
+                    className="rounded-circle border border-2 border-light shadow-sm"
+                    style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                  />
+                  <div className="text-start d-none d-md-block">
+                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2" }}>John Smith</span>
+                    <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>Super Admin</span>
+                  </div>
+                  <i className="bi bi-chevron-down text-secondary ms-1 d-none d-md-block" style={{ fontSize: "0.75rem", transform: showProfile ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}></i>
+                </button>
+                {showProfile && (
+                  <ul className="dropdown-menu show position-absolute end-0 mt-2 w-100" style={{ minWidth: "160px", zIndex: 1050 }}>
+                    <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-person me-2"></i> My Profile</a></li>
+                    <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-gear me-2"></i> Settings</a></li>
+                    <li><hr className="dropdown-divider" /></li>
+                    <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                  </ul>
+                )}
+              </div>
             </>
           )}
         </div>
