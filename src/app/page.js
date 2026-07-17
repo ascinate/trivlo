@@ -52,7 +52,7 @@ export default function LoginPage() {
           top: 0; left: 0; right: 0;
           z-index: 100;
           display: flex;
-          align-items: center;
+          align-items: start;
           justify-content: space-between;
           padding: 1rem 2rem;
           background: transparent;
@@ -138,7 +138,7 @@ export default function LoginPage() {
         .theme-btn-login:hover { background: rgba(255,255,255,0.22); }
         .login-layout {
           display: grid;
-          grid-template-columns: 1fr 680px;
+          grid-template-columns: 1fr 806px;
           min-height: 100vh;
         }
         .login-hero {
@@ -257,7 +257,7 @@ export default function LoginPage() {
           background-color: var(--card-bg);
           display: flex; flex-direction: column;
           overflow-y: auto;
-          padding: 6rem 3rem 2rem 3rem;
+          padding: 5rem 3rem 1rem 5rem;
           border-left: 1px solid var(--border);
         }
         .login-form-inner {
@@ -265,11 +265,11 @@ export default function LoginPage() {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 510px;
+    max-width: 756px;
     width: 100%;
     margin: 0 auto;
     border: solid 1px #e9e9e9;
-    border-radius: 16px;
+    border-radius: 8px;
     padding: 30px;
         }
         .login-form-title {
@@ -571,7 +571,7 @@ export default function LoginPage() {
           <div className="login-form-panel">
             <div className="login-form-inner">
 
-              <div className="position-relative mb-4" style={{ paddingRight: "2.5rem" }}>
+              <div className="position-relative mb-2" style={{ paddingRight: "2.5rem" }}>
                 <h1 className="login-form-title">Welcome back 👋</h1>
                 <p className="login-form-subtitle">Sign in to continue to Trivlo</p>
                 <i
