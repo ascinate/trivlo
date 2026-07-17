@@ -38,7 +38,7 @@ export default function Header({
 
   return (
     <header className="header border-bottom border-light">
-      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 w-100">
+      <div className="d-flex align-items-center justify-content-between gap-3 w-100">
 
         {/* Left Welcome Section & Hamburger Menu */}
         <div className="d-flex align-items-center gap-3">
@@ -54,7 +54,7 @@ export default function Header({
             <div className="welcome-message">
               {title ? (
                 <>
-                  <h1 className="fs-4 fw-800 text-dark m-0">{title}</h1>
+                  <h1 className="fs-5 fw-800 text-dark m-0">{title}</h1>
                   {subtitle && (
                     <span className="text-secondary fs-7 fw-500 d-block mt-1">{subtitle}</span>
                   )}
@@ -62,7 +62,7 @@ export default function Header({
               ) : (
                 <>
                   <span className="text-secondary fs-7 fw-500 d-block">Good Morning, John! 👋</span>
-                  <h1 className="fs-4 fw-800 text-dark m-0 mt-1">Here&apos;s what&apos;s happening with your business today.</h1>
+                  <h1 className="fs-5 fw-800 text-dark m-0 mt-1">Here&apos;s what&apos;s happening with your business today.</h1>
                 </>
               )}
             </div>
