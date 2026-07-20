@@ -32,7 +32,7 @@ export default function RevenueCharts() {
   const lineLabels = [
     "01 May", "", "06 May", "", "11 May", "", "16 May", "", "21 May", "", "26 May", "", "31 May"
   ];
-  
+
   const lineData = {
     labels: lineLabels,
     datasets: [
@@ -161,18 +161,28 @@ export default function RevenueCharts() {
         <div className="section-card position-relative">
           <div className="section-card-header">
             <h3 className="section-card-title">Revenue Overview</h3>
-            <div className="dropdown">
-              <button className="btn btn-sm btn-outline-light border text-dark dropdown-toggle py-1 px-2 rounded-3 text-secondary bg-white fw-600" type="button" style={{ fontSize: "0.82rem" }}>
-                This Month
-              </button>
-            </div>
+            <select class="form-select widthsds" aria-label="Default select example">
+              <option selected>This month</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
           </div>
-          
+
           <div className="chart-container mt-3" style={{ height: "245px" }}>
             <Line data={lineData} options={lineOptions} />
-            
+
             {/* Custom Tooltip Annotation Overlay matching 21 May data point */}
-            <div 
+            <div
               className="position-absolute d-flex flex-column align-items-center text-center p-2 rounded-3 text-white"
               style={{
                 top: "14%",
@@ -188,7 +198,7 @@ export default function RevenueCharts() {
               <div className="fw-700">$72,450</div>
               <div className="opacity-75" style={{ fontSize: "0.62rem" }}>21 May 2025</div>
               {/* Little downward arrow anchor */}
-              <div 
+              <div
                 className="position-absolute start-50 translate-middle-x"
                 style={{
                   bottom: "-6px",
@@ -218,7 +228,7 @@ export default function RevenueCharts() {
                 <Doughnut data={doughnutData} options={doughnutOptions} />
               </div>
               {/* Centered label inside Doughnut */}
-              <div 
+              <div
                 className="position-absolute top-50 start-50 translate-middle text-center"
                 style={{ pointerEvents: "none" }}
               >
@@ -233,7 +243,7 @@ export default function RevenueCharts() {
                 {sources.map((src, idx) => (
                   <div className="d-flex align-items-center justify-content-between" key={idx} style={{ fontSize: "0.76rem" }}>
                     <div className="d-flex align-items-center gap-1.5 overflow-hidden">
-                      <span 
+                      <span
                         className="rounded-circle d-inline-block flex-shrink-0"
                         style={{
                           width: "8px",

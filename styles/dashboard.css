@@ -1138,3 +1138,35 @@ span.bd-labe.d-block.small-text01 {
 .fw-700 {
   font-weight: 600 !important;
 }
+
+.widthsd {
+  width: 30%;
+}
+
+.widthsds {
+  width: 18%;
+}
+
+.inq-tabs .nav-item {
+  margin: 0 5px;
+
+}
+
+.inq-tabs .nav-tabs .nav-link {
+  border: 1px solid var(--border) !important;
+  padding: 8px 15px !important;
+  border-radius: 10px !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.border-right-1 {
+  border-right: 1px solid var(--border);
+}
+
+.insd01>div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}

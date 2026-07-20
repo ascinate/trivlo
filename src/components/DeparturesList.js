@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function DeparturesList() {
   const departures = [
     {
@@ -46,7 +48,7 @@ export default function DeparturesList() {
     <div className="section-card">
       <div className="section-card-header">
         <h3 className="section-card-title">Upcoming Departures</h3>
-        <a href="#" className="section-card-link" onClick={(e) => e.preventDefault()}>View All</a>
+        <Link href="#" className="section-card-link" onClick={(e) => e.preventDefault()}>View All</Link>
       </div>
 
       <div className="trip-list mt-2">
@@ -54,9 +56,9 @@ export default function DeparturesList() {
           <div className="trip-item" key={idx}>
             <div className="trip-info">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={trip.imgUrl} 
-                alt={trip.title} 
+              <img
+                src={trip.imgUrl}
+                alt={trip.title}
                 className="trip-img"
               />
               <div>

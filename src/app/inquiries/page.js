@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-import { FaRegEye } from "react-icons/fa6";
+import { FaRegEnvelope, FaRegClock, FaRegCircleCheck, FaRegEye } from "react-icons/fa6";
+import { CgSandClock } from "react-icons/cg";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 // Preset data for destinations to make dropdown selections easy and render beautiful details
 const DESTINATION_PRESETS = {
@@ -273,25 +274,25 @@ export default function InquiriesPage() {
         value: inquiries.length + offsetTotal,
         trend: "↑ 15.2%",
         trendUp: true,
-        icon: "bi-folder2",
-        bgColor: "#F1EEFE",
-        iconColor: "#5D59E1"
+        icon: FaRegEnvelope,
+        bgColor: "#cbdeca",
+        iconColor: "#2a693c"
       },
       {
         label: "New Inquiries",
         value: countNew + offsetNew,
         trend: "↑ 12.5%",
         trendUp: true,
-        icon: "bi-file-earmark-plus",
-        bgColor: "#EBF7F2",
-        iconColor: "#1AA06A"
+        icon: CgSandClock,
+        bgColor: "#FFF6EE",
+        iconColor: "#D37B1B"
       },
       {
         label: "In Progress",
         value: countInProgress + offsetInProgress,
         trend: "↑ 8.4%",
         trendUp: true,
-        icon: "bi-arrow-right-circle",
+        icon: FaRegClock,
         bgColor: "#FFF6EE",
         iconColor: "#D37B1B"
       },
@@ -300,7 +301,7 @@ export default function InquiriesPage() {
         value: countConverted + offsetConverted,
         trend: "↑ 10.3%",
         trendUp: true,
-        icon: "bi-graph-up-arrow",
+        icon: FaRegCircleCheck,
         bgColor: "#EBF4EF",
         iconColor: "#1E6C45"
       },
@@ -309,7 +310,7 @@ export default function InquiriesPage() {
         value: countLost + offsetLost,
         trend: "↓ 4.1%",
         trendUp: false,
-        icon: "bi-envelope",
+        icon: IoCloseCircleOutline,
         bgColor: "#FDF0F0",
         iconColor: "#D05E5E"
       }
@@ -531,7 +532,6 @@ export default function InquiriesPage() {
         gap: 0.75rem;
         margin-bottom: 1.25rem;
         padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--border);
       }
       .inq-tabs {
         display: flex;
@@ -712,13 +712,7 @@ export default function InquiriesPage() {
 
             {/* Sub-Header Actions Row (Filter, Date, Add New Floating Right) */}
             <div className="inq-toolbar">
-              <button
-                className="btn btn-outline-secondary bg-white border border-light shadow-sm rounded-3 py-2 px-3 d-flex align-items-center justify-content-center"
-                style={{ height: "42px", borderColor: "var(--border)", flexShrink: 0 }}
-                aria-label="Toggle Advanced Filter"
-              >
-                <i className="bi bi-funnel text-secondary fs-6"></i>
-              </button>
+
 
               {/* Datepicker wrapper — clicking anywhere opens the hidden native date input */}
               <div
@@ -769,86 +763,102 @@ export default function InquiriesPage() {
             {/* 1. Stats Counter Cards Section */}
             <section className="stats-section">
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3">
-                {stats.map((card, idx) => (
-                  <div className="col" key={idx}>
-                    <div className="dashboard-card">
-                      <div
-                        className="dashboard-card-icon"
-                        style={{ backgroundColor: card.bgColor, color: card.iconColor }}
-                      >
-                        <i className={`bi ${card.icon}`}></i>
-                      </div>
-                      <div className="dashboard-card-info">
-                        <span className="dashboard-card-label">{card.label}</span>
-                        <span className="dashboard-card-val text-dark">{card.value}</span>
-                        <div className="dashboard-card-trend">
-                          <span className={card.trendUp ? "trend-up" : "trend-down"}>
-                            <i className={`bi ${card.trendUp ? "bi-arrow-up-short" : "bi-arrow-down-short"}`}></i>
-                            {card.trend}
-                          </span>
-                          <span className="trend-label">vs last month</span>
+                {stats.map((card, idx) => {
+                  const Icon = card.icon;
+
+                  return (
+                    <div className="col" key={idx}>
+                      <div className="dashboard-card">
+                        <div
+                          className="dashboard-card-icon"
+                          style={{
+                            backgroundColor: card.bgColor,
+                            color: card.iconColor,
+                          }}
+                        >
+                          <Icon size={24} color={card.iconColor} />
+                        </div>
+
+                        <div className="dashboard-card-info">
+                          <span className="dashboard-card-label">{card.label}</span>
+                          <span className="dashboard-card-val text-dark">{card.value}</span>
+
+                          <div className="dashboard-card-trend">
+                            <span className={card.trendUp ? "trend-up" : "trend-down"}>
+                              <i
+                                className={`bi ${card.trendUp
+                                  ? "bi-arrow-up-short"
+                                  : "bi-arrow-down-short"
+                                  }`}
+                              ></i>
+                              {card.trend}
+                            </span>
+                            <span className="trend-label">vs last month</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
 
             {/* 2. Main Section Card Containing Tabs, Search, and Inquiries Table */}
             <section className="table-section">
+
+              {/* Tab navigation headers & Table toolbar actions */}
+              <div className="inq-tabs-row">
+                {/* Tabs — horizontally scrollable on mobile */}
+                <div className="inq-tabs">
+                  <ul className="nav nav-tabs border-0 flex-nowrap" style={{ gap: "0.5rem" }}>
+                    {["All", "New", "In Progress", "Converted", "Lost"].map((tab) => (
+                      <li className="nav-item" key={tab}>
+                        <button
+                          className={`nav-link border-0 bg-transparent px-0 pb-2 fw-600 position-relative ${activeTab === tab ? "active" : ""}`}
+                          onClick={() => {
+                            setActiveTab(tab);
+                            setSelectedIds([]);
+                            setCurrentPage(1);
+                          }}
+                          style={{
+                            fontSize: "0.9rem",
+                            color: activeTab === tab ? "var(--primary) !important" : "var(--secondary)",
+                            borderRadius: 0,
+                            whiteSpace: "nowrap",
+                            paddingRight: "1rem"
+                          }}
+                        >
+                          {tab}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Actions (Search, Filter, Export) */}
+                <div className="d-flex align-items-center gap-2 flex-grow-1 flex-md-grow-0 justify-content-end" style={{ minWidth: 0 }}>
+                  <div className="position-relative inq-search-wrap">
+                    <i className="bi bi-search position-absolute start-3 top-50 translate-middle-y text-secondary" style={{ left: "12px" }}></i>
+                    <input
+                      type="text"
+                      placeholder="Search inquiries..."
+                      className="form-control ps-5 py-2 rounded-3 border-light shadow-sm bg-light-subtle"
+                      style={{ fontSize: "0.88rem", height: "38px", borderColor: "var(--border)" }}
+                      value={searchTerm}
+                      onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                    />
+                  </div>
+
+                  <button className="btn btn-light bg-white border border-light shadow-sm rounded-3 py-2 px-3 d-flex align-items-center gap-2" style={{ fontSize: "0.88rem", height: "38px", flexShrink: 0 }}>
+                    <i className="bi bi-box-arrow-up-right text-secondary"></i>
+                    <span className="text-secondary fw-600 d-none d-sm-inline">Export</span>
+                  </button>
+                </div>
+              </div>
+
               <div className="section-card inq-section-card p-4">
 
-                {/* Tab navigation headers & Table toolbar actions */}
-                <div className="inq-tabs-row">
-                  {/* Tabs — horizontally scrollable on mobile */}
-                  <div className="inq-tabs">
-                    <ul className="nav nav-tabs border-0 flex-nowrap" style={{ gap: "0.5rem" }}>
-                      {["All", "New", "In Progress", "Converted", "Lost"].map((tab) => (
-                        <li className="nav-item" key={tab}>
-                          <button
-                            className={`nav-link border-0 bg-transparent px-0 pb-2 fw-600 position-relative ${activeTab === tab ? "active" : ""}`}
-                            onClick={() => {
-                              setActiveTab(tab);
-                              setSelectedIds([]);
-                              setCurrentPage(1);
-                            }}
-                            style={{
-                              fontSize: "0.9rem",
-                              color: activeTab === tab ? "var(--primary) !important" : "var(--secondary)",
-                              borderBottom: activeTab === tab ? "2px solid #5D59E1" : "none",
-                              borderRadius: 0,
-                              whiteSpace: "nowrap",
-                              paddingRight: "1rem"
-                            }}
-                          >
-                            {tab}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
 
-                  {/* Actions (Search, Filter, Export) */}
-                  <div className="d-flex align-items-center gap-2 flex-grow-1 flex-md-grow-0 justify-content-end" style={{ minWidth: 0 }}>
-                    <div className="position-relative inq-search-wrap">
-                      <i className="bi bi-search position-absolute start-3 top-50 translate-middle-y text-secondary" style={{ left: "12px" }}></i>
-                      <input
-                        type="text"
-                        placeholder="Search inquiries..."
-                        className="form-control ps-5 py-2 rounded-3 border-light shadow-sm bg-light-subtle"
-                        style={{ fontSize: "0.88rem", height: "38px", borderColor: "var(--border)" }}
-                        value={searchTerm}
-                        onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-                      />
-                    </div>
-
-                    <button className="btn btn-light bg-white border border-light shadow-sm rounded-3 py-2 px-3 d-flex align-items-center gap-2" style={{ fontSize: "0.88rem", height: "38px", flexShrink: 0 }}>
-                      <i className="bi bi-box-arrow-up-right text-secondary"></i>
-                      <span className="text-secondary fw-600 d-none d-sm-inline">Export</span>
-                    </button>
-                  </div>
-                </div>
 
                 {/* ── Desktop Table (hidden below md) ── */}
                 <div className="inq-table-wrap table-responsive">

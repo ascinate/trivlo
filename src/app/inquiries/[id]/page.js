@@ -221,7 +221,7 @@ export default function InquiryDetailPage() {
   const newInquiryButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       onClick={() => alert("New Inquiry")}
     >
       <i className="bi bi-plus-lg fs-6"></i>
@@ -237,20 +237,14 @@ export default function InquiryDetailPage() {
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
         <Header
           toggleSidebar={toggleSidebar}
-          hideWelcome={true}
+          title="Inquiries Inquiries"
+          subtitle="CRM > Inquiries > Inquiries details"
           forcePageHeaderLayout={true}
           searchPlaceholder="Search inquiries, customers, bookings..."
           actionButton={newInquiryButton}
         />
 
         <main className="main-content d-flex flex-column gap-3 py-4">
-
-          {/* Breadcrumb */}
-          <div>
-            <span className="text-secondary fs-7 fw-500">
-              Home &gt; CRM &gt; Inquiries &gt; {inquiry.id}
-            </span>
-          </div>
 
           {/* Main 2-column layout */}
           <div className="row g-3">
@@ -307,9 +301,9 @@ export default function InquiryDetailPage() {
                   </div>
 
                   {/* Inquiry meta grid */}
-                  <div className="row g-3 border-bottom border-light pb-4 mb-4">
+                  <div className="row g-3 border-light pb-4 mb-4 ">
                     {/* Inquiry ID */}
-                    <div className="col-6 col-md-3">
+                    <div className="col-6 col-md-3 border-right-1">
                       <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Inquiry ID</span>
                       <span className="fw-800 text-dark d-block mt-1" style={{ fontSize: "1.1rem" }}>{inquiry.id}</span>
                       <span className="text-secondary fs-8 fw-500">Source: {inquiry.source}</span>
@@ -324,7 +318,7 @@ export default function InquiryDetailPage() {
                     </div>
 
                     {/* Customer */}
-                    <div className="col-6 col-md-3">
+                    <div className="col-6 col-md-3 border-right-1">
                       <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Customer</span>
                       <div className="d-flex align-items-center gap-2 mt-2">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -342,7 +336,7 @@ export default function InquiryDetailPage() {
                     </div>
 
                     {/* Destination */}
-                    <div className="col-6 col-md-3">
+                    <div className="col-6 col-md-3 border-right-1">
                       <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Destination</span>
                       <div className="d-flex align-items-center gap-2 mt-2">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -390,6 +384,10 @@ export default function InquiryDetailPage() {
                     </div>
                   </div>
 
+
+                </div>
+
+                <div className="section-card border border-light p-4">
                   {/* Tab navigation */}
                   <div className="border-bottom border-light d-flex flex-wrap gap-0 mb-0" style={{ marginBottom: "-1px" }}>
                     {tabs.map(tab => {
@@ -397,9 +395,9 @@ export default function InquiryDetailPage() {
                       return (
                         <button
                           key={tab.name}
-                          className="btn border-0 rounded-0 py-2 px-3 fw-700 d-flex align-items-center gap-1"
+                          className="btn border-0 rounded-0 p-2 fw-400 d-flex align-items-center gap-1"
                           style={{
-                            fontSize: "0.85rem",
+                            fontSize: "0.8rem",
                             color: isActive ? "#112E24" : "#677E75",
                             borderBottom: isActive ? "2.5px solid #112E24" : "none",
                             whiteSpace: "nowrap",
@@ -415,154 +413,156 @@ export default function InquiryDetailPage() {
                       );
                     })}
                   </div>
-                </div>
 
-                {/* Tab Content */}
-                {activeTab === "Overview" && (
-                  <div className="d-flex flex-column gap-3">
 
-                    {/* Requirements + Traveler Details */}
-                    <div className="row g-3">
-                      {/* Inquiry Requirements */}
-                      <div className="col-12 col-md-5">
-                        <div className="section-card border border-light p-4 h-100">
-                          <h3 className="fw-800 text-dark fs-6 mb-3">Inquiry Requirements</h3>
-                          <div className="d-flex flex-column gap-2" style={{ fontSize: "0.85rem" }}>
-                            {[
-                              { label: "Trip Type", value: inquiry.requirements.tripType },
-                              { label: "Budget", value: inquiry.requirements.budget },
-                              { label: "Preferred Stay", value: inquiry.requirements.preferredStay },
-                              { label: "Meal Preference", value: inquiry.requirements.mealPreference },
-                              { label: "Special Requests", value: inquiry.requirements.specialRequests },
-                              { label: "Additional Notes", value: inquiry.requirements.additionalNotes },
-                            ].map(item => (
-                              <div key={item.label}>
-                                <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.4px" }}>{item.label}</span>
-                                <span className="text-dark fw-600 d-block mt-1">{item.value}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                  {/* Tab Content */}
+                  {activeTab === "Overview" && (
+                    <div className="d-flex flex-column gap-3">
 
-                      {/* Traveler Details + Destinations */}
-                      <div className="col-12 col-md-7">
-                        <div className="d-flex flex-column gap-3">
-
-                          {/* Traveler Details */}
-                          <div className="section-card border border-light p-4">
-                            <h3 className="fw-800 text-dark fs-6 mb-3">Traveler Details</h3>
-                            <div className="d-flex flex-column gap-3">
-                              {inquiry.travelers.map(t => (
-                                <div key={t.no} className="border border-light rounded-3 p-3 bg-light-subtle">
-                                  <div className="d-flex align-items-center justify-content-between mb-2">
-                                    <div className="d-flex align-items-center gap-2">
-                                      <span className="rounded-circle d-flex align-items-center justify-content-center fw-800 text-white" style={{ width: 24, height: 24, backgroundColor: "#112E24", fontSize: "0.72rem" }}>{t.no}</span>
-                                      <span className="fw-800 text-dark" style={{ fontSize: "0.88rem" }}>{t.name}</span>
-                                      {t.role && <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.65rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{t.role}</span>}
-                                    </div>
-                                  </div>
-                                  <div className="row g-2" style={{ fontSize: "0.78rem" }}>
-                                    <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
-                                      <i className="bi bi-gender-ambiguous"></i>
-                                      <span>{t.gender}</span>
-                                    </div>
-                                    <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
-                                      <i className="bi bi-calendar3"></i>
-                                      <span>{t.age}</span>
-                                    </div>
-                                    <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
-                                      <i className="bi bi-credit-card-2-front"></i>
-                                      <span>Passport: {t.passport}</span>
-                                    </div>
-                                    <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
-                                      <i className="bi bi-envelope"></i>
-                                      <span>{t.email}</span>
-                                    </div>
-                                  </div>
+                      {/* Requirements + Traveler Details */}
+                      <div className="row g-3">
+                        {/* Inquiry Requirements */}
+                        <div className="col-12 col-md-4 mt-5">
+                          <div className="p-3 border section-card border-light h-100">
+                            <h3 className="fw-800 text-dark fs-6 mb-3">Inquiry Requirements</h3>
+                            <div className="d-flex flex-column gap-2 insd01" style={{ fontSize: "0.85rem" }}>
+                              {[
+                                { label: "Trip Type", value: inquiry.requirements.tripType },
+                                { label: "Budget", value: inquiry.requirements.budget },
+                                { label: "Preferred Stay", value: inquiry.requirements.preferredStay },
+                                { label: "Meal Preference", value: inquiry.requirements.mealPreference },
+                                { label: "Special Requests", value: inquiry.requirements.specialRequests },
+                                { label: "Additional Notes", value: inquiry.requirements.additionalNotes },
+                              ].map(item => (
+                                <div key={item.label}>
+                                  <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.72rem", letterSpacing: "0.4px" }}>{item.label}</span>
+                                  <span className="text-dark fw-600 d-block mt-1">{item.value}</span>
                                 </div>
                               ))}
                             </div>
                           </div>
+                        </div>
 
-                          {/* Preferred Destinations */}
-                          <div className="section-card border border-light p-4">
-                            <h3 className="fw-800 text-dark fs-6 mb-3">Preferred Destinations</h3>
-                            <div className="d-flex flex-wrap gap-3 align-items-end">
-                              <div className="position-relative rounded-3 overflow-hidden border" style={{ width: 120 }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={inquiry.destination.image} alt={inquiry.destination.name} style={{ width: "100%", height: 80, objectFit: "cover" }} />
-                                <div className="p-2 bg-white">
-                                  <span className="fw-700 text-dark d-block" style={{ fontSize: "0.78rem" }}>{inquiry.destination.name}</span>
-                                  {inquiry.destination.isPrimary && (
-                                    <span className="badge rounded-1 px-2 py-1 fw-700" style={{ fontSize: "0.62rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>Primary Destination</span>
-                                  )}
-                                </div>
+                        {/* Traveler Details + Destinations */}
+                        <div className="col-12 col-md-8 mt-5">
+                          <div className="d-flex flex-column gap-3">
+
+                            {/* Traveler Details */}
+                            <div className="section-card border border-light p-4">
+                              <h3 className="fw-800 text-dark fs-6 mb-3">Traveler Details</h3>
+                              <div className="d-flex flex-column gap-3">
+                                {inquiry.travelers.map(t => (
+                                  <div key={t.no} className="border border-light rounded-3 p-3 bg-light-subtle">
+                                    <div className="d-flex align-items-center justify-content-between mb-2">
+                                      <div className="d-flex align-items-center gap-2">
+                                        <span className="rounded-circle d-flex align-items-center justify-content-center fw-800 text-white" style={{ width: 24, height: 24, backgroundColor: "#112E24", fontSize: "0.72rem" }}>{t.no}</span>
+                                        <span className="fw-800 text-dark" style={{ fontSize: "0.88rem" }}>{t.name}</span>
+                                        {t.role && <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.65rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{t.role}</span>}
+                                      </div>
+                                    </div>
+                                    <div className="row g-2 justify-content-between mt-2" style={{ fontSize: "0.78rem" }}>
+                                      <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
+                                        <i className="bi bi-gender-ambiguous"></i>
+                                        <span>{t.gender}</span>
+                                      </div>
+                                      <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
+                                        <i className="bi bi-calendar3"></i>
+                                        <span>{t.age}</span>
+                                      </div>
+                                      <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
+                                        <i className="bi bi-credit-card-2-front"></i>
+                                        <span>Passport: {t.passport}</span>
+                                      </div>
+                                      <div className="col-auto d-flex align-items-center gap-1 text-secondary fw-600">
+                                        <i className="bi bi-envelope"></i>
+                                        <span>{t.email}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
                               </div>
-                              <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.82rem" }} onClick={() => alert("Add destination")}>
-                                <i className="bi bi-plus-lg"></i>
-                                <span>Add Destination</span>
-                              </button>
                             </div>
+
+                            {/* Preferred Destinations */}
+                            <div className="section-card border border-light p-4">
+                              <h3 className="fw-800 text-dark fs-6 mb-3">Preferred Destinations</h3>
+                              <div className="d-flex flex-wrap gap-3 align-items-center">
+                                <div className="position-relative d-flex rounded-3 overflow-hidden border" style={{ width: 250 }}>
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img src={inquiry.destination.image} alt={inquiry.destination.name} style={{ width: "100%", height: 80, objectFit: "cover" }} />
+                                  <div className="p-2 bg-white">
+                                    <span className="fw-700 text-dark d-block" style={{ fontSize: "0.78rem" }}>{inquiry.destination.name}</span>
+                                    {inquiry.destination.isPrimary && (
+                                      <span className="badge rounded-1 px-2 py-1 fw-700" style={{ fontSize: "0.62rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>Primary Destination</span>
+                                    )}
+                                  </div>
+                                </div>
+                                <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.82rem" }} onClick={() => alert("Add destination")}>
+                                  <i className="bi bi-plus-lg"></i>
+                                  <span>Add Destination</span>
+                                </button>
+                              </div>
+                            </div>
+
                           </div>
-
                         </div>
                       </div>
-                    </div>
 
-                    {/* Itinerary Ideas */}
-                    {inquiry.itineraryIdeas.length > 0 && (
-                      <div className="section-card border border-light p-4">
-                        <h3 className="fw-800 text-dark fs-6 mb-3">Itinerary Ideas ({inquiry.itineraryIdeas.length})</h3>
-                        <div className="d-flex flex-wrap gap-3 align-items-end">
-                          {inquiry.itineraryIdeas.map(it => (
-                            <div key={it.id} className="border border-light rounded-3 overflow-hidden bg-white shadow-sm" style={{ width: 200 }}>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={it.image} alt={it.title} style={{ width: "100%", height: 100, objectFit: "cover" }} />
-                              <div className="p-3">
-                                <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                                  <span className="fw-800 text-dark" style={{ fontSize: "0.85rem" }}>{it.title}</span>
-                                  {it.badge && (
-                                    <span className="badge rounded-1 px-2 py-1 fw-700" style={{ fontSize: "0.6rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{it.badge}</span>
-                                  )}
-                                </div>
-                                <span className="text-secondary fw-500 d-block" style={{ fontSize: "0.72rem" }}>{it.days} Days / {it.nights} Nights • {it.adults} Adults</span>
-                                <span className="fw-800 text-dark d-block mt-1" style={{ fontSize: "1rem" }}>{it.price}</span>
-                                <div className="d-flex gap-2 mt-2">
-                                  <button className="btn btn-light border rounded-2 px-2 py-1 fw-700 flex-grow-1" style={{ fontSize: "0.75rem" }} onClick={() => router.push("/itineraries")}>
-                                    View Itinerary
-                                  </button>
-                                  <button className="btn btn-light border rounded-2 px-2 py-1 text-secondary" style={{ fontSize: "0.75rem" }} aria-label="Preview">
-                                    <i className="bi bi-eye"></i>
-                                  </button>
+                      {/* Itinerary Ideas */}
+                      {inquiry.itineraryIdeas.length > 0 && (
+                        <div className="section-card border border-light p-4">
+                          <h3 className="fw-800 text-dark fs-6 mb-3">Itinerary Ideas ({inquiry.itineraryIdeas.length})</h3>
+                          <div className="d-flex flex-wrap gap-3 align-items-start">
+                            {inquiry.itineraryIdeas.map(it => (
+                              <div key={it.id} className="border border-light rounded-3 overflow-hidden bg-white shadow-sm" style={{ width: 200, height: 280 }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={it.image} alt={it.title} style={{ width: "100%", height: 100, objectFit: "cover" }} />
+                                <div className="p-3">
+                                  <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                    <span className="fw-800 text-dark" style={{ fontSize: "0.85rem" }}>{it.title}</span>
+                                    {it.badge && (
+                                      <span className="badge rounded-1 px-2 py-1 fw-700" style={{ fontSize: "0.6rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{it.badge}</span>
+                                    )}
+                                  </div>
+                                  <span className="text-secondary fw-500 d-block" style={{ fontSize: "0.72rem" }}>{it.days} Days / {it.nights} Nights • {it.adults} Adults</span>
+                                  <span className="fw-800 text-dark d-block mt-1" style={{ fontSize: "1rem" }}>{it.price}</span>
+                                  <div className="d-flex gap-2 mt-2">
+                                    <button className="btn btn-light border rounded-2 px-2 py-1 fw-700 flex-grow-1" style={{ fontSize: "0.75rem" }} onClick={() => router.push("/itineraries")}>
+                                      View Itinerary
+                                    </button>
+                                    <button className="btn btn-light border rounded-2 px-2 py-1 text-secondary" style={{ fontSize: "0.75rem" }} aria-label="Preview">
+                                      <i className="bi bi-eye"></i>
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
-                          <button className="btn btn-light border border-light rounded-3 px-4 py-3 fw-700 d-flex flex-column align-items-center gap-1" style={{ fontSize: "0.82rem", minWidth: 140, height: 160 }} onClick={() => alert("Create new itinerary")}>
-                            <i className="bi bi-plus-circle fs-4 text-secondary"></i>
-                            <span>Create New Itinerary</span>
-                          </button>
+                            ))}
+                            <button className="btn btn-light border border-light rounded-3 px-4 py-3 fw-700 d-flex flex-column align-items-center gap-1" style={{ fontSize: "0.82rem", minWidth: 140, height: 160 }} onClick={() => alert("Create new itinerary")}>
+                              <i className="bi bi-plus-circle fs-4 text-secondary"></i>
+                              <span>Create New Itinerary</span>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {inquiry.itineraryIdeas.length === 0 && (
-                      <div className="section-card border border-light p-4">
-                        <h3 className="fw-800 text-dark fs-6 mb-3">Itinerary Ideas</h3>
-                        <div className="text-center py-4 text-secondary">
-                          <i className="bi bi-map fs-1 d-block mb-2 opacity-25"></i>
-                          <span className="fw-600 d-block mb-3">No itinerary ideas yet</span>
-                          <button className="btn text-white rounded-3 px-4 py-2 fw-700 d-inline-flex align-items-center gap-2" style={{ backgroundColor: "#112E24", fontSize: "0.85rem" }} onClick={() => alert("Create itinerary")}>
-                            <i className="bi bi-plus-lg"></i>
-                            Create New Itinerary
-                          </button>
+                      {inquiry.itineraryIdeas.length === 0 && (
+                        <div className="section-card border border-light p-4">
+                          <h3 className="fw-800 text-dark fs-6 mb-3">Itinerary Ideas</h3>
+                          <div className="text-center py-4 text-secondary">
+                            <i className="bi bi-map fs-1 d-block mb-2 opacity-25"></i>
+                            <span className="fw-600 d-block mb-3">No itinerary ideas yet</span>
+                            <button className="btn text-white rounded-3 px-4 py-2 fw-700 d-inline-flex align-items-center gap-2" style={{ backgroundColor: "#112E24", fontSize: "0.85rem" }} onClick={() => alert("Create itinerary")}>
+                              <i className="bi bi-plus-lg"></i>
+                              Create New Itinerary
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                  </div>
-                )}
+                    </div>
+                  )}
+
+                </div>
 
                 {/* Other tabs — placeholder content */}
                 {activeTab !== "Overview" && (
@@ -594,7 +594,7 @@ export default function InquiryDetailPage() {
                       Convert to Quote
                     </button>
                     <button
-                      className="btn text-white rounded-3 px-4 py-2 fw-700 d-flex align-items-center gap-2"
+                      className="btn text-white rounded-3 px-4 py-2 d-flex align-items-center gap-2"
                       style={{ backgroundColor: "#112E24", fontSize: "0.9rem" }}
                       onClick={() => alert("Edit Inquiry")}
                       id="btn-edit-inquiry"

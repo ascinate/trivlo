@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function SalesPipeline() {
   const steps = [
     {
@@ -37,9 +38,9 @@ export default function SalesPipeline() {
       <div className="section-card-header">
         <h3 className="section-card-title">Sales Pipeline</h3>
         <div className="dropdown">
-          <button className="btn btn-sm btn-outline-light border text-dark dropdown-toggle py-1 px-2 rounded-3 text-secondary bg-white fw-600" type="button" style={{ fontSize: "0.82rem" }}>
+          <Link href="/pipeline" className="btn btn-sm btn-outline-light border text-dark dropdown-toggle py-1 px-2 rounded-3 text-secondary bg-white fw-600" type="button" style={{ fontSize: "0.82rem" }}>
             All Pipeline
-          </button>
+          </Link>
         </div>
       </div>
 

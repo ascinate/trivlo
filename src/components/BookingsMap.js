@@ -19,16 +19,26 @@ export default function BookingsMap() {
     <div className="section-card">
       <div className="section-card-header">
         <h3 className="section-card-title">Bookings by Destination</h3>
-        <div className="dropdown">
-          <button className="btn btn-sm btn-outline-light border text-dark dropdown-toggle py-1 px-2 rounded-3 text-secondary bg-white fw-600" type="button" style={{ fontSize: "0.82rem" }}>
-            This Month
-          </button>
-        </div>
+        <select class="form-select widthsd" aria-label="Default select example">
+          <option selected>This month</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
       </div>
 
       <div className="world-map-wrapper">
-        <svg 
-          viewBox="0 0 800 380" 
+        <svg
+          viewBox="0 0 800 380"
           className="map-svg"
           style={{ backgroundColor: "#FCFAF6", borderRadius: "12px" }}
         >
@@ -101,25 +111,25 @@ export default function BookingsMap() {
           {destinations.map((dest, idx) => (
             <g key={idx} className="map-marker" onMouseEnter={() => setSelectedDest(dest)} onMouseLeave={() => setSelectedDest(null)}>
               {/* Ripple Effect ring */}
-              <circle 
-                cx={dest.x} 
-                cy={dest.y} 
-                r="10" 
-                fill={dest.countColor} 
+              <circle
+                cx={dest.x}
+                cy={dest.y}
+                r="10"
+                fill={dest.countColor}
                 opacity="0.2"
               >
                 <animate attributeName="r" values="6;16;6" dur="2s" repeatCount="indefinite" />
               </circle>
               {/* Inner Pin */}
-              <circle 
-                cx={dest.x} 
-                cy={dest.y} 
-                r="6" 
+              <circle
+                cx={dest.x}
+                cy={dest.y}
+                r="6"
                 fill={dest.countColor}
                 stroke="#FFFFFF"
                 strokeWidth="1.5"
               />
-              
+
               {/* Label Group */}
               <g transform={`translate(${dest.x - 40}, ${dest.y - 35})`}>
                 {/* Background Card */}
