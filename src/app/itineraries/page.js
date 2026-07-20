@@ -361,7 +361,7 @@ export default function ItineraryPage() {
               {/* Send to Customer Button */}
               <button
                 className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2 flex-grow-1 flex-md-grow-0"
-                style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600", fontSize: "0.85rem" }}
+                style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400", fontSize: "0.85rem" }}
                 onClick={handleSendToCustomer}
               >
                 <i className="bi bi-send"></i>
@@ -473,9 +473,9 @@ export default function ItineraryPage() {
                 return (
                   <button
                     key={tab.name}
-                    className={`btn py-2 px-3 border-0 rounded-0 fw-700 fs-7 ${isActive ? "text-primary border-bottom border-2 border-primary" : "text-secondary"}`}
+                    className={`btn py-2 px-3 border-0 rounded-0 fw-400 fs-7 ${isActive ? "text-primary border-bottom border-2 border-primary" : "text-secondary"}`}
                     style={{
-                      borderBottom: isActive ? "2.5px solid #112E24 !important" : "none",
+                      borderBottom: isActive ? "2.5px solid #00971e !important" : "none",
                       color: isActive ? "#112E24" : "var(--secondary)"
                     }}
                     onClick={() => setActiveTab(tab.name)}
@@ -608,7 +608,7 @@ export default function ItineraryPage() {
                               <div key={act.id} className="d-flex gap-3 position-relative" style={{ zIndex: 2 }}>
 
                                 {/* Left Time label */}
-                                <div className="text-secondary fw-700 fs-9 py-1" style={{ width: "65px", flexShrink: 0 }}>
+                                <div className="text-secondary fw-500 fs-9 py-1" style={{ width: "65px", flexShrink: 0, fontSize: "0.75rem" }}>
                                   {act.time}
                                 </div>
 
@@ -648,7 +648,7 @@ export default function ItineraryPage() {
 
                       {/* Add Activity Button */}
                       <button
-                        className="btn btn-outline-secondary border-dashed border-2 rounded-3 w-100 py-2 mt-4 fw-700 text-secondary fs-8 d-flex align-items-center justify-content-center gap-1"
+                        className="btn btn-outline-secondary border-dashed border-2 rounded-3 w-100 py-2 mt-4 fw-500 text-secondary fs-8 d-flex align-items-center justify-content-center gap-1"
                         onClick={() => setShowModal(true)}
                       >
                         <i className="bi bi-plus-lg"></i>
@@ -663,7 +663,7 @@ export default function ItineraryPage() {
                   <div className="d-flex justify-content-between align-items-center mt-5 pt-3 border-top border-light gap-2">
                     <button
                       className="btn btn-light border rounded-3 px-4 py-2"
-                      style={{ fontSize: "0.88rem", fontWeight: "600" }}
+                      style={{ fontSize: "0.88rem", fontWeight: "400" }}
                       onClick={() => alert("Back")}
                     >
                       Back
@@ -672,7 +672,7 @@ export default function ItineraryPage() {
                     <div className="d-inline-flex gap-2">
                       <button
                         className="btn btn-light border rounded-3 px-4 py-2 d-inline-flex align-items-center gap-1"
-                        style={{ fontSize: "0.88rem", fontWeight: "600" }}
+                        style={{ fontSize: "0.88rem", fontWeight: "400" }}
                         onClick={() => alert("Draft saved")}
                       >
                         <i className="bi bi-bookmark"></i>
@@ -680,7 +680,7 @@ export default function ItineraryPage() {
                       </button>
                       <button
                         className="btn text-white rounded-3 px-4 py-2 d-inline-flex align-items-center gap-1"
-                        style={{ backgroundColor: "#112E24", fontSize: "0.88rem", fontWeight: "600" }}
+                        style={{ backgroundColor: "#112E24", fontSize: "0.88rem", fontWeight: "400" }}
                         onClick={() => alert("Next page")}
                       >
                         <span>Next: Pricing</span>

@@ -269,7 +269,7 @@ export default function InquiryDetailPage() {
                       <div>
                         <div className="d-flex align-items-center gap-2 flex-wrap">
                           <h1 className="fw-800 text-dark m-0 fs-4">Inquiry Details</h1>
-                          <span className="badge rounded-2 px-2 py-1 fw-700 fs-9" style={{ backgroundColor: st.bg, color: st.color }}>{currentStatus}</span>
+                          <span className="badge rounded-2 px-2 py-1 fw-700 fs-9" style={{ backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{currentStatus}</span>
                         </div>
                         <span className="text-secondary fs-8 fw-500 mt-1 d-block">
                           Created on {inquiry.createdOn} &bull; {inquiry.timeAgo}

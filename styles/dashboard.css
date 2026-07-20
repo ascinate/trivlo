@@ -1170,3 +1170,7 @@ span.bd-labe.d-block.small-text01 {
   width: 100%;
   flex-wrap: wrap;
 }
+
+.border-primary {
+  border-color: #00971e !important;
+}

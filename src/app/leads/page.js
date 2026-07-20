@@ -157,7 +157,7 @@ export default function LeadsPage() {
   const newLeadButton = (
     <button
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
-      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "600" }}
+      style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       onClick={() => router.push("/leads/add")}
       id="btn-new-lead"
     >
