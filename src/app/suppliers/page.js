@@ -123,9 +123,67 @@ const categoryStyles = {
 
 export default function AllSuppliersPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All Categories");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  // Filtering
+  let filteredData = suppliersData.filter(supplier => {
+    const matchesSearch =
+      supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      supplier.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      supplier.contactName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      supplier.country.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory = categoryFilter === "All Categories" || supplier.category === categoryFilter;
+    const matchesStatus = statusFilter === "All Status" || supplier.status === statusFilter;
+
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  // Sorting
+  if (sortConfig.key) {
+    filteredData.sort((a, b) => {
+      let aValue = a[sortConfig.key];
+      let bValue = b[sortConfig.key];
+
+      if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+      if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+
+      if (aValue < bValue) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+
+  // Pagination
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const renderSortIcon = (key) => {
+    if (sortConfig.key !== key) return <i className="bi bi-chevron-expand ms-1 opacity-50"></i>;
+    return sortConfig.direction === 'asc' ?
+      <i className="bi bi-chevron-up ms-1"></i> :
+      <i className="bi bi-chevron-down ms-1"></i>;
   };
 
   return (
@@ -268,17 +326,30 @@ export default function AllSuppliersPage() {
                 {/* Table Header & Filters */}
                 <div className="p-3 border-bottom border-light d-flex flex-column flex-md-row justify-content-between gap-3 bg-white">
                   <div className="d-flex gap-2">
-                    <select className="form-select border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm" style={{ fontSize: "0.85rem", width: "160px", backgroundColor: "#FCFAF6" }}>
-                      <option>All Categories</option>
-                      <option>Airlines</option>
-                      <option>Hotels</option>
-                      <option>Transfers</option>
+                    <select
+                      className="form-select border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm"
+                      style={{ fontSize: "0.85rem", width: "160px", backgroundColor: "#FCFAF6" }}
+                      value={categoryFilter}
+                      onChange={(e) => { setCategoryFilter(e.target.value); setCurrentPage(1); }}
+                    >
+                      <option value="All Categories">All Categories</option>
+                      <option value="Airline">Airline</option>
+                      <option value="Hotel">Hotel</option>
+                      <option value="Transfer">Transfer</option>
+                      <option value="Visa & Docs">Visa & Docs</option>
+                      <option value="Insurance">Insurance</option>
                     </select>
 
-                    <select className="form-select border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm" style={{ fontSize: "0.85rem", width: "120px", backgroundColor: "#FCFAF6" }}>
-                      <option>Active</option>
-                      <option>Inactive</option>
-                      <option>Pending</option>
+                    <select
+                      className="form-select border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm"
+                      style={{ fontSize: "0.85rem", width: "120px", backgroundColor: "#FCFAF6" }}
+                      value={statusFilter}
+                      onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
+                    >
+                      <option value="All Status">All Status</option>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                      <option value="Pending">Pending</option>
                     </select>
                   </div>
 
@@ -290,12 +361,11 @@ export default function AllSuppliersPage() {
                         className="form-control border-light bg-light-subtle rounded-3 shadow-sm"
                         placeholder="Search supplier..."
                         style={{ paddingLeft: "2.5rem", fontSize: "0.85rem", backgroundColor: "#FCFAF6" }}
+                        value={searchTerm}
+                        onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                       />
                     </div>
-                    <button className="btn btn-outline-secondary bg-white border-light shadow-sm rounded-3 px-3 d-flex align-items-center gap-2 fw-600 text-dark">
-                      <i className="bi bi-funnel"></i>
-                      <span className="d-none d-sm-inline">Filter</span>
-                    </button>
+
                   </div>
                 </div>
 
@@ -304,18 +374,32 @@ export default function AllSuppliersPage() {
                   <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.85rem" }}>
                     <thead className="bg-light text-secondary">
                       <tr>
-                        <th className="fw-600 py-3 ps-4 border-0" style={{ width: "220px", color: "#8C9C95" }}>Supplier Name <i className="bi bi-chevron-expand ms-1"></i></th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Category</th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Contact Person</th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Email <i className="bi bi-chevron-expand ms-1"></i></th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Phone</th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Country</th>
-                        <th className="fw-600 py-3 border-0" style={{ color: "#8C9C95" }}>Status</th>
-                        <th className="fw-600 py-3 pe-4 border-0 text-center" style={{ color: "#8C9C95" }}>Actions</th>
+                        <th className="fw-400 py-3 ps-4 border-0 text-nowrap" style={{ width: "220px", fontWeight: "500", color: "#8C9C95", cursor: "pointer" }} onClick={() => handleSort('name')}>
+                          Supplier Name {renderSortIcon('name')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('category')}>
+                          Category {renderSortIcon('category')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('contactName')}>
+                          Contact Person {renderSortIcon('contactName')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('email')}>
+                          Email {renderSortIcon('email')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('phone')}>
+                          Phone {renderSortIcon('phone')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('country')}>
+                          Country {renderSortIcon('country')}
+                        </th>
+                        <th className="fw-400 py-3 border-0 text-nowrap" style={{ color: "#8C9C95", fontWeight: "500", cursor: "pointer" }} onClick={() => handleSort('status')}>
+                          Status {renderSortIcon('status')}
+                        </th>
+                        <th className="fw-400 py-3 pe-4 border-0 text-center" style={{ color: "#8C9C95", fontWeight: "500" }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody className="border-top-0">
-                      {suppliersData.map((supplier) => (
+                      {paginatedData.length > 0 ? paginatedData.map((supplier) => (
                         <tr key={supplier.id} className="border-bottom border-light">
                           <td className="ps-4 py-3">
                             <div className="d-flex align-items-center gap-3">
@@ -365,30 +449,83 @@ export default function AllSuppliersPage() {
                             </div>
                           </td>
                         </tr>
-                      ))}
+                      )) : (
+                        <tr>
+                          <td colSpan="8" className="text-center py-5 text-secondary">
+                            <i className="bi bi-search d-block mb-2 fs-2 text-muted opacity-50"></i>
+                            <span className="fw-500">No suppliers found matching your filters.</span>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
 
                 {/* Pagination footer */}
-                <div className="p-3 border-top border-light d-flex justify-content-between align-items-center bg-white text-secondary" style={{ fontSize: "0.85rem" }}>
-                  <span>Showing 1 to 8 of 124 suppliers</span>
+                <div className="p-3 border-top border-light d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 bg-white text-secondary" style={{ fontSize: "0.85rem" }}>
+                  <span>
+                    Showing {filteredData.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredData.length)} of {filteredData.length} suppliers
+                  </span>
 
                   <div className="d-flex align-items-center gap-3">
                     <div className="d-flex gap-1">
-                      <button className="btn btn-sm btn-outline-secondary border-0 text-secondary"><i className="bi bi-chevron-left"></i></button>
-                      <button className="btn btn-sm rounded-3 fw-600" style={{ backgroundColor: "#112E24", color: "white", width: "32px", height: "32px" }}>1</button>
-                      <button className="btn btn-sm btn-light bg-transparent border-0 text-secondary fw-600" style={{ width: "32px", height: "32px" }}>2</button>
-                      <button className="btn btn-sm btn-light bg-transparent border-0 text-secondary fw-600" style={{ width: "32px", height: "32px" }}>3</button>
-                      <span className="d-flex align-items-center px-1">...</span>
-                      <button className="btn btn-sm btn-light bg-transparent border-0 text-secondary fw-600" style={{ width: "32px", height: "32px" }}>16</button>
-                      <button className="btn btn-sm btn-outline-secondary border-0 text-secondary"><i className="bi bi-chevron-right"></i></button>
+                      <button
+                        className="btn btn-sm btn-outline-secondary border-0 text-secondary"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                      >
+                        <i className="bi bi-chevron-left"></i>
+                      </button>
+
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => {
+                        if (
+                          page === 1 ||
+                          page === totalPages ||
+                          (page >= currentPage - 1 && page <= currentPage + 1)
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              className={`btn btn-sm rounded-3 fw-600 ${currentPage === page ? 'text-white' : 'btn-light bg-transparent border-0 text-secondary'}`}
+                              style={{
+                                backgroundColor: currentPage === page ? "#112E24" : "transparent",
+                                width: "32px", height: "32px"
+                              }}
+                              onClick={() => setCurrentPage(page)}
+                            >
+                              {page}
+                            </button>
+                          );
+                        } else if (
+                          page === currentPage - 2 ||
+                          page === currentPage + 2
+                        ) {
+                          return <span key={page} className="d-flex align-items-center px-1">...</span>;
+                        }
+                        return null;
+                      })}
+
+                      <button
+                        className="btn btn-sm btn-outline-secondary border-0 text-secondary"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages || totalPages === 0}
+                      >
+                        <i className="bi bi-chevron-right"></i>
+                      </button>
                     </div>
 
-                    <select className="form-select form-select-sm border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm" style={{ width: "100px", backgroundColor: "#FCFAF6" }}>
-                      <option>10 / page</option>
-                      <option>20 / page</option>
-                      <option>50 / page</option>
+                    <select
+                      className="form-select form-select-sm border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm"
+                      style={{ width: "100px", backgroundColor: "#FCFAF6" }}
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <option value={10}>10 / page</option>
+                      <option value={20}>20 / page</option>
+                      <option value={50}>50 / page</option>
                     </select>
                   </div>
                 </div>

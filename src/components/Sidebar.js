@@ -9,6 +9,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const pathname = usePathname();
   const [crmExpanded, setCrmExpanded] = useState(true);
   const [suppliersExpanded, setSuppliersExpanded] = useState(true);
+  const [flightsExpanded, setFlightsExpanded] = useState(true);
 
   const menuItems = [
     { name: "Dashboard", icon: "bi-grid", href: "/dashboard" },
@@ -38,7 +39,19 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         { name: "Hotels", href: "/suppliers/hotels" }
       ]
     },
-    { name: "Flights", icon: "bi-airplane", href: "#" },
+    {
+      name: "Flights",
+      icon: "bi-airplane",
+      isParent: true,
+      expanded: flightsExpanded,
+      setExpanded: setFlightsExpanded,
+      subItems: [
+        { name: "All Flights", href: "/flights" },
+        { name: "Flight Search", href: "#" },
+        { name: "Fare Rules", href: "#" },
+        { name: "Airlines", href: "#" }
+      ]
+    },
     { name: "Transfers", icon: "bi-car-front", href: "#" },
     { name: "Visa & Docs", icon: "bi-passport", href: "#" },
     { name: "Insurance", icon: "bi-shield-check", href: "#" },
