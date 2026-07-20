@@ -34,6 +34,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       expanded: suppliersExpanded,
       setExpanded: setSuppliersExpanded,
       subItems: [
+        { name: "All Suppliers", href: "/suppliers" },
         { name: "Hotels", href: "/suppliers/hotels" }
       ]
     },

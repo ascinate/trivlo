@@ -582,7 +582,7 @@ export default function ItineraryPage() {
                         </div>
 
                         <div className="d-inline-flex gap-2">
-                          <button className="btn btn-outline-light border rounded-3 px-2 py-1 text-secondary fs-8 fw-700 d-inline-flex align-items-center gap-1" style={{ height: "32px" }}>
+                          <button className="btn btn-outline-light border rounded-3 px-2 py-1 text-secondary fs-8 fw-400 d-inline-flex align-items-center gap-1" style={{ height: "32px" }}>
                             <i className="bi bi-pencil"></i>
                             <span>Edit Day</span>
                           </button>
