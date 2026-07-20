@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -402,11 +403,13 @@ export default function AllSuppliersPage() {
                       {paginatedData.length > 0 ? paginatedData.map((supplier) => (
                         <tr key={supplier.id} className="border-bottom border-light">
                           <td className="ps-4 py-3">
-                            <div className="d-flex align-items-center gap-3">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={supplier.logo} alt={supplier.name} style={{ width: "32px", height: "32px", objectFit: "contain" }} />
-                              <span className="fw-700 text-dark">{supplier.name}</span>
-                            </div>
+                            <Link href={`/suppliers/${supplier.id}`} className="text-decoration-none">
+                              <div className="d-flex align-items-center gap-3">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={supplier.logo} alt={supplier.name} style={{ width: "32px", height: "32px", objectFit: "contain" }} />
+                                <span className="fw-700 text-dark">{supplier.name}</span>
+                              </div>
+                            </Link>
                           </td>
                           <td className="py-3">
                             <span
@@ -440,9 +443,11 @@ export default function AllSuppliersPage() {
                           </td>
                           <td className="pe-4 py-3 text-center">
                             <div className="d-flex justify-content-center gap-1">
-                              <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "32px", height: "32px" }}>
-                                <i className="bi bi-eye"></i>
-                              </button>
+                              <Link href={`/suppliers/${supplier.id}`}>
+                                <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "32px", height: "32px" }}>
+                                  <i className="bi bi-eye"></i>
+                                </button>
+                              </Link>
                               <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "32px", height: "32px" }}>
                                 <i className="bi bi-three-dots"></i>
                               </button>
