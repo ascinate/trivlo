@@ -5,6 +5,7 @@ import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AddSupplierModal from "@/components/AddSupplierModal";
 
 // Dummy Data for Table
 const suppliersData = [
@@ -124,6 +125,7 @@ const categoryStyles = {
 
 export default function AllSuppliersPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [statusFilter, setStatusFilter] = useState("All Status");
@@ -205,9 +207,10 @@ export default function AllSuppliersPage() {
             <button
               className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
               style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
+              onClick={() => setIsAddModalOpen(true)}
             >
               <i className="bi bi-plus-lg fs-6"></i>
-              <span>New Booking</span>
+              <span>Add Supplier</span>
               <i className="bi bi-chevron-down ms-1" style={{ fontSize: "0.75rem" }}></i>
             </button>
           }
@@ -223,13 +226,6 @@ export default function AllSuppliersPage() {
             </div>
 
             <div className="d-flex align-items-center gap-2 w-md-auto">
-              <button
-                className="btn btn-outline-success bg-white border-light rounded-3 px-3 py-2 fw-600 d-flex align-items-center gap-2 text-success shadow-sm"
-                style={{ fontSize: "0.85rem", height: "42px" }}
-              >
-                <i className="bi bi-plus-lg"></i>
-                <span>Add New Supplier</span>
-              </button>
 
               <button
                 className="btn btn-outline-secondary bg-white border-light rounded-3 px-3 py-2 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm"
@@ -772,6 +768,9 @@ export default function AllSuppliersPage() {
           onClick={toggleSidebar}
         ></div>
       )}
+
+      {/* Add Supplier Modal */}
+      <AddSupplierModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
     </div>
   );
 }
