@@ -56,14 +56,14 @@ const OverviewTab = () => {
       <div className="row g-4 align-items-start">
         {/* Left Column */}
         <div className="col-12 col-xl-7 d-flex flex-column gap-4">
-          
+
           {/* Active Contracts (Quick View) */}
           <div className="section-card border border-light p-0 bg-white overflow-hidden">
             <div className="p-4 border-bottom border-light d-flex justify-content-between align-items-center">
               <h3 className="fs-6 fw-800 m-0 text-dark">Active Contracts (Quick View)</h3>
               <a href="#" className="text-primary text-decoration-none fs-8 fw-600">View All Contracts</a>
             </div>
-            
+
             <div className="table-responsive">
               <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.85rem" }}>
                 <thead className="bg-light text-secondary">
@@ -142,7 +142,7 @@ const OverviewTab = () => {
 
         {/* Right Column */}
         <div className="col-12 col-xl-5 d-flex flex-column gap-4">
-          
+
           {/* Supplier Profile Completeness */}
           <div className="section-card border border-light p-4 bg-white">
             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -197,7 +197,7 @@ const OverviewTab = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="col-12 col-sm-6">
               {/* Key Account Managers */}
               <div className="section-card border border-light p-4 bg-white h-100">
@@ -223,10 +223,10 @@ const OverviewTab = () => {
 
 const ContactDetailsTab = () => {
   return (
-    <div className="row g-4 mt-4 align-items-start">
+    <div className="row g-4 mt-0 align-items-start">
       {/* Left Column */}
       <div className="col-12 col-xl-7 d-flex flex-column gap-4">
-        
+
         {/* Primary Contact Information */}
         <div className="section-card border border-light p-4 bg-white">
           <div className="d-flex justify-content-between align-items-start mb-4">
@@ -278,7 +278,7 @@ const ContactDetailsTab = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="col-12 col-md-6 d-flex flex-column gap-3">
               <div className="d-flex align-items-center gap-3">
                 <div className="d-flex align-items-center justify-content-center bg-light-subtle rounded-3 text-secondary" style={{ width: "36px", height: "36px" }}>
@@ -333,7 +333,7 @@ const ContactDetailsTab = () => {
         <div className="section-card border border-light p-4 bg-white">
           <h3 className="section-card-title fs-6 fw-800 mb-4">Contact History</h3>
           <div className="d-flex flex-column position-relative ps-3 border-start border-light" style={{ marginLeft: "12px" }}>
-            
+
             <div className="position-relative pb-4">
               <div className="position-absolute bg-white border border-primary rounded-circle" style={{ width: "12px", height: "12px", left: "-23px", top: "4px" }}></div>
               <div className="d-flex flex-column gap-1">
@@ -341,7 +341,7 @@ const ContactDetailsTab = () => {
                 <span className="text-secondary fs-9 fw-600">Today, 10:30 AM</span>
               </div>
             </div>
-            
+
             <div className="position-relative pb-4">
               <div className="position-absolute bg-white border border-light rounded-circle" style={{ width: "12px", height: "12px", left: "-23px", top: "4px" }}></div>
               <div className="d-flex flex-column gap-1">
@@ -349,7 +349,7 @@ const ContactDetailsTab = () => {
                 <span className="text-secondary fs-9 fw-600">15 May 2025, 02:15 PM</span>
               </div>
             </div>
-            
+
             <div className="position-relative">
               <div className="position-absolute bg-white border border-light rounded-circle" style={{ width: "12px", height: "12px", left: "-23px", top: "4px" }}></div>
               <div className="d-flex flex-column gap-1">
@@ -364,7 +364,7 @@ const ContactDetailsTab = () => {
 
       {/* Right Column */}
       <div className="col-12 col-xl-5 d-flex flex-column gap-4">
-        
+
         {/* All Contacts Table */}
         <div className="section-card border border-light p-0 bg-white overflow-hidden">
           <div className="p-4 border-bottom border-light d-flex justify-content-between align-items-center">
@@ -374,7 +374,7 @@ const ContactDetailsTab = () => {
               <span>Add Contact</span>
             </button>
           </div>
-          
+
           <div className="p-3 border-bottom border-light bg-light-subtle">
             <div className="position-relative">
               <i className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", fontSize: "0.85rem" }}></i>
@@ -440,7 +440,7 @@ const ContactDetailsTab = () => {
                     <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "24px", height: "24px", padding: 0 }}><i className="bi bi-three-dots"></i></button>
                   </td>
                 </tr>
-                
+
                 <tr className="border-bottom border-light">
                   <td className="ps-4 py-3">
                     <div className="d-flex align-items-center gap-3">
@@ -468,7 +468,7 @@ const ContactDetailsTab = () => {
             </table>
           </div>
         </div>
-        
+
         {/* Contact Summary */}
         <div className="section-card border border-light p-4 bg-white">
           <h3 className="section-card-title mb-4 fs-6 fw-800">Contact Summary</h3>
@@ -534,7 +534,7 @@ const ContactDetailsTab = () => {
 
 const ContractsTab = () => {
   return (
-    <div className="d-flex flex-column gap-4 mt-4">
+    <div className="d-flex flex-column gap-4 mt-0">
       {/* Contracts Table Card */}
       <div className="section-card border border-light p-0 bg-white overflow-hidden">
         <div className="p-4 border-bottom border-light d-flex justify-content-between align-items-center">
@@ -712,7 +712,7 @@ const ContractsTab = () => {
                   <span className="text-dark fw-600 flex-grow-1">$500,000 USD</span>
                 </div>
               </div>
-              
+
               <div className="col-12 col-md-6 d-flex flex-column gap-3">
                 <div className="d-flex justify-content-between">
                   <span className="text-secondary fw-600" style={{ width: "130px" }}>Payment Terms</span>
@@ -748,7 +748,7 @@ const ContractsTab = () => {
               <h3 className="section-card-title fs-6 fw-800 m-0">Contract Documents</h3>
               <a href="#" className="section-card-link text-primary fs-8 fw-600 text-decoration-none">Upload New</a>
             </div>
-            
+
             <div className="d-flex flex-column gap-3">
               <div className="d-flex justify-content-between align-items-center p-3 border border-light rounded-3 bg-light-subtle">
                 <div className="d-flex align-items-center gap-3">
@@ -803,7 +803,7 @@ const ContractsTab = () => {
 
         {/* Right Column */}
         <div className="col-12 col-xl-5 d-flex flex-column gap-4">
-          
+
           {/* Contract Summary */}
           <div className="section-card border border-light p-4 bg-white">
             <h3 className="section-card-title mb-4 fs-6 fw-800">Contract Summary</h3>
@@ -825,7 +825,7 @@ const ContractsTab = () => {
                 <span className="text-dark fw-800">0</span>
               </div>
             </div>
-            
+
             <button className="btn btn-outline-secondary bg-white border-light rounded-3 w-100 mt-4 py-2 fw-600 d-flex align-items-center justify-content-center gap-2 text-dark shadow-sm fs-8">
               <i className="bi bi-graph-up"></i>
               <span>View Analytics</span>
@@ -1101,7 +1101,7 @@ const BankDetailsTab = () => {
                   <span className="text-dark fw-600 flex-grow-1">Emirates NBD Tower, Sheikh Zayed Road, Dubai, UAE</span>
                 </div>
               </div>
-              
+
               <div className="col-12 col-md-6 d-flex flex-column gap-3">
                 <div className="d-flex justify-content-between">
                   <span className="text-secondary fw-600" style={{ width: "120px" }}>SWIFT Code</span>
@@ -1143,7 +1143,7 @@ const BankDetailsTab = () => {
 
         {/* Right Side Widgets */}
         <div className="col-12 col-xl-5 d-flex flex-column gap-4">
-          
+
           {/* Bank Summary */}
           <div className="section-card border border-light p-4 bg-white">
             <h3 className="section-card-title mb-4 fs-6 fw-800">Bank Summary</h3>
@@ -1169,7 +1169,7 @@ const BankDetailsTab = () => {
                 <span className="text-dark fw-800">18 May 2025, 11:30 AM</span>
               </div>
             </div>
-            
+
             <button className="btn btn-outline-secondary bg-white border-light rounded-3 w-100 mt-4 py-2 fw-600 d-flex align-items-center justify-content-center gap-2 text-dark shadow-sm fs-8">
               <i className="bi bi-clock-history"></i>
               <span>View Bank Account History</span>
@@ -1217,10 +1217,561 @@ const BankDetailsTab = () => {
   );
 };
 
+const DocumentsTab = () => {
+  return (
+    <div className="row g-4 mt-0 align-items-start">
+      {/* Left Column */}
+      <div className="col-12 col-xl-8 d-flex flex-column gap-4">
+        <div className="section-card border border-light p-0 bg-white overflow-hidden">
+          <div className="p-4 border-bottom border-light d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <h3 className="fs-5 fw-800 m-0 text-dark">Documents (13)</h3>
+            <div className="d-flex gap-2 align-items-center">
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", fontSize: "0.85rem" }}></i>
+                <input type="text" className="form-control form-control-sm border-light bg-light-subtle rounded-3 shadow-sm" placeholder="Search documents" style={{ paddingLeft: "2.5rem", width: "200px" }} />
+              </div>
+              <button className="btn btn-sm text-white rounded-3 px-3 fw-600 d-flex align-items-center gap-2 shadow-sm" style={{ backgroundColor: "#112E24" }}>
+                <i className="bi bi-plus-lg"></i>
+                <span>Add New Document</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="table-responsive">
+            <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.85rem" }}>
+              <thead className="bg-light text-secondary">
+                <tr>
+                  <th className="fw-500 py-3 ps-4 border-0 text-nowrap" style={{ color: "#8C9C95" }}>File Name <i className="bi bi-arrow-up"></i></th>
+                  <th className="fw-500 py-3 border-0 text-nowrap" style={{ color: "#8C9C95" }}>Document Type</th>
+                  <th className="fw-500 py-3 border-0 text-nowrap" style={{ color: "#8C9C95" }}>Upload Date</th>
+                  <th className="fw-500 py-3 border-0 text-nowrap" style={{ color: "#8C9C95" }}>Expiry Date</th>
+                  <th className="fw-500 py-3 border-0 text-nowrap" style={{ color: "#8C9C95" }}>Related Contract</th>
+                  <th className="fw-500 py-3 border-0 text-nowrap" style={{ color: "#8C9C95" }}>Status</th>
+                  <th className="fw-500 py-3 pe-4 border-0 text-center" style={{ color: "#8C9C95" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody className="border-top-0">
+                {/* Row 1 */}
+                <tr className="border-bottom border-light">
+                  <td className="ps-4 py-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-file-earmark-pdf-fill text-danger fs-5"></i>
+                      <span className="fw-700 text-dark">GSA Agreement.pdf</span>
+                    </div>
+                  </td>
+                  <td className="py-3 text-dark fw-600">GSA Agreement</td>
+                  <td className="py-3 text-secondary fw-500">12-12 2022</td>
+                  <td className="py-3 text-secondary fw-500">12-12 2025</td>
+                  <td className="py-3 text-dark fw-600">SUP-001</td>
+                  <td className="py-3">
+                    <span className="badge rounded-2 fw-700 px-2 py-1" style={{ backgroundColor: "#E9F4EE", color: "#1E6C45", fontSize: "0.65rem" }}>Active</span>
+                  </td>
+                  <td className="pe-4 py-3 text-center">
+                    <div className="d-flex justify-content-center gap-1">
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-eye"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-download"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-three-dots-vertical"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                {/* Row 2 */}
+                <tr className="border-bottom border-light">
+                  <td className="ps-4 py-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-file-earmark-word-fill text-primary fs-5"></i>
+                      <span className="fw-700 text-dark">Insurance_Cert_2024.docx</span>
+                    </div>
+                  </td>
+                  <td className="py-3 text-dark fw-600">Document File</td>
+                  <td className="py-3 text-secondary fw-500">12-12 2022</td>
+                  <td className="py-3 text-secondary fw-500">12-12 2025</td>
+                  <td className="py-3 text-dark fw-600">SUP-002</td>
+                  <td className="py-3">
+                    <span className="badge rounded-2 fw-700 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Pending Review</span>
+                  </td>
+                  <td className="pe-4 py-3 text-center">
+                    <div className="d-flex justify-content-center gap-1">
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-eye"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-download"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-three-dots-vertical"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                {/* Row 3 */}
+                <tr className="border-bottom border-light">
+                  <td className="ps-4 py-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-file-earmark-pdf-fill text-danger fs-5"></i>
+                      <div className="d-flex flex-column">
+                        <span className="fw-700 text-dark">Response Time (Avg)</span>
+                        <span className="fw-700 text-dark">SafetyAudit_EK.pdf</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3 text-dark fw-600">Document File</td>
+                  <td className="py-3 text-secondary fw-500">12-12 2022</td>
+                  <td className="py-3 text-secondary fw-500">09-12 2025</td>
+                  <td className="py-3 text-dark fw-600">SUP-003</td>
+                  <td className="py-3">
+                    <span className="badge rounded-2 fw-700 px-2 py-1" style={{ backgroundColor: "#E9F4EE", color: "#1E6C45", fontSize: "0.65rem" }}>Active</span>
+                  </td>
+                  <td className="pe-4 py-3 text-center">
+                    <div className="d-flex justify-content-center gap-1">
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-eye"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-download"></i></button>
+                      <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}><i className="bi bi-three-dots-vertical"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="p-3 border-top border-light d-flex justify-content-end align-items-center bg-white">
+            <button className="btn btn-sm btn-outline-secondary rounded-2 bg-white d-flex align-items-center gap-2 text-dark shadow-sm">
+              <i className="bi bi-chevron-left"></i>
+              Page 4
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column */}
+      <div className="col-12 col-xl-4 d-flex flex-column gap-4">
+        {/* Recently Added */}
+        <div className="section-card border border-light p-4 bg-white">
+          <h3 className="section-card-title mb-4 fs-6 fw-800">Recently Added</h3>
+          <div className="d-flex flex-column gap-3">
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-danger-subtle rounded text-danger d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-pdf-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">GSA Agreement.pdf</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-primary-subtle rounded text-primary d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-word-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Insurance_Cert_2024.docx</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-danger-subtle rounded text-danger d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-pdf-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">SafetyAudit_EK.pdf</span>
+            </div>
+          </div>
+
+          <h3 className="section-card-title mb-4 mt-5 fs-6 fw-800">Document Categories</h3>
+          <div className="d-flex flex-column gap-3 fs-8 fw-600 text-dark">
+            <div className="d-flex align-items-center gap-2">
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#333" }}></span>
+              Contracts
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#333" }}></span>
+              Compliance
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#333" }}></span>
+              Financial
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ActivityLogTab = () => {
+  return (
+    <div className="row g-4 mt-0 align-items-start">
+      {/* Left Column */}
+      <div className="col-12 col-xl-8 d-flex flex-column gap-4">
+        <div className="section-card border border-light p-4 bg-white">
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <h3 className="fs-5 fw-800 m-0 text-dark">Activity Feed</h3>
+            <div className="d-flex gap-2 align-items-center flex-wrap">
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", fontSize: "0.85rem" }}></i>
+                <input type="text" className="form-control form-control-sm border-light bg-light-subtle rounded-3 shadow-sm" placeholder="Search Log" style={{ paddingLeft: "2.5rem", width: "160px" }} />
+              </div>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                <i className="bi bi-funnel"></i>
+              </button>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                Filter By Date Range
+              </button>
+              <select className="form-select form-select-sm border-light bg-white rounded-3 text-dark fw-600 shadow-sm" style={{ width: "130px" }}>
+                <option>Last 30 Days</option>
+              </select>
+              <select className="form-select form-select-sm border-light bg-white rounded-3 text-dark fw-600 shadow-sm" style={{ width: "130px" }}>
+                <option>Action Type</option>
+              </select>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                <i className="bi bi-download"></i>
+              </button>
+            </div>
+          </div>
+
+          <div className="d-flex flex-column">
+            {/* Today */}
+            <h4 className="fs-6 fw-800 text-dark mb-4 mt-2">Today, 21 Jun 2024</h4>
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", left: "-16px", top: "-4px" }}>
+                <i className="bi bi-file-earmark-text"></i>
+              </div>
+              <div className="d-flex align-items-center flex-wrap gap-2 fs-8">
+                <span className="text-secondary fw-600">11:32 AM</span>
+                <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#2B73F6" }}>JS</div>
+                <span className="fw-700 text-dark">John Smith</span>
+                <span className="text-dark">uploaded a new GSA Agreement document for SUP-001. [Status: Pending Review]</span>
+              </div>
+            </div>
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", left: "-16px", top: "-4px" }}>
+                <i className="bi bi-pencil"></i>
+              </div>
+              <div className="d-flex align-items-center flex-wrap gap-2 fs-8">
+                <span className="text-secondary fw-600">10:15 AM -</span>
+                <span className="fw-700 text-dark">John Smith</span>
+                <span className="text-dark">updated the &apos;Dubai, UAE&apos; address on the supplier profile.</span>
+              </div>
+            </div>
+
+            {/* Yesterday */}
+            <h4 className="fs-6 fw-800 text-dark mb-4 mt-4">Yesterday, 20 Jun 2024</h4>
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", left: "-16px", top: "-4px" }}>
+                <i className="bi bi-chat-text"></i>
+              </div>
+              <div className="d-flex align-items-center flex-wrap gap-2 fs-8">
+                <span className="text-secondary fw-600">04:45 PM -</span>
+                <span className="fw-700 text-dark">Mark Johnson</span>
+                <span className="text-dark">added a note to &apos;Contract Renegotiation (Q3)&apos; regarding financial sectors.</span>
+              </div>
+            </div>
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", left: "-16px", top: "-4px" }}>
+                <i className="bi bi-arrow-left-right"></i>
+              </div>
+              <div className="d-flex align-items-center flex-wrap gap-2 fs-8">
+                <span className="text-secondary fw-600">02:10 PM -</span>
+                <span className="fw-700 text-dark">Ravid Samer</span>
+                <span className="text-dark">changed the status of Contract SUP-002 from &apos;Pending Renewal&apos; to &apos;Active&apos;.</span>
+              </div>
+            </div>
+
+            {/* 18 Jun 2024 */}
+            <h4 className="fs-6 fw-800 text-dark mb-4 mt-4">18 Jun 2024</h4>
+            <div className="position-relative ms-3 ps-4 pb-2">
+              <div className="position-absolute bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px", left: "-16px", top: "-4px" }}>
+                <i className="bi bi-exclamation-triangle"></i>
+              </div>
+              <div className="d-flex align-items-center flex-wrap gap-2 fs-8">
+                <span className="text-secondary fw-600">09:00 AM -</span>
+                <span className="fw-700 text-dark">System Alert:</span>
+                <span className="text-dark">Automated Risk Score updated to 92/100 (Improved compliance).</span>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-center mt-4">
+            <button className="btn btn-sm btn-outline-secondary rounded-2 bg-white d-flex align-items-center gap-2 text-dark shadow-sm">
+              <i className="bi bi-chevron-left"></i>
+              Page 1 of 5
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column */}
+      <div className="col-12 col-xl-4 d-flex flex-column gap-4">
+        <div className="section-card border border-light p-4 bg-white">
+          <h3 className="section-card-title mb-4 fs-5 fw-800 text-dark">Activity Overview</h3>
+
+          <h5 className="text-white rounded-1 p-2 mb-3" style={{ backgroundColor: "#112E24", fontSize: "0.85rem" }}>Top Contributors</h5>
+          <div className="d-flex flex-column gap-3 mb-4">
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center gap-3">
+                <span className="fw-700 text-dark fs-8">1</span>
+                <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#2B73F6" }}>JS</div>
+                <span className="fw-600 text-dark fs-8">John Smith</span>
+              </div>
+              <span className="fw-600 text-dark fs-8">11</span>
+            </div>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center gap-3">
+                <span className="fw-700 text-dark fs-8">2</span>
+                <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#8E44AD" }}>MJ</div>
+                <span className="fw-600 text-dark fs-8">Mark Johnson</span>
+              </div>
+              <span className="fw-600 text-dark fs-8">4</span>
+            </div>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center gap-3">
+                <span className="fw-700 text-dark fs-8">3</span>
+                <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#D36C45" }}>RS</div>
+                <span className="fw-600 text-dark fs-8">Ravid Samer</span>
+              </div>
+              <span className="fw-600 text-dark fs-8">1</span>
+            </div>
+          </div>
+
+          <h5 className="text-white rounded-1 p-2 mb-3" style={{ backgroundColor: "#112E24", fontSize: "0.85rem" }}>Action Breakdown</h5>
+          <div className="d-flex justify-content-center mb-4 mt-2">
+            {/* SVG representation of donut chart */}
+            <svg viewBox="0 0 100 100" style={{ width: "120px", height: "120px" }}>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#E9F4EE" strokeWidth="20" />
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#2B73F6" strokeWidth="20" strokeDasharray="180 251.2" strokeDashoffset="0" />
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#F4B400" strokeWidth="20" strokeDasharray="40 251.2" strokeDashoffset="-180" />
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#0F9D58" strokeWidth="20" strokeDasharray="31.2 251.2" strokeDashoffset="-220" />
+            </svg>
+          </div>
+          <div className="row g-2 fs-9 fw-600 text-dark mb-4">
+            <div className="col-6 d-flex align-items-center gap-2"><span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#0F9D58" }}></span>Contracts</div>
+            <div className="col-6 d-flex align-items-center gap-2"><span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#2B73F6" }}></span>Documents</div>
+            <div className="col-6 d-flex align-items-center gap-2"><span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#E9F4EE" }}></span>Profile</div>
+            <div className="col-6 d-flex align-items-center gap-2"><span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#F4B400" }}></span>Notes</div>
+          </div>
+
+          <h5 className="text-white rounded-1 p-2 mb-3" style={{ backgroundColor: "#112E24", fontSize: "0.85rem" }}>Most Active Contracts</h5>
+          <div className="d-flex flex-column gap-2 fs-8 fw-600 text-dark">
+            <div className="d-flex justify-content-between border-bottom border-light pb-2">
+              <span className="text-secondary">Top Contract ID</span>
+              <span className="text-secondary">Activity</span>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span>SUP-001</span>
+              <span>14</span>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span>SUP-002</span>
+              <span>5</span>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span>SUP-003</span>
+              <span>2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NotesTab = () => {
+  return (
+    <div className="row g-4 mt-0 align-items-start">
+      {/* Left Column */}
+      <div className="col-12 col-xl-8 d-flex flex-column gap-4">
+        <div className="section-card border border-light p-4 bg-white">
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <h3 className="fs-5 fw-800 m-0 text-dark">Notes Log</h3>
+            <div className="d-flex gap-2 align-items-center flex-wrap">
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", fontSize: "0.85rem" }}></i>
+                <input type="text" className="form-control form-control-sm border-light bg-light-subtle rounded-3 shadow-sm" placeholder="Search" style={{ paddingLeft: "2.5rem", width: "160px" }} />
+              </div>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                <i className="bi bi-funnel"></i>
+              </button>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                Filter <i className="bi bi-chevron-down ms-1" style={{ fontSize: "0.6rem" }}></i>
+              </button>
+              <button className="btn btn-sm btn-outline-secondary bg-white border-light rounded-3 px-3 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm">
+                <i className="bi bi-download"></i> Export Log
+              </button>
+            </div>
+          </div>
+
+          <div className="d-flex align-items-start gap-3 mb-5 border border-light rounded-3 p-3 bg-white shadow-sm position-relative">
+            <button className="btn btn-sm text-white rounded-3 px-3 fw-600 d-flex align-items-center gap-2 shadow-sm flex-shrink-0" style={{ backgroundColor: "#112E24" }}>
+              <i className="bi bi-plus-lg"></i>
+              <span>Add New Note</span>
+            </button>
+            <div className="d-flex flex-column w-100 bg-white">
+              <div className="d-flex align-items-center gap-3 border-bottom border-light pb-2 mb-2 text-secondary px-2">
+                <i className="bi bi-type-bold"></i>
+                <i className="bi bi-type-italic"></i>
+                <i className="bi bi-type-underline"></i>
+                <i className="bi bi-type-strikethrough"></i>
+                <i className="bi bi-code"></i>
+                <span className="border-start border-light h-100 mx-1"></span>
+                <i className="bi bi-pencil"></i>
+                <i className="bi bi-list-ul"></i>
+                <i className="bi bi-list-ol"></i>
+                <span className="border-start border-light h-100 mx-1"></span>
+                <i className="bi bi-link-45deg"></i>
+                <i className="bi bi-image"></i>
+                <i className="bi bi-calculator"></i>
+              </div>
+              <textarea className="form-control border-0 p-2 fs-8 fw-500 text-dark shadow-none" rows="1" placeholder="Add text note"></textarea>
+            </div>
+            <button className="btn btn-sm btn-light bg-transparent border-0 text-secondary position-absolute top-0 end-0 mt-2 me-2">
+              <i className="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <h4 className="fs-5 fw-800 text-dark mb-4">Key Meeting Minutes</h4>
+          <div className="row g-3 mb-5">
+            <div className="col-12 col-md-6">
+              <div className="p-3 border border-light rounded-3 shadow-sm bg-white h-100">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <h5 className="fs-6 fw-800 text-dark m-0">Contract Renegotiation (Q3)</h5>
+                  <div className="d-flex" style={{ marginLeft: "-10px" }}>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#2B73F6", marginLeft: "-8px", zIndex: 3 }}>JS</div>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#8E44AD", marginLeft: "-8px", zIndex: 2 }}>MJ</div>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#D36C45", marginLeft: "-8px", zIndex: 1 }}>RS</div>
+                  </div>
+                </div>
+                <p className="fs-9 text-secondary fw-500 mb-3">17 May 2022 • 1 John Smith</p>
+                <p className="fs-8 fw-700 text-dark mb-1">Key Summary</p>
+                <ul className="fs-8 text-dark fw-500 ps-3 mb-3" style={{ lineHeight: "1.6" }}>
+                  <li>Contract Renegotiation (Q3) metes contact financial sectures</li>
+                  <li>Contract Renegotiation Strategy</li>
+                  <li>Endure sum poinss and to capor tmens and commundient rocomptions ...</li>
+                </ul>
+                <div className="d-flex flex-wrap gap-2">
+                  <span className="badge rounded-2 fw-600 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Internal</span>
+                  <span className="badge rounded-2 fw-600 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Internal</span>
+                  <span className="badge rounded-2 fw-600 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Internal</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="p-3 border border-light rounded-3 shadow-sm bg-white h-100">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <h5 className="fs-6 fw-800 text-dark m-0">Market Expansion Strategy</h5>
+                  <div className="d-flex" style={{ marginLeft: "-10px" }}>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#2B73F6", marginLeft: "-8px", zIndex: 3 }}>JS</div>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#8E44AD", marginLeft: "-8px", zIndex: 2 }}>MJ</div>
+                    <div className="rounded-circle text-white fw-700 fs-9 shadow-sm border border-white d-flex justify-content-center align-items-center" style={{ width: "24px", height: "24px", backgroundColor: "#D36C45", marginLeft: "-8px", zIndex: 1 }}>RS</div>
+                  </div>
+                </div>
+                <p className="fs-9 text-secondary fw-500 mb-3">17 May 2022 • 1 John Smith</p>
+                <p className="fs-8 fw-700 text-dark mb-1">Key Summary</p>
+                <ul className="fs-8 text-dark fw-500 ps-3 mb-3" style={{ lineHeight: "1.6" }}>
+                  <li>Contract pointes about market expansion strategy</li>
+                  <li>Market Expansion Strategy w/row prom suses</li>
+                  <li>Supplier responiizes growth your team wrket ecoroption</li>
+                </ul>
+                <div className="d-flex flex-wrap gap-2">
+                  <span className="badge rounded-2 fw-600 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Internal</span>
+                  <span className="badge rounded-2 fw-600 px-2 py-1" style={{ backgroundColor: "#FEF7ED", color: "#B97C2B", fontSize: "0.65rem" }}>Supplier Communication</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 className="fs-5 fw-800 text-dark mb-4">Daily Activity Notes</h4>
+          <div className="d-flex flex-column">
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "28px", height: "28px", left: "-14px", top: "-4px" }}>
+                <i className="bi bi-arrow-up-short"></i>
+              </div>
+              <div className="d-flex flex-column gap-2 fs-8">
+                <span className="fw-700 text-dark">14 May 2022 - John Smith noted potential issue with flight capacity for June (attached: email thread)</span>
+                <div className="d-flex align-items-center gap-2">
+                  <span className="text-secondary fw-500">14 May 2022</span>
+                  <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#2B73F6" }}>JS</div>
+                  <span className="badge rounded-pill fw-600 px-3 py-1 bg-light-subtle text-secondary border border-light" style={{ fontSize: "0.65rem" }}>Supplier Communication</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "28px", height: "28px", left: "-14px", top: "-4px" }}>
+                <i className="bi bi-person"></i>
+              </div>
+              <div className="d-flex flex-column gap-2 fs-8">
+                <span className="fw-700 text-dark">12 May 2022 - Ravid Samer updated account strategy document</span>
+                <div className="d-flex align-items-center gap-2">
+                  <span className="text-secondary fw-500">12 May 2022</span>
+                  <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#D36C45" }}>RS</div>
+                  <span className="badge rounded-pill fw-600 px-3 py-1 bg-light-subtle text-secondary border border-light" style={{ fontSize: "0.65rem" }}>Supplier Communication</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="position-relative ms-3 border-start border-light ps-4 pb-4">
+              <div className="position-absolute bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "28px", height: "28px", left: "-14px", top: "-4px" }}>
+                <i className="bi bi-calendar-event"></i>
+              </div>
+              <div className="d-flex flex-column gap-2 fs-8">
+                <span className="fw-700 text-dark">11 May 2022 - Mark Johnson noted supplier response time optimization meeting</span>
+                <div className="d-flex align-items-center gap-2">
+                  <span className="text-secondary fw-500">11 May 2022</span>
+                  <div className="d-flex align-items-center justify-content-center rounded-circle text-white fw-700 fs-9 shadow-sm" style={{ width: "24px", height: "24px", backgroundColor: "#8E44AD" }}>MJ</div>
+                  <span className="badge rounded-pill fw-600 px-3 py-1 bg-light-subtle text-secondary border border-light" style={{ fontSize: "0.65rem" }}>Supplier Communication</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column */}
+      <div className="col-12 col-xl-4 d-flex flex-column gap-4">
+        {/* Recently Updated Notes */}
+        <div className="section-card border border-light p-4 bg-white">
+          <h3 className="section-card-title mb-4 fs-6 fw-800">Recently Updated Notes</h3>
+          <div className="d-flex flex-column gap-3">
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-danger-subtle rounded text-danger d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-pdf-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Contract Renegotiation (Q3)</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-primary-subtle rounded text-primary d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-word-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Insurance_Cert_2024.docx</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-danger-subtle rounded text-danger d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-pdf-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">SafetyAudit_EK.pdf</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-primary-subtle rounded text-primary d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-text fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Markert Expansion Strategy</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-primary-subtle rounded text-primary d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-person fs-6"></i></div>
+              <span className="fw-700 text-primary fs-8">John Smith renewed</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-danger-subtle rounded text-danger d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-file-earmark-pdf-fill fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Market Expansion Strategy</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <div className="p-2 bg-secondary-subtle rounded text-secondary d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}><i className="bi bi-calendar fs-6"></i></div>
+              <span className="fw-700 text-dark fs-8">Daily Activity Notes</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Note Tags */}
+        <div className="section-card border border-light p-4 bg-white">
+          <h3 className="section-card-title mb-4 fs-6 fw-800">Note Tags</h3>
+          <div className="d-flex flex-wrap gap-2">
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Contracts</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Operations</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Compliance</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Compliance</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Compliane</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Flights</span>
+            <span className="badge bg-light-subtle text-secondary border border-light fw-600 px-3 py-2 fs-8 rounded-pill">Financial</span>
+          </div>
+
+          <div className="d-flex justify-content-center mt-5">
+            <button className="btn btn-sm btn-outline-secondary rounded-2 bg-white d-flex align-items-center gap-2 text-dark shadow-sm">
+              <i className="bi bi-chevron-left"></i>
+              Page 4
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function SupplierDetailsPage() {
   const params = useParams();
   const supplierId = params.id;
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Bank Details");
 
@@ -1248,6 +1799,12 @@ export default function SupplierDetailsPage() {
         return <ContractsTab />;
       case "Bank Details":
         return <BankDetailsTab />;
+      case "Documents":
+        return <DocumentsTab />;
+      case "Notes":
+        return <NotesTab />;
+      case "Activity Log":
+        return <ActivityLogTab />;
       default:
         return <div className="p-4 bg-white border border-light rounded-3 mt-4 text-center text-secondary">Coming Soon</div>;
     }
@@ -1277,14 +1834,14 @@ export default function SupplierDetailsPage() {
         />
 
         <main className="main-content d-flex flex-column gap-4 py-4">
-          
+
           {/* Supplier Header */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
             <div className="d-flex align-items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Emirates_logo.svg" 
-                alt="Emirates" 
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Emirates_logo.svg"
+                alt="Emirates"
                 style={{ width: "64px", height: "64px", objectFit: "contain" }}
               />
               <div className="d-flex flex-column gap-1">
@@ -1325,33 +1882,36 @@ export default function SupplierDetailsPage() {
           </div>
 
           {/* Tab Navigation */}
-          <div className="border-bottom border-light overflow-auto">
-            <ul className="nav nav-tabs border-0 flex-nowrap" style={{ paddingBottom: "1px" }}>
-              {tabs.map((tab) => (
-                <li className="nav-item" key={tab.id}>
-                  <button
-                    className={`nav-link border-0 bg-transparent fw-700 px-4 py-3 ${activeTab === tab.id ? 'active' : 'text-secondary'}`}
-                    style={{
-                      color: activeTab === tab.id ? "#1E6C45" : "inherit",
-                      borderBottom: activeTab === tab.id ? "2px solid #1E6C45" : "2px solid transparent",
-                      whiteSpace: "nowrap"
-                    }}
-                    onClick={() => setActiveTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div className="section-card border border-light p-4 bg-white">
+            <div className="border-bottom border-light overflow-auto">
+              <ul className="nav nav-tabs border-0 flex-nowrap" style={{ paddingBottom: "1px" }}>
+                {tabs.map((tab) => (
+                  <li className="nav-item" key={tab.id}>
+                    <button
+                      className={`nav-link border-0 bg-transparent  px-4 py-2 ${activeTab === tab.id ? 'active' : 'text-secondary'}`}
+                      style={{
+                        color: activeTab === tab.id ? "#1E6C45" : "inherit",
+                        borderBottom: activeTab === tab.id ? "2px solid #1E6C45" : "2px solid #1E6C45",
+                        whiteSpace: "nowrap"
+                      }}
+                      onClick={() => setActiveTab(tab.id)}
+                    >
+                      {tab.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Tab Content Area */}
+            <div>
+              {renderTabContent()}
+            </div>
           </div>
 
-          {/* Tab Content Area */}
-          <div>
-            {renderTabContent()}
-          </div>
-          
+
+
         </main>
-        
+
         <Footer />
       </div>
 
