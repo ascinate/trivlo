@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../styles/dashboard.css";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <body style={{ fontFamily: "var(--font-outfit), var(--font-inter), sans-serif" }}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

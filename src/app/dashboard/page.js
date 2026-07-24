@@ -10,6 +10,7 @@ import DeparturesList from "@/components/DeparturesList";
 import RevenueCharts from "@/components/RevenueCharts";
 import BottomGrids from "@/components/BottomGrids";
 import Footer from "@/components/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function Home() {
   };
 
   return (
+    <ProtectedRoute>
     <div className="d-flex position-relative">
 
       {/* Sidebar Navigation */}
@@ -136,5 +138,6 @@ export default function Home() {
       )}
 
     </div>
+    </ProtectedRoute>
   );
 }

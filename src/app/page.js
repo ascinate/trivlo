@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GoShieldLock } from "react-icons/go";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -15,6 +17,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [language, setLanguage] = useState("English");
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [authLoading, isAuthenticated, router]);
 
   const languages = ["English", "Arabic", "French", "German", "Spanish"];
 
@@ -28,9 +38,18 @@ export default function LoginPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    router.push("/dashboard");
+    setLoginError("");
+    setIsLoggingIn(true);
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setLoginError(err.message || "Invalid email or password");
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
   const stats = [
@@ -595,6 +614,12 @@ export default function LoginPage() {
 
               <form onSubmit={handleSubmit}>
 
+                {loginError && (
+                  <div className="alert alert-danger d-flex align-items-center py-2 px-3 mb-3" role="alert" style={{ fontSize: "0.85rem", borderRadius: "10px" }}>
+                    <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                    {loginError}
+                  </div>
+                )}
                 {/* Email */}
                 <div>
                   <label htmlFor="login-email" className="login-label">
@@ -663,9 +688,18 @@ export default function LoginPage() {
                   </label>
                 </div>
 
-                <button type="submit" className="login-submit-btn" id="login-submit">
-                  Sign in
-                  <i className="bi bi-arrow-right"></i>
+                <button type="submit" className="login-submit-btn" id="login-submit" disabled={isLoggingIn}>
+                  {isLoggingIn ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Sign in
+                      <i className="bi bi-arrow-right"></i>
+                    </>
+                  )}
                 </button>
               </form>
 

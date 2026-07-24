@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { LuSunMedium } from "react-icons/lu";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header({
   toggleSidebar,
@@ -17,6 +18,12 @@ export default function Header({
   const [showChat, setShowChat] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { user, logout } = useAuth();
+
+  const userName = user?.name || "User";
+  const userFirstName = userName.split(" ")[0];
+  const userRole = user?.roles?.[0]?.name?.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) || user?.type?.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()) || "User";
+  const userInitials = userName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
 
   const toggleTheme = () => {
     const nextMode = !isDarkMode;
@@ -61,7 +68,7 @@ export default function Header({
                 </>
               ) : (
                 <>
-                  <span className="text-secondary fs-7 fw-500 d-block">Good Morning, John! 👋</span>
+                  <span className="text-secondary fs-7 fw-500 d-block">Good Morning, {userFirstName}! 👋</span>
                   <h1 className="fs-5 fw-800 text-dark m-0 mt-1">Here&apos;s what&apos;s happening with your business today.</h1>
                 </>
               )}
@@ -167,16 +174,12 @@ export default function Header({
                   onClick={() => setShowProfile(!showProfile)}
                   aria-expanded={showProfile}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/john-smith.png"
-                    alt="John Smith avatar"
-                    className="rounded-circle border border-2 border-light shadow-sm"
-                    style={{ width: "40px", height: "40px", objectFit: "cover" }}
-                  />
+                  <div className="rounded-circle border border-2 border-light shadow-sm d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px", backgroundColor: "#1E40AF", color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>
+                    {userInitials}
+                  </div>
                   <div className="text-start d-none d-md-block">
-                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2", fontSize: "11px" }}>John Smith</span>
-                    <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>Super Admin</span>
+                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2", fontSize: "11px" }}>{userName}</span>
+                    <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>{userRole}</span>
                   </div>
                   <i className="bi bi-chevron-down text-secondary ms-1 d-none d-md-block" style={{ fontSize: "0.75rem", transform: showProfile ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}></i>
                 </button>
@@ -185,7 +188,7 @@ export default function Header({
                     <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-person me-2"></i> My Profile</a></li>
                     <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-gear me-2"></i> Settings</a></li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                    <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => { e.preventDefault(); logout(); }}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                   </ul>
                 )}
               </div>
@@ -253,16 +256,12 @@ export default function Header({
                   onClick={() => setShowProfile(!showProfile)}
                   aria-expanded={showProfile}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/john-smith.png"
-                    alt="John Smith avatar"
-                    className="rounded-circle border border-2 border-light shadow-sm"
-                    style={{ width: "40px", height: "40px", objectFit: "cover" }}
-                  />
+                  <div className="rounded-circle border border-2 border-light shadow-sm d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px", backgroundColor: "#1E40AF", color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>
+                    {userInitials}
+                  </div>
                   <div className="text-start d-none d-md-block">
-                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2" }}>John Smith</span>
-                    <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>Super Admin</span>
+                    <span className="fw-600 text-dark d-block fs-7" style={{ lineHeight: "1.2" }}>{userName}</span>
+                    <span className="text-secondary d-block" style={{ fontSize: "0.68rem" }}>{userRole}</span>
                   </div>
                   <i className="bi bi-chevron-down text-secondary ms-1 d-none d-md-block" style={{ fontSize: "0.75rem", transform: showProfile ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}></i>
                 </button>
@@ -271,7 +270,7 @@ export default function Header({
                     <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-person me-2"></i> My Profile</a></li>
                     <li><a className="dropdown-item py-2" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-gear me-2"></i> Settings</a></li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => e.preventDefault()}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                    <li><a className="dropdown-item py-2 text-danger" href="#" onClick={(e) => { e.preventDefault(); logout(); }}><i className="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                   </ul>
                 )}
               </div>
