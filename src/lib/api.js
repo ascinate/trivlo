@@ -1,4 +1,6 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://trivlo.ascinatetech.com/api/v1";
 
 class ApiError extends Error {
   constructor(message, status, data = null) {
@@ -48,11 +50,17 @@ async function request(endpoint, options = {}) {
     config.body = JSON.stringify(body);
   }
 
-  const url = `${API_URL}${endpoint}`;
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://trivlo.ascinatetech.com/api/v1"
+  ).replace(/\/+$/, "");
+
+  const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  const url = `${baseUrl}${cleanEndpoint}`;
 
   const response = await fetch(url, config);
 
-  if (response.status === 401) {
+  if (response.status === 401 && !endpoint.includes("/auth/login")) {
     removeToken();
     if (typeof window !== "undefined") {
       window.location.href = "/";
@@ -60,7 +68,21 @@ async function request(endpoint, options = {}) {
     throw new ApiError("Session expired. Please login again.", 401);
   }
 
-  const data = await response.json();
+  let data;
+  const contentType = response.headers.get("content-type");
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await response.json();
+  } else {
+    const text = await response.text();
+    if (!response.ok) {
+      throw new ApiError(
+        `Server returned error (${response.status}): ${response.statusText}`,
+        response.status
+      );
+    }
+    data = { message: text };
+  }
 
   if (!response.ok) {
     throw new ApiError(
