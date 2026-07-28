@@ -84,7 +84,7 @@ export default function FlightDetailsPage() {
 
           <div className="row g-4 align-items-start">
             {/* Left Column */}
-            <div className="col-12 col-xl-8 d-flex flex-column gap-4">
+            <div className="col-12 col-xl-9 d-flex flex-column gap-4">
               {/* Conditional Tab Contents */}
               {activeTab === "Overview" && <OverviewTab />}
               {activeTab === "Fare Details" && <FareDetailsTab />}
@@ -140,21 +140,21 @@ export default function FlightDetailsPage() {
             </div>
 
             {/* Right Column */}
-            <div className="col-12 col-xl-4 d-flex flex-column gap-4">
-              
+            <div className="col-12 col-xl-3 d-flex flex-column gap-4">
+
               {/* Dynamic Side Cards based on Tab */}
               {activeTab === "Fare Details" && <FareDetailsSide />}
               {activeTab === "Baggage" && <BaggageSide />}
               {activeTab === "Fare Rules" && <FareRulesSide />}
               {activeTab === "Refund & Change" && <RefundChangeSide />}
-              
+
               {/* Static Global Side Cards */}
               <div className="card border-0 shadow-sm rounded-4" style={{ backgroundColor: "#FAFAFA", border: "1px solid #EFECE6 !important" }}>
                 <div className="card-body p-4">
                   <h6 className="fw-800 mb-3" style={{ color: "#112E24" }}>Fare Summary</h6>
                   <div className="d-flex align-items-end justify-content-between mb-2">
                     <div className="d-flex flex-column">
-                      <span className="fw-800 fs-3" style={{ color: "#112E24", lineHeight: 1.2 }}>USD 1,145.00</span>
+                      <span className="fw-800" style={{ color: "#112E24", lineHeight: 1.2 }}>USD 1,145.00</span>
                       <span className="text-secondary fs-8 fw-600">Per Adult</span>
                     </div>
                     <span className="badge bg-success-subtle text-success border border-success-subtle rounded-1 mb-2" style={{ fontSize: "0.65rem" }}>Recommended</span>
@@ -628,7 +628,7 @@ function FareRulesTab() {
               <span className="fw-600 text-dark">Non-transferable</span>
             </div>
           </div>
-          
+
           <div className="mt-4 p-3 rounded-3" style={{ backgroundColor: "#F0F5FF" }}>
             <span className="fs-7 fw-600 text-dark" style={{ color: "#3B4A54" }}>
               This fare is non-refundable. Changes are permitted with a penalty and fare difference.
@@ -710,7 +710,7 @@ function RefundChangeTab() {
 
           <div className="mt-3">
             <span className="fw-700 fs-6 d-block mb-3">Summary: Specific refund and change conditions apply. See table below.</span>
-            
+
             <div className="p-3 rounded-3" style={{ backgroundColor: "#F0F5FF" }}>
               <div className="d-flex gap-2">
                 <i className="bi bi-info-circle" style={{ color: "#2B73F6", marginTop: "2px" }}></i>
@@ -799,55 +799,55 @@ function SeatMapTab() {
           </div>
 
           <div className="d-flex justify-content-center position-relative w-100 overflow-auto py-5 bg-light rounded-4">
-             {/* Simple mockup for seat map graphic */}
-             <div className="position-relative d-flex align-items-center justify-content-center" style={{ minWidth: "600px", height: "300px", backgroundColor: "#EFECE6", borderRadius: "150px" }}>
-                {/* Airplane shape mock */}
-                <span className="position-absolute fs-4 fw-800 text-secondary" style={{ transform: "rotate(-90deg)", left: "20px" }}>Emirates</span>
-                
-                <div className="d-flex flex-column gap-3">
-                  <div className="d-flex gap-2">
-                    <div className="btn btn-sm btn-success rounded" style={{ width: "40px", height: "40px" }}>A</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>B</div>
-                    <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>C</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>D</div>
-                    <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>E</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>F</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>G</div>
-                    <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>H</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>I</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>J</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>K</div>
-                  </div>
-                  <div className="d-flex gap-2">
-                    <div className="btn btn-sm btn-dark text-white rounded" style={{ width: "40px", height: "40px" }}><i className="bi bi-check"></i> A</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>B</div>
-                    <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>C</div>
-                    <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>D</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>E</div>
-                    <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>F</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>G</div>
-                    <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>15</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>16</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>17</div>
-                    <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>18</div>
-                  </div>
-                </div>
+            {/* Simple mockup for seat map graphic */}
+            <div className="position-relative d-flex align-items-center justify-content-center" style={{ minWidth: "600px", height: "300px", backgroundColor: "#EFECE6", borderRadius: "150px" }}>
+              {/* Airplane shape mock */}
+              <span className="position-absolute fs-4 fw-800 text-secondary" style={{ transform: "rotate(-90deg)", left: "20px" }}>Emirates</span>
 
-                <div className="position-absolute" style={{ right: "20px", top: "20px" }}>
-                  <div className="bg-white p-3 rounded shadow-sm border border-light d-flex flex-column gap-2 fs-8 fw-600">
-                    <span className="fw-700 fs-7 mb-1">Legend <span className="badge rounded-circle bg-secondary mx-1" style={{ fontSize: "10px" }}>A</span></span>
-                    <div className="d-flex align-items-center gap-2"><div className="border border-secondary rounded" style={{ width: "16px", height: "16px", backgroundColor: "#fff" }}></div> Available</div>
-                    <div className="d-flex align-items-center gap-2"><div className="border border-secondary rounded" style={{ width: "16px", height: "16px", backgroundColor: "#6c757d" }}></div> Occupied</div>
-                    <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#112E24" }}><i className="bi bi-check text-white" style={{ fontSize: "12px", lineHeight: "16px", display: "block", textAlign: "center" }}></i></div> Selected seat</div>
-                    <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#b3e5fc" }}></div> Extra Legroom</div>
-                    <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#81d4fa" }}></div> Extra Legroom, Bulkhead</div>
-                  </div>
+              <div className="d-flex flex-column gap-3">
+                <div className="d-flex gap-2">
+                  <div className="btn btn-sm btn-success rounded" style={{ width: "40px", height: "40px" }}>A</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>B</div>
+                  <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>C</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>D</div>
+                  <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>E</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>F</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>G</div>
+                  <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>H</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>I</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>J</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>K</div>
                 </div>
-             </div>
+                <div className="d-flex gap-2">
+                  <div className="btn btn-sm btn-dark text-white rounded" style={{ width: "40px", height: "40px" }}><i className="bi bi-check"></i> A</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>B</div>
+                  <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>C</div>
+                  <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>D</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>E</div>
+                  <div className="btn btn-sm bg-secondary text-white rounded" style={{ width: "40px", height: "40px" }}>F</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>G</div>
+                  <div className="mx-3 fw-800 text-secondary d-flex align-items-center">Aisle</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>15</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>16</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>17</div>
+                  <div className="btn btn-sm btn-light border-secondary rounded" style={{ width: "40px", height: "40px" }}>18</div>
+                </div>
+              </div>
+
+              <div className="position-absolute" style={{ right: "20px", top: "20px" }}>
+                <div className="bg-white p-3 rounded shadow-sm border border-light d-flex flex-column gap-2 fs-8 fw-600">
+                  <span className="fw-700 fs-7 mb-1">Legend <span className="badge rounded-circle bg-secondary mx-1" style={{ fontSize: "10px" }}>A</span></span>
+                  <div className="d-flex align-items-center gap-2"><div className="border border-secondary rounded" style={{ width: "16px", height: "16px", backgroundColor: "#fff" }}></div> Available</div>
+                  <div className="d-flex align-items-center gap-2"><div className="border border-secondary rounded" style={{ width: "16px", height: "16px", backgroundColor: "#6c757d" }}></div> Occupied</div>
+                  <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#112E24" }}><i className="bi bi-check text-white" style={{ fontSize: "12px", lineHeight: "16px", display: "block", textAlign: "center" }}></i></div> Selected seat</div>
+                  <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#b3e5fc" }}></div> Extra Legroom</div>
+                  <div className="d-flex align-items-center gap-2"><div className="rounded" style={{ width: "16px", height: "16px", backgroundColor: "#81d4fa" }}></div> Extra Legroom, Bulkhead</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -855,10 +855,10 @@ function SeatMapTab() {
       <div className="card border-0 shadow-sm rounded-4">
         <div className="card-body p-4 d-flex justify-content-between align-items-center flex-wrap gap-4">
           <div className="d-flex align-items-center gap-3">
-             <div className="d-flex align-items-center justify-content-center rounded" style={{ width: "40px", height: "40px", backgroundColor: "#E6F8F5", color: "#0F9D58" }}>
-                <i className="bi bi-person-bounding-box fs-5"></i>
-              </div>
-              <h6 className="fw-800 m-0 fs-5" style={{ color: "#112E24" }}>Selected Seat</h6>
+            <div className="d-flex align-items-center justify-content-center rounded" style={{ width: "40px", height: "40px", backgroundColor: "#E6F8F5", color: "#0F9D58" }}>
+              <i className="bi bi-person-bounding-box fs-5"></i>
+            </div>
+            <h6 className="fw-800 m-0 fs-5" style={{ color: "#112E24" }}>Selected Seat</h6>
           </div>
 
           <div className="d-flex align-items-center justify-content-between flex-grow-1 mx-4 gap-4 flex-wrap">
@@ -983,7 +983,7 @@ function BaggageSide() {
           </button>
         </div>
       </div>
-      
+
       <div className="card border-0 shadow-sm rounded-4">
         <div className="card-body p-4">
           <h6 className="fw-800 mb-4" style={{ color: "#112E24" }}>Baggage Policy Highlights</h6>

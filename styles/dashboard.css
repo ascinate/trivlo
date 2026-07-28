@@ -53,7 +53,6 @@ body {
   width: var(--sidebar-width);
   background-color: var(--primary);
   height: 100vh;
-  background-image: url('/images/sidebar_footer_bg.png');
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: contain;
@@ -71,7 +70,7 @@ body {
 .bg-absoulut {
   width: var(--sidebar-width);
   background-color: var(--primary);
-  background-image: url('/images/sidebar_footer_bg.png');
+  /* background-image: url('/images/sidebar_footer_bg.png'); */
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: contain;
@@ -107,7 +106,6 @@ body {
 
 .sidebar-nav {
   flex-grow: 1;
-  padding: 0.5rem 1rem;
   overflow-y: auto;
 }
 
@@ -118,14 +116,33 @@ body {
 
 .sidebar-nav .nav-link {
   color: #A3B7AE;
-  padding: 0.65rem 0.95rem;
+  padding: .5rem 1rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem !important;
   font-size: 0.95rem;
   font-weight: 500;
+  width: 91%;
+  margin-left: auto;
+  margin-right: auto;
   transition: all 0.2s ease;
+}
+
+.nav-sub-link {
+  width: 91%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidebar-footer-card {
+  width: 91% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidebar-nav {
+  padding-bottom: 0 !important;
 }
 
 .sidebar-nav .nav-link i {
@@ -1089,6 +1106,21 @@ span.bd-labe.d-block.small-text01 {
 /* Sidebar sub-navigation */
 .nav-sub-menu {
   margin-bottom: 0.5rem;
+  /* border-left: solid 2px #255e4ad2; */
+  width: 91%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.nav-sub-menu::before {
+  position: absolute;
+  content: '';
+  left: 10px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #255e4ad2;
 }
 
 @media (min-width: 1200px) {
@@ -1133,7 +1165,9 @@ span.bd-labe.d-block.small-text01 {
   font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  width: 100%;
+  width: 91%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .nav-parent-btn:hover {
