@@ -2,7 +2,14 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { auth as authApi, getToken, setToken, removeToken } from "@/lib/api";
+import {
+  auth as authApi,
+  getToken,
+  setToken,
+  removeToken,
+  getUserStorage,
+  setUserStorage,
+} from "@/lib/api";
 
 const AuthContext = createContext(null);
 
@@ -11,10 +18,21 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Synchronously restore cached user from localStorage on client mount
+  useEffect(() => {
+    const savedUser = getUserStorage();
+    const token = getToken();
+    if (token && savedUser) {
+      setUser(savedUser);
+      setLoading(false);
+    }
+  }, []);
+
   const fetchUser = useCallback(async () => {
     const token = getToken();
     if (!token) {
       setUser(null);
+      removeToken();
       setLoading(false);
       return;
     }
@@ -22,6 +40,7 @@ export function AuthProvider({ children }) {
     try {
       const res = await authApi.me();
       setUser(res.data);
+      setUserStorage(res.data);
     } catch {
       removeToken();
       setUser(null);
@@ -37,6 +56,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await authApi.login(email, password);
     setToken(res.data.token);
+    setUserStorage(res.data.user);
     setUser(res.data.user);
     return res;
   };

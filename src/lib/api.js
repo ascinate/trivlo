@@ -20,9 +20,25 @@ function setToken(token) {
   localStorage.setItem("trivlo_token", token);
 }
 
+function getUserStorage() {
+  if (typeof window === "undefined") return null;
+  const data = localStorage.getItem("trivlo_user");
+  try {
+    return data ? JSON.parse(data) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setUserStorage(user) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("trivlo_user", JSON.stringify(user));
+}
+
 function removeToken() {
   if (typeof window === "undefined") return;
   localStorage.removeItem("trivlo_token");
+  localStorage.removeItem("trivlo_user");
 }
 
 async function request(endpoint, options = {}) {
@@ -210,4 +226,4 @@ export const agencyApi = {
   },
 };
 
-export { getToken, setToken, removeToken, ApiError };
+export { getToken, setToken, removeToken, getUserStorage, setUserStorage, ApiError };
