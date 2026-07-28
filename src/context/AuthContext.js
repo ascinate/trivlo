@@ -2,7 +2,14 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { auth as authApi, getToken, setToken, removeToken } from "@/lib/api";
+import {
+  auth as authApi,
+  getToken,
+  setToken,
+  removeToken,
+  getUserStorage,
+  setUserStorage,
+} from "@/lib/api";
 
 const AuthContext = createContext(null);
 
@@ -11,17 +18,30 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Restore cached user from localStorage on client mount
+  useEffect(() => {
+    const savedUser = getUserStorage();
+    const token = getToken();
+    if (token && savedUser) {
+      setUser(savedUser);
+      setLoading(false);
+    }
+  }, []);
+
   const fetchUser = useCallback(async () => {
     const token = getToken();
     if (!token) {
       setUser(null);
+      removeToken();
       setLoading(false);
       return;
     }
 
     try {
       const res = await authApi.me();
-      setUser(res.data);
+      const userData = res.data;
+      setUser(userData);
+      setUserStorage(userData);
     } catch {
       removeToken();
       setUser(null);
@@ -36,8 +56,18 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await authApi.login(email, password);
-    setToken(res.data.token);
-    setUser(res.data.user);
+    // Laravel AuthController returns res.data.access_token
+    const token = res.data?.access_token || res.data?.token;
+    const userData = res.data?.user;
+
+    if (token) {
+      setToken(token);
+    }
+    if (userData) {
+      setUserStorage(userData);
+      setUser(userData);
+    }
+
     return res;
   };
 
