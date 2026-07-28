@@ -49,7 +49,15 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         { name: "All Flights", href: "/flights" },
         { name: "Flight Search", href: "#" },
         { name: "Fare Rules", href: "#" },
-        { name: "Airlines", href: "#" }
+        { name: "Airlines", href: "#" },
+        { name: "Flight Schedules", href: "#" },
+        { name: "Import Inventory", href: "#" },
+        { name: "Promotions", href: "#" },
+        { name: "Low Fare Calendar", href: "#" },
+        { name: "Booking Queue", href: "#" },
+        { name: "Ticket Issuance Queue", href: "#" },
+        { name: "Cancellation Queue", href: "#" },
+        { name: "Flight Reports", href: "#" }
       ]
     },
     { name: "Transfers", icon: "bi-car-front", href: "#" },
@@ -155,7 +163,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           );
         })}
 
-        <div className="position-relative w-100">
+        <div className="position-relative w-100 bg-absoulut">
           <button
             className="sidebar-footer-card text-start w-100 btn p-2 border-0"
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
@@ -163,9 +171,11 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           >
             <div className="sidebar-footer-profile">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/images/john-smith.png"
                 alt="John Smith avatar"
+                width={40}
+                height={40}
               />
               <div className="sidebar-footer-info">
                 <h6>John Smith</h6>
@@ -184,6 +194,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             </ul>
           )}
         </div>
+
+        <Image src="/images/sidebar_footer_bg.png" className="bgv-img" alt="Logo" width={250} height={250} />
       </nav>
 
       {/* User Footer Profile Card */}

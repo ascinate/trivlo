@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -150,6 +151,7 @@ export default function AllFlightsPage() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -168,7 +170,17 @@ export default function AllFlightsPage() {
     const matchesStatus = statusFilter === "All Statuses" || flight.status === statusFilter;
     const matchesClass = classFilter === "All Classes" || flight.class === classFilter;
 
-    return matchesSearch && matchesAirline && matchesStatus && matchesClass;
+    let matchesDate = true;
+    if (dateRange.start || dateRange.end) {
+      const flightDate = new Date(flight.date);
+      const startDate = dateRange.start ? new Date(dateRange.start) : null;
+      const endDate = dateRange.end ? new Date(dateRange.end) : null;
+
+      if (startDate && flightDate < startDate) matchesDate = false;
+      if (endDate && flightDate > endDate) matchesDate = false;
+    }
+
+    return matchesSearch && matchesAirline && matchesStatus && matchesClass && matchesDate;
   });
 
   // Sorting
@@ -251,13 +263,14 @@ export default function AllFlightsPage() {
             </div>
 
             <div className="d-flex flex-wrap align-items-center gap-2 w-md-auto">
-              <button
-                className="btn btn-outline-success bg-white border-light rounded-3 px-3 py-2 fw-600 d-flex align-items-center gap-2 text-success shadow-sm"
+              <Link
+                href="/flights/add"
+                className="btn btn-outline-success bg-white border-light rounded-3 px-3 py-2 fw-600 d-flex align-items-center gap-2 text-success shadow-sm text-decoration-none"
                 style={{ fontSize: "0.85rem", height: "42px" }}
               >
                 <i className="bi bi-plus-lg"></i>
                 <span>Add New Flight</span>
-              </button>
+              </Link>
 
               <button
                 className="btn btn-outline-secondary bg-white border-light rounded-3 px-3 py-2 fw-600 d-flex align-items-center gap-2 text-dark shadow-sm"
@@ -352,7 +365,7 @@ export default function AllFlightsPage() {
               <div className="section-card border border-light p-0 bg-white overflow-hidden">
                 {/* Table Header & Filters */}
                 <div className="p-3 border-bottom border-light d-flex flex-column flex-xl-row justify-content-between gap-3 bg-white">
-                  <div className="d-flex flex-wrap gap-2">
+                  <div className="d-flex justify-content-start flex-wrap gap-2">
                     <select
                       className="form-select border-light bg-light-subtle rounded-3 text-secondary fw-500 shadow-sm"
                       style={{ fontSize: "0.85rem", width: "130px", backgroundColor: "#FCFAF6" }}
@@ -394,21 +407,28 @@ export default function AllFlightsPage() {
                       <option value="First Class">First Class</option>
                     </select>
 
-                    <div className="position-relative">
+                    <div className="d-flex align-items-center gap-2">
                       <input
-                        type="text"
+                        type="date"
                         className="form-control border-light bg-light-subtle rounded-3 shadow-sm text-secondary fw-500"
-                        value="20 May 2025 - 20 Jun 2025"
-                        readOnly
-                        style={{ fontSize: "0.85rem", width: "200px", backgroundColor: "#FCFAF6", paddingRight: "2.5rem" }}
+                        value={dateRange.start}
+                        onChange={(e) => { setDateRange(prev => ({ ...prev, start: e.target.value })); setCurrentPage(1); }}
+                        style={{ fontSize: "0.85rem", width: "130px", backgroundColor: "#FCFAF6" }}
                       />
-                      <i className="bi bi-calendar3 position-absolute text-secondary" style={{ right: "1rem", top: "50%", transform: "translateY(-50%)", fontSize: "0.9rem" }}></i>
+                      <span className="text-secondary fw-500">to</span>
+                      <input
+                        type="date"
+                        className="form-control border-light bg-light-subtle rounded-3 shadow-sm text-secondary fw-500"
+                        value={dateRange.end}
+                        onChange={(e) => { setDateRange(prev => ({ ...prev, end: e.target.value })); setCurrentPage(1); }}
+                        style={{ fontSize: "0.85rem", width: "130px", backgroundColor: "#FCFAF6" }}
+                      />
                     </div>
                   </div>
 
-                  <div className="d-flex gap-2 w-100 flex-grow-1" style={{ maxWidth: "200px" }}>
+                  <div className="d-flex gap-2 w-100" style={{ maxWidth: "150px" }}>
                     <div className="position-relative flex-grow-1">
-                      <CiSearch className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "53%", transform: "translateY(-50%)", fontSize: "0.9rem" }}></CiSearch>
+                      <CiSearch className="bi bi-search position-absolute text-secondary" style={{ left: "1rem", top: "30%", fontSize: "0.9rem" }}></CiSearch>
                       <input
                         type="text"
                         className="form-control border-light bg-light-subtle rounded-3 shadow-sm"
@@ -421,6 +441,8 @@ export default function AllFlightsPage() {
 
                   </div>
                 </div>
+
+
 
                 {/* Table Data */}
                 <div className="table-responsive">
@@ -459,7 +481,9 @@ export default function AllFlightsPage() {
                         <tr key={flight.id} className="border-bottom border-light">
                           <td className="ps-4 py-3">
                             <div className="d-flex flex-column">
-                              <span className="fw-700 text-dark">PNR: {flight.pnr}</span>
+                              <Link href={`/flights/${flight.id}`} className="fw-700 text-dark text-decoration-none" style={{ color: "#2B73F6" }}>
+                                PNR: {flight.pnr}
+                              </Link>
                               <span className="text-secondary" style={{ fontSize: "0.75rem" }}>{flight.bookingId}</span>
                             </div>
                           </td>
@@ -514,10 +538,10 @@ export default function AllFlightsPage() {
                           <td className="py-3 text-dark fw-600">{flight.amount}</td>
                           <td className="pe-4 py-3 text-center">
                             <div className="d-flex justify-content-center gap-1">
-                              <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}>
+                              <Link href={`/flights/${flight.id}`} className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary d-flex align-items-center justify-content-center" style={{ width: "28px", height: "28px", padding: 0 }}>
                                 <i className="bi bi-eye"></i>
-                              </button>
-                              <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary" style={{ width: "28px", height: "28px", padding: 0 }}>
+                              </Link>
+                              <button className="btn btn-sm btn-light bg-transparent border-light shadow-sm text-secondary d-flex align-items-center justify-content-center" style={{ width: "28px", height: "28px", padding: 0 }}>
                                 <i className="bi bi-three-dots"></i>
                               </button>
                             </div>
