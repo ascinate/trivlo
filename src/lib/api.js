@@ -1,6 +1,7 @@
-const API_URL =
+const baseUrl = (
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://trivlo.ascinatetech.com/api/v1";
+  "https://trivlo.ascinatetech.com/api/v1"
+).replace(/\/+$/, "");
 
 class ApiError extends Error {
   constructor(message, status, data = null) {
@@ -12,11 +13,13 @@ class ApiError extends Error {
 
 function getToken() {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("trivlo_token");
+  const token = localStorage.getItem("trivlo_token");
+  if (!token || token === "undefined" || token === "null") return null;
+  return token;
 }
 
 function setToken(token) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !token) return;
   localStorage.setItem("trivlo_token", token);
 }
 
@@ -31,7 +34,7 @@ function getUserStorage() {
 }
 
 function setUserStorage(user) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !user) return;
   localStorage.setItem("trivlo_user", JSON.stringify(user));
 }
 
@@ -66,11 +69,6 @@ async function request(endpoint, options = {}) {
     config.body = JSON.stringify(body);
   }
 
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://trivlo.ascinatetech.com/api/v1"
-  ).replace(/\/+$/, "");
-
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const url = `${baseUrl}${cleanEndpoint}`;
 
@@ -78,9 +76,6 @@ async function request(endpoint, options = {}) {
 
   if (response.status === 401 && !endpoint.includes("/auth/login")) {
     removeToken();
-    if (typeof window !== "undefined") {
-      window.location.href = "/";
-    }
     throw new ApiError("Session expired. Please login again.", 401);
   }
 

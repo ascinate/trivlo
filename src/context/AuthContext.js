@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Synchronously restore cached user from localStorage on client mount
+  // Restore cached user from localStorage on client mount
   useEffect(() => {
     const savedUser = getUserStorage();
     const token = getToken();
@@ -39,8 +39,9 @@ export function AuthProvider({ children }) {
 
     try {
       const res = await authApi.me();
-      setUser(res.data);
-      setUserStorage(res.data);
+      const userData = res.data;
+      setUser(userData);
+      setUserStorage(userData);
     } catch {
       removeToken();
       setUser(null);
@@ -55,9 +56,18 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await authApi.login(email, password);
-    setToken(res.data.token);
-    setUserStorage(res.data.user);
-    setUser(res.data.user);
+    // Laravel AuthController returns res.data.access_token
+    const token = res.data?.access_token || res.data?.token;
+    const userData = res.data?.user;
+
+    if (token) {
+      setToken(token);
+    }
+    if (userData) {
+      setUserStorage(userData);
+      setUser(userData);
+    }
+
     return res;
   };
 
