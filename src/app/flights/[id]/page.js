@@ -36,7 +36,7 @@ export default function FlightDetailsPage() {
           }
         />
 
-        <main className="main-content d-flex flex-column gap-4 py-4" style={{ backgroundColor: "#FAFAFA" }}>
+        <main className="main-content d-flex flex-column gap-4 py-4" >
           {/* Header Row */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
             <div className="d-flex align-items-center gap-3">
