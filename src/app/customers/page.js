@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { agencyApi } from "@/lib/api";
 import COUNTRY_CODES from "@/lib/countryCodes";
 import {
@@ -75,8 +76,20 @@ export default function CustomersPage() {
       if (typeFilter !== "All Customer Types") params += `&customer_type=${encodeURIComponent(typeFilter)}`;
 
       const res = await agencyApi.customers.list(params);
-      setCustomers(res.data || []);
-      setPaginationMeta(res.meta || null);
+      const rawData = res?.data;
+      let customerList = [];
+      let metaData = null;
+
+      if (Array.isArray(rawData)) {
+        customerList = rawData;
+        metaData = res?.meta || null;
+      } else if (rawData && Array.isArray(rawData.data)) {
+        customerList = rawData.data;
+        metaData = rawData.meta || res?.meta || null;
+      }
+
+      setCustomers(customerList);
+      setPaginationMeta(metaData);
     } catch (err) {
       console.error("Failed to fetch customers:", err);
       setCustomers([]);
@@ -89,11 +102,12 @@ export default function CustomersPage() {
     fetchCustomers();
   }, [fetchCustomers]);
 
-  const totalCustomers = paginationMeta?.total ?? customers.length;
-  const activeCustomers = customers.filter(c => c.status === "active").length;
+  const safeCustomers = Array.isArray(customers) ? customers : [];
+  const totalCustomers = paginationMeta?.total ?? safeCustomers.length;
+  const activeCustomers = safeCustomers.filter(c => (c.status || "").toLowerCase() === "active").length;
 
   const handleSelectAll = () => {
-    const ids = customers.map(c => c.id);
+    const ids = safeCustomers.map(c => c.id);
     const allSel = ids.length > 0 && ids.every(id => selectedIds.includes(id));
     setSelectedIds(allSel ? selectedIds.filter(id => !ids.includes(id)) : [...new Set([...selectedIds, ...ids])]);
   };
@@ -121,11 +135,11 @@ export default function CustomersPage() {
     labels: ["Individual", "Family", "Corporate", "Couple", "Group"],
     datasets: [{
       data: [
-        customers.filter(c => c.customer_type === "Individual").length || 1,
-        customers.filter(c => c.customer_type === "Family").length,
-        customers.filter(c => c.customer_type === "Corporate").length,
-        customers.filter(c => c.customer_type === "Couple").length,
-        customers.filter(c => c.customer_type === "Group").length,
+        safeCustomers.filter(c => c.customer_type === "Individual").length || 1,
+        safeCustomers.filter(c => c.customer_type === "Family").length,
+        safeCustomers.filter(c => c.customer_type === "Corporate").length,
+        safeCustomers.filter(c => c.customer_type === "Couple").length,
+        safeCustomers.filter(c => c.customer_type === "Group").length,
       ],
       backgroundColor: ["#3B82F6", "#F97316", "#1E6C45", "#A855F7", "#EF4444"],
       borderWidth: 2,
@@ -144,7 +158,8 @@ export default function CustomersPage() {
   const totalPages = paginationMeta?.last_page || 1;
 
   return (
-    <div className="d-flex position-relative">
+    <ProtectedRoute>
+      <div className="d-flex position-relative">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="app-container w-100 min-vh-100 d-flex flex-column justify-content-between">
@@ -247,7 +262,7 @@ export default function CustomersPage() {
                             <input
                               type="checkbox"
                               className="form-check-input shadow-none"
-                              checked={customers.length > 0 && customers.every(c => selectedIds.includes(c.id))}
+                              checked={safeCustomers.length > 0 && safeCustomers.every(c => selectedIds.includes(c.id))}
                               onChange={handleSelectAll}
                             />
                           </th>
@@ -266,7 +281,7 @@ export default function CustomersPage() {
                               <div className="text-secondary fs-8 mt-2 fw-500">Loading customers...</div>
                             </td>
                           </tr>
-                        ) : customers.length === 0 ? (
+                        ) : safeCustomers.length === 0 ? (
                           <tr>
                             <td colSpan={9} className="text-center py-5 text-secondary">
                               <i className="bi bi-people fs-1 d-block mb-2 text-muted"></i>
@@ -275,7 +290,7 @@ export default function CustomersPage() {
                             </td>
                           </tr>
                         ) : (
-                          customers.map((c, idx) => {
+                          safeCustomers.map((c, idx) => {
                             const stKey = (c.status || "active").toLowerCase();
                             const st = STATUS_STYLES[stKey] || STATUS_STYLES.active;
                             const typeSt = TYPE_BADGE_STYLES[c.customer_type] || { bg: "#F3F4F6", color: "#6B7280" };
@@ -453,5 +468,6 @@ export default function CustomersPage() {
         <div className="position-fixed top-0 start-0 w-100 h-100 d-lg-none" style={{ backgroundColor: "rgba(0,0,0,0.4)", zIndex: 995 }} onClick={toggleSidebar}></div>
       )}
     </div>
+    </ProtectedRoute>
   );
 }
