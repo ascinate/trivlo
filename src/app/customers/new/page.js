@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { agencyApi } from "@/lib/api";
+import COUNTRY_CODES from "@/lib/countryCodes";
 
 export default function AddNewCustomerPage() {
   const router = useRouter();
@@ -15,7 +16,9 @@ export default function AddNewCustomerPage() {
   // Personal Information
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneCode, setPhoneCode] = useState("+62");
+  const [phoneCode, setPhoneCode] = useState("+91");
+  const [phoneDropdownOpen, setPhoneDropdownOpen] = useState(false);
+  const [phoneSearch, setPhoneSearch] = useState("");
   const [phone, setPhone] = useState("");
   const [altEmail, setAltEmail] = useState("");
   const [dob, setDob] = useState("");
@@ -222,9 +225,10 @@ export default function AddNewCustomerPage() {
           align-items: center;
           border: 1px solid var(--border);
           border-radius: 10px;
-          overflow: hidden;
+          overflow: visible;
           height: 42px;
           background-color: #fff;
+          position: relative;
         }
         .phone-input-group:focus-within {
           border-color: var(--secondary);
@@ -244,7 +248,10 @@ export default function AddNewCustomerPage() {
           height: 100%;
           cursor: pointer;
           flex-shrink: 0;
+          border-radius: 10px 0 0 10px;
+          transition: background 0.15s;
         }
+        .phone-flag-btn:hover { background: #F9FAFB; }
         .phone-flag-btn img {
           width: 22px;
           height: 15px;
@@ -260,11 +267,76 @@ export default function AddNewCustomerPage() {
           padding: 0 0.75rem;
           flex-grow: 1;
           height: 100%;
+          border-radius: 0 10px 10px 0;
         }
         .phone-input-field::placeholder {
           color: #AEAEAE;
           font-weight: 400;
         }
+        /* Country Code Dropdown */
+        .cc-dropdown {
+          position: absolute;
+          top: calc(100% + 4px);
+          left: 0;
+          width: 280px;
+          background: #fff;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+          z-index: 1000;
+          animation: slideDown 0.2s ease;
+          overflow: hidden;
+        }
+        .cc-search {
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid var(--border);
+          padding: 0.65rem 0.85rem;
+          font-size: 0.82rem;
+          outline: none;
+          color: var(--dark);
+          background: #FAFBFC;
+        }
+        .cc-search::placeholder { color: #AEAEAE; }
+        .cc-list {
+          max-height: 220px;
+          overflow-y: auto;
+          padding: 4px 0;
+        }
+        .cc-list::-webkit-scrollbar { width: 5px; }
+        .cc-list::-webkit-scrollbar-track { background: transparent; }
+        .cc-list::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
+        .cc-item {
+          display: flex;
+          align-items: center;
+          gap: 0.55rem;
+          padding: 0.5rem 0.85rem;
+          cursor: pointer;
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: var(--dark);
+          transition: background 0.12s;
+          border: none;
+          background: none;
+          width: 100%;
+          text-align: left;
+        }
+        .cc-item:hover { background: #F3F4F6; }
+        .cc-item.active { background: #ECFDF5; color: #112E24; font-weight: 600; }
+        .cc-item img {
+          width: 22px;
+          height: 15px;
+          object-fit: cover;
+          border-radius: 2px;
+          flex-shrink: 0;
+        }
+        .cc-item .cc-code {
+          color: #6B7280;
+          font-weight: 400;
+          margin-left: auto;
+          font-size: 0.78rem;
+        }
+        .cc-item.active .cc-code { color: #112E24; font-weight: 600; }
         .sidebar-section-title {
           font-size: 0.72rem;
           font-weight: 700;
