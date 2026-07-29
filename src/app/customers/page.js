@@ -299,7 +299,12 @@ export default function CustomersPage() {
                             const phoneFormatted = c.phone_code ? `${c.phone_code} ${c.phone}` : c.phone;
 
                             return (
-                              <tr key={c.id} className="border-bottom border-light" style={{ cursor: "pointer" }}>
+                              <tr
+                                key={c.id}
+                                className="border-bottom border-light"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => router.push(`/customers/${c.customer_code || c.id}`)}
+                              >
                                 <td style={{ padding: "0.9rem 0.5rem" }} onClick={e => e.stopPropagation()}>
                                   <input
                                     type="checkbox"
@@ -353,7 +358,10 @@ export default function CustomersPage() {
                                       className="btn btn-outline-light border rounded-3 p-1 text-secondary"
                                       style={{ width: 30, height: 30, display: "flex", flexShrink: 0, alignItems: "center", justifyContent: "center" }}
                                       aria-label="View"
-                                      onClick={() => router.push(`/customers/${c.id}`)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        router.push(`/customers/${c.customer_code || c.id}`);
+                                      }}
                                     >
                                       <i className="bi bi-eye" style={{ fontSize: "0.8rem" }}></i>
                                     </button>
