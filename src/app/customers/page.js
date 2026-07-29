@@ -43,19 +43,6 @@ const AVATAR_URLS = [
   "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&auto=format&fit=crop&q=80",
 ];
 
-const baseCustomers = [
-  { id: "C-001", name: "John Doe", badge: "VIP", email: "john@example.com", phone: "+62 812 3456 7890", country: "Indonesia", countryCode: "Indonesia", type: "Individual", status: "Active", bookings: 8, spent: "$12,450", lastBooking: "18 May 2025" },
-  { id: "C-002", name: "Emma Watson", badge: "Premium", email: "emma@example.com", phone: "+971 50 123 4567", country: "UAE", countryCode: "UAE", type: "Family", status: "Active", bookings: 12, spent: "$28,650", lastBooking: "20 May 2025" },
-  { id: "C-003", name: "Michael Brown", badge: null, email: "michael@example.com", phone: "+65 9123 4567", country: "Singapore", countryCode: "Singapore", type: "Corporate", status: "Active", bookings: 15, spent: "$45,320", lastBooking: "21 May 2025" },
-  { id: "C-004", name: "Olivia Martinez", badge: null, email: "olivia@example.com", phone: "+66 81 234 5678", country: "Thailand", countryCode: "Thailand", type: "Individual", status: "Active", bookings: 5, spent: "$8,750", lastBooking: "17 May 2025" },
-  { id: "C-005", name: "David Wilson", badge: "VIP", email: "david@example.com", phone: "+61 412 345 678", country: "Australia", countryCode: "Australia", type: "Couple", status: "Active", bookings: 10, spent: "$18,750", lastBooking: "17 May 2025" },
-  { id: "C-006", name: "Sophia Clark", badge: null, email: "sophia@example.com", phone: "+44 20 7946 0958", country: "UK", countryCode: "UK", type: "Individual", status: "Active", bookings: 6, spent: "$11,200", lastBooking: "15 May 2025" },
-  { id: "C-007", name: "Daniel Nguyen", badge: null, email: "daniel@example.com", phone: "+84 90 123 4567", country: "Vietnam", countryCode: "Vietnam", type: "Family", status: "Inactive", bookings: 2, spent: "$2,150", lastBooking: "12 Feb 2025" },
-  { id: "C-008", name: "Ava Wilson", badge: null, email: "ava@example.com", phone: "+1 202 555 0147", country: "USA", countryCode: "USA", type: "Individual", status: "Active", bookings: 7, spent: "$9,850", lastBooking: "16 May 2025" },
-  { id: "C-009", name: "James Taylor", badge: null, email: "james@example.com", phone: "+49 30 123456", country: "Germany", countryCode: "Germany", type: "Corporate", status: "Active", bookings: 9, spent: "$22,600", lastBooking: "19 May 2025" },
-  { id: "C-010", name: "Isabella White", badge: null, email: "isabella@example.com", phone: "+91 98 7654 3210", country: "India", countryCode: "India", type: "Individual", status: "Active", bookings: 4, spent: "$6,430", lastBooking: "14 May 2025" },
-];
-
 const STATUS_STYLES = {
   Active: { bg: "#E9F4EE", color: "#1E6C45" },
   Inactive: { bg: "#F3F4F6", color: "#6B7280" },
@@ -72,34 +59,37 @@ const TYPE_BADGE_STYLES = {
 export default function CustomersPage() {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [customers, setCustomers] = useState(baseCustomers);
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadBackendCustomers() {
+      setLoading(true);
       try {
         const res = await agencyApi.customers.list("?per_page=50");
         const raw = res?.data;
         const list = Array.isArray(raw) ? raw : (raw?.data || []);
-        if (list.length > 0) {
-          const mapped = list.map((item) => ({
-            id: item.customer_code || `C-00${item.id}`,
-            dbId: item.id,
-            name: item.full_name,
-            badge: item.badge || null,
-            email: item.email,
-            phone: item.phone_code ? `${item.phone_code} ${item.phone}` : item.phone,
-            country: item.country || "India",
-            countryCode: item.country || "India",
-            type: item.customer_type || "Individual",
-            status: item.status ? (item.status.charAt(0).toUpperCase() + item.status.slice(1)) : "Active",
-            bookings: 0,
-            spent: "$0",
-            lastBooking: item.customer_since || "—",
-          }));
-          setCustomers(mapped);
-        }
+        const mapped = list.map((item) => ({
+          id: item.customer_code || `C-00${item.id}`,
+          dbId: item.id,
+          name: item.full_name,
+          badge: item.badge || null,
+          email: item.email,
+          phone: item.phone_code ? `${item.phone_code} ${item.phone}` : item.phone,
+          country: item.country || "—",
+          countryCode: item.country || "—",
+          type: item.customer_type || "Individual",
+          status: item.status ? (item.status.charAt(0).toUpperCase() + item.status.slice(1)) : "Active",
+          bookings: 0,
+          spent: "$0",
+          lastBooking: item.customer_since || "—",
+        }));
+        setCustomers(mapped);
       } catch (err) {
-        console.error("Could not load backend customers, using default static list:", err);
+        console.error("Could not load backend customers:", err);
+        setCustomers([]);
+      } finally {
+        setLoading(false);
       }
     }
     loadBackendCustomers();

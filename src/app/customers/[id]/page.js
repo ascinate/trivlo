@@ -15,58 +15,6 @@ function getFlagUrl(countryName) {
   return found ? `https://flagcdn.com/w40/${found.iso}.png` : "";
 }
 
-// ─── Initial Fallback Data Store ───────────────────────────────────────────────
-const CUSTOMER_DB = {
-  "C-001": {
-    id: "C-001", custId: "CUST-1024", name: "John Doe", badge: "VIP", status: "Active",
-    addedOn: "18 May 2025", source: "Website",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80",
-    stats: { totalBookings: 8, totalSpent: "$12,450", lastBooking: "18 May 2025", nextTrip: "20 Jun 2025" },
-    info: {
-      fullName: "John Doe", email: "john@example.com", phone: "+62 812 3456 7890",
-      altEmail: "john.doe@mail.com", dob: "12 Feb 1988", gender: "Male",
-      customerType: "Individual", country: "Indonesia", countryFlag: "https://flagcdn.com/w40/id.png",
-      city: "Jakarta", preferredLanguage: "English", customerSince: "18 May 2025", statusLabel: "Active",
-    },
-    billing: { line1: "Jl. Sudirman No. 45", line2: "Jakarta Selatan 12190", line3: "Indonesia" },
-    comms: { email: true, sms: true, whatsapp: true },
-    notes: [
-      { text: "Prefers 4-star hotels and needs airport pickup.", by: "Sarah Johnson", date: "18 May 2025" },
-      { text: "Enjoys beach destinations and cultural tours.", by: "Michael Lee", date: "10 Apr 2025" },
-      { text: "Requested vegetarian meal for upcoming trip.", by: "Sarah Johnson", date: "15 Mar 2025" },
-    ],
-    bookings: [
-      { id: "BK-1256", dest: "Bali, Indonesia", dates: "20 Jun 2025 - 25 Jun 2025", travelers: "2 Adults", amount: "$2,450", status: "Confirmed" },
-      { id: "BK-1132", dest: "Dubai, UAE", dates: "15 Apr 2025 - 20 Apr 2025", travelers: "2 Adults", amount: "$3,280", status: "Completed" },
-      { id: "BK-0987", dest: "Singapore", dates: "10 Mar 2025 - 13 Mar 2025", travelers: "1 Adult", amount: "$1,120", status: "Completed" },
-      { id: "BK-0876", dest: "Phuket, Thailand", dates: "05 Feb 2025 - 09 Feb 2025", travelers: "2 Adults", amount: "$2,180", status: "Completed" },
-      { id: "BK-0765", dest: "Maldives", dates: "12 Jan 2025 - 16 Jan 2025", travelers: "2 Adults", amount: "$3,420", status: "Completed" },
-    ],
-    activities: [
-      { icon: "bi-journal-bookmark-fill", bg: "#E9F4EE", color: "#1E6C45", title: "Booking created", detail: "Booking #BK-1256 to Bali, Indonesia", time: "18 May 2025, 10:30 AM" },
-      { icon: "bi-file-earmark-text-fill", bg: "#ECEFFE", color: "#5D59E1", title: "Quotation sent", detail: "Quotation #QT-1256 sent", time: "18 May 2025, 09:15 AM" },
-      { icon: "bi-credit-card-fill", bg: "#FEF7ED", color: "#B97C2B", title: "Payment received", detail: "Payment of $2,450 received", time: "17 May 2025, 06:20 PM" },
-      { icon: "bi-map-fill", bg: "#F0F4F2", color: "#677E75", title: "Itinerary shared", detail: "Itinerary for Bali trip shared", time: "17 May 2025, 02:10 PM" },
-      { icon: "bi-file-earmark-arrow-up-fill", bg: "#FDF0F0", color: "#D05E5E", title: "Document uploaded", detail: "Passport copy uploaded", time: "16 May 2025, 11:45 AM" },
-    ],
-    summary: { totalBookings: 8, totalSpent: "$12,450", avgBookingValue: "$1,556", lastBooking: "18 May 2025", nextTrip: "20 Jun 2025" },
-    tags: ["VIP", "Frequent Traveler", "Beach Lover", "Family Trips"],
-  },
-};
-
-const createFallback = (id) => ({
-  id, custId: id, name: "Customer Profile", badge: null, status: "Active",
-  addedOn: "—", source: "Website",
-  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80",
-  stats: { totalBookings: 0, totalSpent: "$0", lastBooking: "—", nextTrip: "—" },
-  info: { fullName: "—", email: "—", phone: "—", altEmail: "—", dob: "—", gender: "—", customerType: "Individual", country: "—", countryFlag: "", city: "—", preferredLanguage: "English", customerSince: "—", statusLabel: "Active" },
-  billing: { line1: "—", line2: "—", line3: "—" },
-  comms: { email: true, sms: true, whatsapp: true },
-  notes: [], bookings: [], activities: [],
-  summary: { totalBookings: 0, totalSpent: "$0", avgBookingValue: "$0", lastBooking: "—", nextTrip: "—" },
-  tags: [],
-});
-
 const BOOKING_STATUS = {
   Confirmed: { bg: "#E9F4EE", color: "#1E6C45" },
   Completed: { bg: "#E6F0FF", color: "#0A58CA" },
@@ -81,13 +29,15 @@ export default function CustomerDetailPage() {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Overview");
-  const [customer, setCustomer] = useState(() => CUSTOMER_DB[id] || createFallback(id));
+  const [customer, setCustomer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   useEffect(() => {
     async function loadCustomerDetail() {
       if (!id) return;
+      setLoading(true);
       try {
         const res = await agencyApi.customers.get(id);
         const apiItem = res?.data;
@@ -143,18 +93,23 @@ export default function CustomerDetailPage() {
           };
 
           setCustomer(dynamicCustomer);
+        } else {
+          setCustomer(null);
         }
       } catch (err) {
-        console.error("Could not fetch customer details from API, using fallback data:", err);
+        console.error("Could not fetch customer details from API:", err);
+        setCustomer(null);
+      } finally {
+        setLoading(false);
       }
     }
 
     loadCustomerDetail();
   }, [id]);
 
-  const badgeStyle = customer.badge === "VIP"
+  const badgeStyle = customer?.badge === "VIP"
     ? { bg: "#112E24", color: "#fff" }
-    : customer.badge === "Premium"
+    : customer?.badge === "Premium"
       ? { bg: "#7C3AED", color: "#fff" }
       : null;
 
@@ -204,306 +159,326 @@ export default function CustomerDetailPage() {
 
           <main className="main-content d-flex flex-column gap-3 py-4 p-3 p-lg-4 flex-grow-1">
 
-            {/* Breadcrumb */}
-            <div>
-              <span className="text-secondary fs-7 fw-500">Home &gt; CRM &gt; Customers &gt; {customer.custId}</span>
-            </div>
-
-            {/* Page title + action buttons */}
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
-              <div>
-                <div className="d-flex align-items-center gap-2 flex-wrap">
-                  <button
-                    className="btn btn-light border border-light rounded-3 p-2 me-1"
-                    style={{ width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center" }}
-                    onClick={() => router.push("/customers")}
-                    aria-label="Back"
-                  >
-                    <i className="bi bi-arrow-left" style={{ fontSize: "0.9rem" }}></i>
-                  </button>
-                  <h1 className="fw-800 text-dark m-0 fs-3">{customer.name}</h1>
-                  <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.75rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>
-                    {customer.status}
-                  </span>
-                  {badgeStyle && (
-                    <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.72rem", backgroundColor: badgeStyle.bg, color: badgeStyle.color }}>
-                      {customer.badge}
-                    </span>
-                  )}
+            {loading ? (
+              <div className="text-center py-5 my-5">
+                <div className="spinner-border text-success" role="status" style={{ width: "2.5rem", height: "2.5rem" }}>
+                  <span className="visually-hidden">Loading...</span>
                 </div>
-                <div className="d-flex align-items-center gap-2 mt-1 flex-wrap">
-                  <span className="text-secondary fs-8 fw-600">Customer ID: {customer.custId}</span>
-                  <span className="text-secondary fs-9">•</span>
-                  <span className="text-secondary fs-8 fw-600">Added on {customer.addedOn}</span>
-                  <span className="text-secondary fs-9">•</span>
-                  <span className="text-secondary fs-8 fw-600">Source: {customer.source}</span>
-                </div>
+                <div className="text-secondary fs-8 mt-3 fw-500">Loading customer profile...</div>
               </div>
-
-              <div className="d-flex align-items-center gap-2">
-                <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.85rem" }}>
-                  <i className="bi bi-pencil text-secondary"></i> Edit
-                </button>
-                <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.85rem" }}>
-                  More Actions <i className="bi bi-chevron-down ms-1" style={{ fontSize: "0.7rem" }}></i>
+            ) : !customer ? (
+              <div className="text-center py-5 my-5 bg-white border rounded-4 p-5">
+                <i className="bi bi-exclamation-circle text-danger fs-1 d-block mb-3"></i>
+                <h3 className="fw-800 text-dark fs-5">Customer Not Found</h3>
+                <p className="text-secondary fs-8 mb-4">The customer profile you are looking for does not exist or was removed.</p>
+                <button className="btn text-white rounded-3 px-4 fw-600" style={{ backgroundColor: "#112E24" }} onClick={() => router.push("/customers")}>
+                  Back to Customers List
                 </button>
               </div>
-            </div>
-
-            {/* Stats row */}
-            <div className="row g-3">
-              {[
-                { label: "Total Bookings", value: customer.stats.totalBookings, icon: "bi-suitcase-lg", iconBg: "#ECEFFE", iconColor: "#5D59E1", link: "View Bookings" },
-                { label: "Total Spent", value: customer.stats.totalSpent, icon: "bi-currency-dollar", iconBg: "#E9F4EE", iconColor: "#1E6C45", link: "View Transactions" },
-                { label: "Last Booking", value: customer.stats.lastBooking, icon: "bi-calendar-check", iconBg: "#FEF7ED", iconColor: "#B97C2B", link: "View Booking" },
-                { label: "Next Trip", value: customer.stats.nextTrip, icon: "bi-airplane", iconBg: "#FFF1F0", iconColor: "#DC2626", link: "View Itinerary" },
-              ].map(s => (
-                <div key={s.label} className="col-6 col-lg-3">
-                  <div className="cust-detail-stat">
-                    <div className="cust-detail-stat-icon" style={{ backgroundColor: s.iconBg, color: s.iconColor }}>
-                      <i className={`bi ${s.icon}`}></i>
-                    </div>
-                    <div>
-                      <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>{s.label}</span>
-                      <span className="fw-800 text-dark d-block" style={{ fontSize: "1.05rem", lineHeight: 1.2 }}>{s.value}</span>
-                      <a href="#" className="section-card-link fw-700" style={{ fontSize: "0.72rem" }} onClick={e => e.preventDefault()}>{s.link}</a>
-                    </div>
-                  </div>
+            ) : (
+              <>
+                {/* Breadcrumb */}
+                <div>
+                  <span className="text-secondary fs-7 fw-500">Home &gt; CRM &gt; Customers &gt; {customer.custId}</span>
                 </div>
-              ))}
-            </div>
 
-            {/* Main 2-column layout */}
-            <div className="row g-3">
-
-              {/* LEFT */}
-              <div className="col-12 col-xl-8">
-                <div className="d-flex flex-column gap-3">
-
-                  {/* Tab header */}
-                  <div className="section-card border border-light px-4 pt-2 pb-0">
-                    <div className="d-flex overflow-x-auto" style={{ scrollbarWidth: "none", borderBottom: "1px solid var(--border)", gap: 0 }}>
-                      {TABS.map(tab => (
-                        <button
-                          key={tab}
-                          className={`cust-tab-btn ${activeTab === tab ? "active" : ""}`}
-                          onClick={() => setActiveTab(tab)}
-                        >
-                          {tab}
-                          {tab === "Bookings" && <span className="badge bg-light text-secondary rounded-pill ms-1 fw-600" style={{ fontSize: "0.62rem" }}>{customer.stats.totalBookings}</span>}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Overview Tab */}
-                  {activeTab === "Overview" && (
-                    <>
-                      {/* Customer Information */}
-                      <div className="section-card border border-light p-4">
-                        <h3 className="fw-800 text-dark fs-6 mb-4">Customer Information</h3>
-                        <div className="row g-0">
-                          <div className="col-12 col-md-6 pe-md-4 border-end-md">
-                            <div className="d-flex flex-column gap-3" style={{ fontSize: "0.85rem" }}>
-                              {[
-                                { label: "Full Name", value: customer.info.fullName },
-                                { label: "Email", value: customer.info.email },
-                                { label: "Phone", value: <><span>{customer.info.phone}</span> <i className="bi bi-whatsapp text-success ms-1"></i></> },
-                                { label: "Alternate Email", value: customer.info.altEmail },
-                                { label: "Date of Birth", value: customer.info.dob },
-                                { label: "Gender", value: customer.info.gender },
-                              ].map(f => (
-                                <div key={f.label} className="d-flex gap-2">
-                                  <span className="text-secondary fw-600 flex-shrink-0" style={{ minWidth: 130, fontSize: "0.82rem" }}>{f.label}</span>
-                                  <span className="fw-600 text-dark">{f.value}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6 ps-md-4 mt-3 mt-md-0">
-                            <div className="d-flex flex-column gap-3" style={{ fontSize: "0.85rem" }}>
-                              {[
-                                { label: "Customer Type", value: customer.info.customerType },
-                                { label: "Country", value: <>{customer.info.countryFlag && <img src={customer.info.countryFlag} alt="" className="rounded-1 me-1" style={{ width: 18, height: 12, objectFit: "cover", verticalAlign: "middle" }} />}{customer.info.country}</> },
-                                { label: "City", value: customer.info.city },
-                                { label: "Preferred Language", value: customer.info.preferredLanguage },
-                                { label: "Customer Since", value: customer.info.customerSince },
-                                { label: "Status", value: <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.72rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{customer.info.statusLabel}</span> },
-                              ].map(f => (
-                                <div key={f.label} className="d-flex gap-2">
-                                  <span className="text-secondary fw-600 flex-shrink-0" style={{ minWidth: 130, fontSize: "0.82rem" }}>{f.label}</span>
-                                  <span className="fw-600 text-dark">{f.value}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Billing Address + Comms Preferences */}
-                      <div className="row g-3">
-                        <div className="col-12 col-md-6">
-                          <div className="section-card border border-light p-4 h-100">
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                              <h3 className="fw-800 text-dark fs-6 m-0">Billing Address</h3>
-                              <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
-                                <i className="bi bi-pencil" style={{ fontSize: "0.7rem" }}></i> Edit
-                              </button>
-                            </div>
-                            <p className="text-dark fw-600 mb-0" style={{ fontSize: "0.88rem", lineHeight: 2 }}>
-                              {customer.billing.line1}<br />
-                              {customer.billing.line2}<br />
-                              {customer.billing.line3}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-12 col-md-6">
-                          <div className="section-card border border-light p-4 h-100">
-                            <h3 className="fw-800 text-dark fs-6 mb-3">Communication Preferences</h3>
-                            <div className="d-flex flex-column gap-2" style={{ fontSize: "0.85rem" }}>
-                              {[
-                                { label: "Email Notifications", enabled: customer.comms.email },
-                                { label: "SMS Notifications", enabled: customer.comms.sms },
-                                { label: "WhatsApp Notifications", enabled: customer.comms.whatsapp },
-                              ].map(c => (
-                                <div key={c.label} className="d-flex justify-content-between align-items-center">
-                                  <span className="text-secondary fw-600">{c.label}</span>
-                                  <span className="fw-700" style={{ color: c.enabled ? "#1E6C45" : "#D05E5E" }}>{c.enabled ? "Yes" : "No"}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Recent Bookings */}
-                      <div className="section-card border border-light p-4">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                          <h3 className="fw-800 text-dark fs-6 m-0">Recent Bookings</h3>
-                          <a href="#" className="section-card-link fw-700" style={{ fontSize: "0.82rem" }} onClick={e => { e.preventDefault(); setActiveTab("Bookings"); }}>View All Bookings</a>
-                        </div>
-                        <div className="table-responsive">
-                          <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.82rem" }}>
-                            <thead>
-                              <tr className="border-bottom border-light">
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Booking ID</th>
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Destination</th>
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Dates</th>
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Travelers</th>
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Amount</th>
-                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {customer.bookings.length > 0 ? (
-                                customer.bookings.map(b => {
-                                  const st = BOOKING_STATUS[b.status] || { bg: "#F3F4F6", color: "#6B7280" };
-                                  return (
-                                    <tr key={b.id} className="border-bottom border-light">
-                                      <td className="fw-700 text-dark">{b.id}</td>
-                                      <td className="fw-600 text-dark">{b.dest}</td>
-                                      <td className="text-secondary fw-500">{b.dates}</td>
-                                      <td className="text-secondary fw-500">{b.travelers}</td>
-                                      <td className="fw-700 text-dark">{b.amount}</td>
-                                      <td>
-                                        <span className="badge px-2 py-1 rounded-2 fw-700" style={{ fontSize: "0.72rem", backgroundColor: st.bg, color: st.color }}>{b.status}</span>
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              ) : (
-                                <tr>
-                                  <td colSpan={6} className="text-center py-4 text-secondary">
-                                    No bookings recorded for this customer yet.
-                                  </td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-
-                    </>
-                  )}
-
-                  {activeTab !== "Overview" && (
-                    <div className="section-card border border-light p-5 text-center text-secondary">
-                      <i className="bi bi-inbox fs-1 d-block mb-2"></i>
-                      <div className="fw-600">No {activeTab.toLowerCase()} records yet for this customer.</div>
-                    </div>
-                  )}
-
-                </div>
-              </div>
-
-              {/* RIGHT */}
-              <div className="col-12 col-xl-4 cust-detail-right">
-                <div className="d-flex flex-column gap-3">
-
-                  {/* Customer Card */}
-                  <div className="section-card border border-light p-4 text-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={customer.avatar} alt={customer.name} className="rounded-circle border mb-3" style={{ width: 80, height: 80, objectFit: "cover" }} />
-                    <h2 className="fw-800 text-dark fs-5 m-0">{customer.name}</h2>
-                    <span className="text-secondary fs-8 fw-500 d-block mt-1">{customer.info.email}</span>
-
-                    {customer.tags.length > 0 && (
-                      <div className="d-flex flex-wrap gap-1 justify-content-center mt-3">
-                        {customer.tags.map(t => (
-                          <span key={t} className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-600" style={{ fontSize: "0.72rem" }}>{t}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Customer Notes */}
-                  <div className="section-card border border-light p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h3 className="fw-800 text-dark fs-6 m-0">Customer Notes</h3>
-                      <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
-                        <i className="bi bi-plus" style={{ fontSize: "0.8rem" }}></i> Add Note
+                {/* Page title + action buttons */}
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+                  <div>
+                    <div className="d-flex align-items-center gap-2 flex-wrap">
+                      <button
+                        className="btn btn-light border border-light rounded-3 p-2 me-1"
+                        style={{ width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center" }}
+                        onClick={() => router.push("/customers")}
+                        aria-label="Back"
+                      >
+                        <i className="bi bi-arrow-left" style={{ fontSize: "0.9rem" }}></i>
                       </button>
-                    </div>
-                    <div className="d-flex flex-column gap-3">
-                      {customer.notes.length > 0 ? (
-                        customer.notes.map((n, i) => (
-                          <div key={i} className="bg-light p-3 rounded-3" style={{ fontSize: "0.82rem" }}>
-                            <p className="m-0 text-dark fw-500 mb-2">{n.text}</p>
-                            <div className="d-flex justify-content-between text-secondary fs-9 opacity-75">
-                              <span>By {n.by}</span>
-                              <span>{n.date}</span>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-secondary fs-8 text-center py-2">No notes added.</div>
+                      <h1 className="fw-800 text-dark m-0 fs-3">{customer.name}</h1>
+                      <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.75rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>
+                        {customer.status}
+                      </span>
+                      {badgeStyle && (
+                        <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.72rem", backgroundColor: badgeStyle.bg, color: badgeStyle.color }}>
+                          {customer.badge}
+                        </span>
                       )}
                     </div>
+                    <div className="d-flex align-items-center gap-2 mt-1 flex-wrap">
+                      <span className="text-secondary fs-8 fw-600">Customer ID: {customer.custId}</span>
+                      <span className="text-secondary fs-9">•</span>
+                      <span className="text-secondary fs-8 fw-600">Added on {customer.addedOn}</span>
+                      <span className="text-secondary fs-9">•</span>
+                      <span className="text-secondary fs-8 fw-600">Source: {customer.source}</span>
+                    </div>
                   </div>
 
-                  {/* Activity Log */}
-                  <div className="section-card border border-light p-4">
-                    <h3 className="fw-800 text-dark fs-6 mb-3">Activity Log</h3>
-                    <div className="d-flex flex-column gap-3">
-                      {customer.activities.map((act, idx) => (
-                        <div key={idx} className="cust-activity-line">
-                          <div className="d-flex align-items-center gap-2 mb-1">
-                            <div className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 26, height: 26, backgroundColor: act.bg, position: "absolute", left: 0 }}>
-                              <i className={`bi ${act.icon}`} style={{ fontSize: "0.72rem", color: act.color }}></i>
-                            </div>
-                            <span className="fw-700 text-dark fs-8">{act.title}</span>
-                          </div>
-                          <p className="m-0 text-secondary fs-8 fw-500">{act.detail}</p>
-                          <span className="text-secondary opacity-75 fs-9">{act.time}</span>
+                  <div className="d-flex align-items-center gap-2">
+                    <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.85rem" }}>
+                      <i className="bi bi-pencil text-secondary"></i> Edit
+                    </button>
+                    <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.85rem" }}>
+                      More Actions <i className="bi bi-chevron-down ms-1" style={{ fontSize: "0.7rem" }}></i>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Stats row */}
+                <div className="row g-3">
+                  {[
+                    { label: "Total Bookings", value: customer.stats.totalBookings, icon: "bi-suitcase-lg", iconBg: "#ECEFFE", iconColor: "#5D59E1", link: "View Bookings" },
+                    { label: "Total Spent", value: customer.stats.totalSpent, icon: "bi-currency-dollar", iconBg: "#E9F4EE", iconColor: "#1E6C45", link: "View Transactions" },
+                    { label: "Last Booking", value: customer.stats.lastBooking, icon: "bi-calendar-check", iconBg: "#FEF7ED", iconColor: "#B97C2B", link: "View Booking" },
+                    { label: "Next Trip", value: customer.stats.nextTrip, icon: "bi-airplane", iconBg: "#FFF1F0", iconColor: "#DC2626", link: "View Itinerary" },
+                  ].map(s => (
+                    <div key={s.label} className="col-6 col-lg-3">
+                      <div className="cust-detail-stat">
+                        <div className="cust-detail-stat-icon" style={{ backgroundColor: s.iconBg, color: s.iconColor }}>
+                          <i className={`bi ${s.icon}`}></i>
                         </div>
-                      ))}
+                        <div>
+                          <span className="text-secondary fw-600 d-block" style={{ fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>{s.label}</span>
+                          <span className="fw-800 text-dark d-block" style={{ fontSize: "1.05rem", lineHeight: 1.2 }}>{s.value}</span>
+                          <a href="#" className="section-card-link fw-700" style={{ fontSize: "0.72rem" }} onClick={e => e.preventDefault()}>{s.link}</a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Main 2-column layout */}
+                <div className="row g-3">
+
+                  {/* LEFT */}
+                  <div className="col-12 col-xl-8">
+                    <div className="d-flex flex-column gap-3">
+
+                      {/* Tab header */}
+                      <div className="section-card border border-light px-4 pt-2 pb-0">
+                        <div className="d-flex overflow-x-auto" style={{ scrollbarWidth: "none", borderBottom: "1px solid var(--border)", gap: 0 }}>
+                          {TABS.map(tab => (
+                            <button
+                              key={tab}
+                              className={`cust-tab-btn ${activeTab === tab ? "active" : ""}`}
+                              onClick={() => setActiveTab(tab)}
+                            >
+                              {tab}
+                              {tab === "Bookings" && <span className="badge bg-light text-secondary rounded-pill ms-1 fw-600" style={{ fontSize: "0.62rem" }}>{customer.stats.totalBookings}</span>}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Overview Tab */}
+                      {activeTab === "Overview" && (
+                        <>
+                          {/* Customer Information */}
+                          <div className="section-card border border-light p-4">
+                            <h3 className="fw-800 text-dark fs-6 mb-4">Customer Information</h3>
+                            <div className="row g-0">
+                              <div className="col-12 col-md-6 pe-md-4 border-end-md">
+                                <div className="d-flex flex-column gap-3" style={{ fontSize: "0.85rem" }}>
+                                  {[
+                                    { label: "Full Name", value: customer.info.fullName },
+                                    { label: "Email", value: customer.info.email },
+                                    { label: "Phone", value: <><span>{customer.info.phone}</span> <i className="bi bi-whatsapp text-success ms-1"></i></> },
+                                    { label: "Alternate Email", value: customer.info.altEmail },
+                                    { label: "Date of Birth", value: customer.info.dob },
+                                    { label: "Gender", value: customer.info.gender },
+                                  ].map(f => (
+                                    <div key={f.label} className="d-flex gap-2">
+                                      <span className="text-secondary fw-600 flex-shrink-0" style={{ minWidth: 130, fontSize: "0.82rem" }}>{f.label}</span>
+                                      <span className="fw-600 text-dark">{f.value}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6 ps-md-4 mt-3 mt-md-0">
+                                <div className="d-flex flex-column gap-3" style={{ fontSize: "0.85rem" }}>
+                                  {[
+                                    { label: "Customer Type", value: customer.info.customerType },
+                                    { label: "Country", value: <>{customer.info.countryFlag && <img src={customer.info.countryFlag} alt="" className="rounded-1 me-1" style={{ width: 18, height: 12, objectFit: "cover", verticalAlign: "middle" }} />}{customer.info.country}</> },
+                                    { label: "City", value: customer.info.city },
+                                    { label: "Preferred Language", value: customer.info.preferredLanguage },
+                                    { label: "Customer Since", value: customer.info.customerSince },
+                                    { label: "Status", value: <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.72rem", backgroundColor: "#E9F4EE", color: "#1E6C45" }}>{customer.info.statusLabel}</span> },
+                                  ].map(f => (
+                                    <div key={f.label} className="d-flex gap-2">
+                                      <span className="text-secondary fw-600 flex-shrink-0" style={{ minWidth: 130, fontSize: "0.82rem" }}>{f.label}</span>
+                                      <span className="fw-600 text-dark">{f.value}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Billing Address + Comms Preferences */}
+                          <div className="row g-3">
+                            <div className="col-12 col-md-6">
+                              <div className="section-card border border-light p-4 h-100">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                  <h3 className="fw-800 text-dark fs-6 m-0">Billing Address</h3>
+                                  <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
+                                    <i className="bi bi-pencil" style={{ fontSize: "0.7rem" }}></i> Edit
+                                  </button>
+                                </div>
+                                <p className="text-dark fw-600 mb-0" style={{ fontSize: "0.88rem", lineHeight: 2 }}>
+                                  {customer.billing.line1}<br />
+                                  {customer.billing.line2}<br />
+                                  {customer.billing.line3}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-6">
+                              <div className="section-card border border-light p-4 h-100">
+                                <h3 className="fw-800 text-dark fs-6 mb-3">Communication Preferences</h3>
+                                <div className="d-flex flex-column gap-2" style={{ fontSize: "0.85rem" }}>
+                                  {[
+                                    { label: "Email Notifications", enabled: customer.comms.email },
+                                    { label: "SMS Notifications", enabled: customer.comms.sms },
+                                    { label: "WhatsApp Notifications", enabled: customer.comms.whatsapp },
+                                  ].map(c => (
+                                    <div key={c.label} className="d-flex justify-content-between align-items-center">
+                                      <span className="text-secondary fw-600">{c.label}</span>
+                                      <span className="fw-700" style={{ color: c.enabled ? "#1E6C45" : "#D05E5E" }}>{c.enabled ? "Yes" : "No"}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Recent Bookings */}
+                          <div className="section-card border border-light p-4">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <h3 className="fw-800 text-dark fs-6 m-0">Recent Bookings</h3>
+                              <a href="#" className="section-card-link fw-700" style={{ fontSize: "0.82rem" }} onClick={e => { e.preventDefault(); setActiveTab("Bookings"); }}>View All Bookings</a>
+                            </div>
+                            <div className="table-responsive">
+                              <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.82rem" }}>
+                                <thead>
+                                  <tr className="border-bottom border-light">
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Booking ID</th>
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Destination</th>
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Dates</th>
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Travelers</th>
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Amount</th>
+                                    <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {customer.bookings.length > 0 ? (
+                                    customer.bookings.map(b => {
+                                      const st = BOOKING_STATUS[b.status] || { bg: "#F3F4F6", color: "#6B7280" };
+                                      return (
+                                        <tr key={b.id} className="border-bottom border-light">
+                                          <td className="fw-700 text-dark">{b.id}</td>
+                                          <td className="fw-600 text-dark">{b.dest}</td>
+                                          <td className="text-secondary fw-500">{b.dates}</td>
+                                          <td className="text-secondary fw-500">{b.travelers}</td>
+                                          <td className="fw-700 text-dark">{b.amount}</td>
+                                          <td>
+                                            <span className="badge px-2 py-1 rounded-2 fw-700" style={{ fontSize: "0.72rem", backgroundColor: st.bg, color: st.color }}>{b.status}</span>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  ) : (
+                                    <tr>
+                                      <td colSpan={6} className="text-center py-4 text-secondary">
+                                        No bookings recorded for this customer yet.
+                                      </td>
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </>
+                      )}
+
+                      {activeTab !== "Overview" && (
+                        <div className="section-card border border-light p-5 text-center text-secondary">
+                          <i className="bi bi-inbox fs-1 d-block mb-2"></i>
+                          <div className="fw-600">No {activeTab.toLowerCase()} records yet for this customer.</div>
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+
+                  {/* RIGHT */}
+                  <div className="col-12 col-xl-4 cust-detail-right">
+                    <div className="d-flex flex-column gap-3">
+
+                      {/* Customer Card */}
+                      <div className="section-card border border-light p-4 text-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={customer.avatar} alt={customer.name} className="rounded-circle border mb-3" style={{ width: 80, height: 80, objectFit: "cover" }} />
+                        <h2 className="fw-800 text-dark fs-5 m-0">{customer.name}</h2>
+                        <span className="text-secondary fs-8 fw-500 d-block mt-1">{customer.info.email}</span>
+
+                        {customer.tags.length > 0 && (
+                          <div className="d-flex flex-wrap gap-1 justify-content-center mt-3">
+                            {customer.tags.map(t => (
+                              <span key={t} className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-600" style={{ fontSize: "0.72rem" }}>{t}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Customer Notes */}
+                      <div className="section-card border border-light p-4">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                          <h3 className="fw-800 text-dark fs-6 m-0">Customer Notes</h3>
+                          <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
+                            <i className="bi bi-plus" style={{ fontSize: "0.8rem" }}></i> Add Note
+                          </button>
+                        </div>
+                        <div className="d-flex flex-column gap-3">
+                          {customer.notes.length > 0 ? (
+                            customer.notes.map((n, i) => (
+                              <div key={i} className="bg-light p-3 rounded-3" style={{ fontSize: "0.82rem" }}>
+                                <p className="m-0 text-dark fw-500 mb-2">{n.text}</p>
+                                <div className="d-flex justify-content-between text-secondary fs-9 opacity-75">
+                                  <span>By {n.by}</span>
+                                  <span>{n.date}</span>
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-secondary fs-8 text-center py-2">No notes added.</div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Activity Log */}
+                      <div className="section-card border border-light p-4">
+                        <h3 className="fw-800 text-dark fs-6 mb-3">Activity Log</h3>
+                        <div className="d-flex flex-column gap-3">
+                          {customer.activities.map((act, idx) => (
+                            <div key={idx} className="cust-activity-line">
+                              <div className="d-flex align-items-center gap-2 mb-1">
+                                <div className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 26, height: 26, backgroundColor: act.bg, position: "absolute", left: 0 }}>
+                                  <i className={`bi ${act.icon}`} style={{ fontSize: "0.72rem", color: act.color }}></i>
+                                </div>
+                                <span className="fw-700 text-dark fs-8">{act.title}</span>
+                              </div>
+                              <p className="m-0 text-secondary fs-8 fw-500">{act.detail}</p>
+                              <span className="text-secondary opacity-75 fs-9">{act.time}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
                     </div>
                   </div>
 
                 </div>
-              </div>
-
-            </div>
+              </>
+            )}
 
           </main>
 
