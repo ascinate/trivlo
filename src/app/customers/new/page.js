@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { agencyApi } from "@/lib/api";
 
 export default function AddNewCustomerPage() {
   const router = useRouter();
@@ -52,6 +53,11 @@ export default function AddNewCustomerPage() {
   // Checkbox
   const [addAnother, setAddAnother] = useState(false);
 
+  // API state
+  const [saving, setSaving] = useState(false);
+  const [successPopup, setSuccessPopup] = useState(null);
+  const [errorPopup, setErrorPopup] = useState(null);
+
   const handleAddTag = (e) => {
     if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
@@ -66,19 +72,86 @@ export default function AddNewCustomerPage() {
     setTags(tags.filter(t => t !== tagToRemove));
   };
 
-  const handleSave = () => {
-    // In a real app, save data to backend
-    if (addAnother) {
-      // Reset form
-      setFullName(""); setEmail(""); setPhone(""); setAltEmail("");
-      setDob(""); setGender(""); setCustomerType(""); setPreferredLanguage("");
-      setCustomerSince(""); setCountry(""); setCity(""); setAddress("");
-      setPostalCode(""); setEmailNotif(""); setSmsNotif(""); setWhatsappNotif("");
-      setSource(""); setReferredBy(""); setTags([]); setNotes("");
-      setTravelType(""); setBudgetRange(""); setSpecialRequests("");
-      window.scrollTo(0, 0);
-    } else {
-      router.push("/customers");
+  const resetForm = () => {
+    setFullName(""); setEmail(""); setPhone(""); setAltEmail("");
+    setDob(""); setGender(""); setCustomerType(""); setPreferredLanguage("");
+    setCustomerSince(""); setCountry(""); setCity(""); setAddress("");
+    setPostalCode(""); setEmailNotif(""); setSmsNotif(""); setWhatsappNotif("");
+    setSource(""); setReferredBy(""); setTags([]); setNotes("");
+    setTravelType(""); setBudgetRange(""); setSpecialRequests("");
+    setStatus("Active");
+  };
+
+  const handleSave = async () => {
+    if (saving) return;
+
+    // Basic client-side validation
+    if (!fullName.trim() || !email.trim() || !phone.trim()) {
+      setErrorPopup("Please fill in all required fields: Full Name, Email, and Phone.");
+      return;
+    }
+
+    setSaving(true);
+    setErrorPopup(null);
+
+    try {
+      const payload = {
+        full_name: fullName.trim(),
+        email: email.trim(),
+        phone_code: phoneCode,
+        phone: phone.trim(),
+        alt_email: altEmail.trim() || undefined,
+        date_of_birth: dob || undefined,
+        gender: gender ? gender.toLowerCase() : undefined,
+        customer_type: customerType || undefined,
+        preferred_language: preferredLanguage || undefined,
+        customer_since: customerSince || undefined,
+        country: country || undefined,
+        city: city.trim() || undefined,
+        address: address.trim() || undefined,
+        postal_code: postalCode.trim() || undefined,
+        email_notifications: emailNotif === "All" || emailNotif === "Important",
+        sms_notifications: smsNotif === "All" || smsNotif === "Important",
+        whatsapp_notifications: whatsappNotif === "All" || whatsappNotif === "Important",
+        source: source || undefined,
+        referred_by: referredBy.trim() || undefined,
+        tags: tags.length > 0 ? tags : undefined,
+        status: status.toLowerCase(),
+        notes: notes.trim() || undefined,
+        travel_type: travelType || undefined,
+        budget_range: budgetRange || undefined,
+        special_requests: specialRequests.trim() || undefined,
+      };
+
+      // Remove undefined values
+      Object.keys(payload).forEach(key => payload[key] === undefined && delete payload[key]);
+
+      const res = await agencyApi.customers.create(payload);
+
+      const customerName = res?.data?.full_name || fullName;
+      const customerCode = res?.data?.customer_code || "";
+
+      setSuccessPopup({ name: customerName, code: customerCode });
+
+      if (addAnother) {
+        resetForm();
+        window.scrollTo(0, 0);
+        // Auto-dismiss after 3s
+        setTimeout(() => setSuccessPopup(null), 3000);
+      } else {
+        // Redirect after 2s
+        setTimeout(() => {
+          setSuccessPopup(null);
+          router.push("/customers");
+        }, 2000);
+      }
+    } catch (err) {
+      const message = err?.data?.errors
+        ? Object.values(err.data.errors).flat().join(", ")
+        : err?.message || "Failed to save customer. Please try again.";
+      setErrorPopup(message);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -284,6 +357,119 @@ export default function AddNewCustomerPage() {
           padding-top: 1.25rem;
           margin-top: 0.5rem;
         }
+        /* Error Toast */
+        .error-toast {
+          background: linear-gradient(135deg, #FEE2E2, #FFF1F2);
+          border: 1px solid #FECACA;
+          border-left: 4px solid #DC2626;
+          border-radius: 10px;
+          padding: 0.85rem 1rem;
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-size: 0.84rem;
+          font-weight: 500;
+          color: #991B1B;
+          animation: slideDown 0.3s ease;
+        }
+        .error-toast i { font-size: 1.1rem; color: #DC2626; }
+        .error-toast .close-toast {
+          margin-left: auto;
+          background: none;
+          border: none;
+          color: #991B1B;
+          cursor: pointer;
+          font-size: 1rem;
+          opacity: 0.6;
+          padding: 0;
+        }
+        .error-toast .close-toast:hover { opacity: 1; }
+        /* Success Popup Overlay */
+        .popup-overlay {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0, 0, 0, 0.45);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          animation: fadeIn 0.25s ease;
+        }
+        .popup-card {
+          background: #fff;
+          border-radius: 20px;
+          padding: 2.5rem 2rem;
+          text-align: center;
+          max-width: 420px;
+          width: 90%;
+          box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+          animation: popUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .popup-icon-circle {
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.2rem;
+        }
+        .popup-icon-circle.success {
+          background: linear-gradient(135deg, #D1FAE5, #ECFDF5);
+          border: 2px solid #A7F3D0;
+        }
+        .popup-icon-circle.success i { color: #112E24; font-size: 1.8rem; }
+        .popup-title {
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #111827;
+          margin-bottom: 0.4rem;
+        }
+        .popup-subtitle {
+          font-size: 0.85rem;
+          color: #6B7280;
+          margin-bottom: 0.3rem;
+          line-height: 1.5;
+        }
+        .popup-code {
+          display: inline-block;
+          background: #F0FDF4;
+          color: #112E24;
+          border: 1px solid #BBF7D0;
+          border-radius: 8px;
+          padding: 0.3rem 0.8rem;
+          font-size: 0.82rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          margin-top: 0.5rem;
+        }
+        .popup-btn {
+          margin-top: 1.5rem;
+          background: #112E24;
+          color: #fff;
+          border: none;
+          border-radius: 10px;
+          padding: 0.6rem 2rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .popup-btn:hover { background: #1a4a3a; transform: translateY(-1px); }
+        .btn-spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin 0.6s linear infinite;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popUp { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
 
       <div className="d-flex position-relative">
@@ -551,6 +737,17 @@ export default function AddNewCustomerPage() {
                   </div>
                 </div>
 
+                {/* Error Toast */}
+                {errorPopup && (
+                  <div className="error-toast">
+                    <i className="bi bi-exclamation-triangle-fill"></i>
+                    <span>{errorPopup}</span>
+                    <button className="close-toast" onClick={() => setErrorPopup(null)}>
+                      <i className="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                )}
+
                 {/* Footer Actions */}
                 <div className="footer-actions">
                   <div className="form-check">
@@ -571,16 +768,27 @@ export default function AddNewCustomerPage() {
                       className="btn btn-outline-secondary bg-white border rounded-3 fw-600 px-4"
                       style={{ height: "42px", fontSize: "0.85rem" }}
                       onClick={() => router.push("/customers")}
+                      disabled={saving}
                     >
                       Cancel
                     </button>
                     <button
                       className="btn text-white rounded-3 px-4 fw-600 d-flex align-items-center gap-2"
-                      style={{ backgroundColor: "#112E24", height: "42px", fontSize: "0.85rem" }}
+                      style={{ backgroundColor: saving ? "#1a4a3a" : "#112E24", height: "42px", fontSize: "0.85rem", opacity: saving ? 0.8 : 1 }}
                       onClick={handleSave}
+                      disabled={saving}
                     >
-                      <i className="bi bi-check-lg"></i>
-                      <span>Save Customer</span>
+                      {saving ? (
+                        <>
+                          <div className="btn-spinner"></div>
+                          <span>Saving...</span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-check-lg"></i>
+                          <span>Save Customer</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -707,6 +915,33 @@ export default function AddNewCustomerPage() {
           ></div>
         )}
       </div>
+
+      {/* Success Popup Modal */}
+      {successPopup && (
+        <div className="popup-overlay">
+          <div className="popup-card">
+            <div className="popup-icon-circle success">
+              <i className="bi bi-check-lg"></i>
+            </div>
+            <div className="popup-title">Customer Created Successfully!</div>
+            <div className="popup-subtitle">
+              <strong>{successPopup.name}</strong> has been added to your customer list.
+            </div>
+            {successPopup.code && (
+              <div className="popup-code">{successPopup.code}</div>
+            )}
+            <button
+              className="popup-btn"
+              onClick={() => {
+                setSuccessPopup(null);
+                if (!addAnother) router.push("/customers");
+              }}
+            >
+              {addAnother ? "Add Another Customer" : "Go to Customers"}
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

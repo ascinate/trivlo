@@ -219,6 +219,13 @@ export const agencyApi = {
     get: () => api.get("/agency/settings"),
     update: (data) => api.put("/agency/settings", data),
   },
+  customers: {
+    list: (params = "") => api.get(`/agency/customers${params}`),
+    get: (id) => api.get(`/agency/customers/${id}`),
+    create: (data) => api.post("/agency/customers", data),
+    update: (id, data) => api.put(`/agency/customers/${id}`, data),
+    delete: (id) => api.delete(`/agency/customers/${id}`),
+  },
 };
 
 export { getToken, setToken, removeToken, getUserStorage, setUserStorage, ApiError };
