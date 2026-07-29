@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { agencyApi } from "@/lib/api";
+import COUNTRY_CODES from "@/lib/countryCodes";
 
-// ─── Data store matching customers/page.js ─────────────────────────────────────
+function getFlagUrl(countryName) {
+  if (!countryName) return "";
+  const found = COUNTRY_CODES.find(c => c.country.toLowerCase() === countryName.toLowerCase());
+  return found ? `https://flagcdn.com/w40/${found.iso}.png` : "";
+}
+
+// ─── Initial Fallback Data Store ───────────────────────────────────────────────
 const CUSTOMER_DB = {
   "C-001": {
     id: "C-001", custId: "CUST-1024", name: "John Doe", badge: "VIP", status: "Active",
@@ -43,46 +52,16 @@ const CUSTOMER_DB = {
     summary: { totalBookings: 8, totalSpent: "$12,450", avgBookingValue: "$1,556", lastBooking: "18 May 2025", nextTrip: "20 Jun 2025" },
     tags: ["VIP", "Frequent Traveler", "Beach Lover", "Family Trips"],
   },
-  "C-002": {
-    id: "C-002", custId: "CUST-1025", name: "Emma Watson", badge: "Premium", status: "Active",
-    addedOn: "20 May 2025", source: "Referral",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&auto=format&fit=crop&q=80",
-    stats: { totalBookings: 12, totalSpent: "$28,650", lastBooking: "20 May 2025", nextTrip: "15 Jul 2025" },
-    info: {
-      fullName: "Emma Watson", email: "emma@example.com", phone: "+971 50 123 4567",
-      altEmail: "emma.watson@mail.com", dob: "15 Mar 1990", gender: "Female",
-      customerType: "Family", country: "UAE", countryFlag: "https://flagcdn.com/w40/ae.png",
-      city: "Dubai", preferredLanguage: "English", customerSince: "20 May 2025", statusLabel: "Active",
-    },
-    billing: { line1: "Downtown Dubai, Burj Khalifa District", line2: "Dubai 00000", line3: "United Arab Emirates" },
-    comms: { email: true, sms: false, whatsapp: true },
-    notes: [
-      { text: "Prefers luxury resorts with private pool.", by: "Michael Lee", date: "20 May 2025" },
-      { text: "Has dietary restrictions - vegetarian.", by: "Sarah Johnson", date: "10 May 2025" },
-    ],
-    bookings: [
-      { id: "BK-1278", dest: "Maldives", dates: "15 Jul 2025 - 22 Jul 2025", travelers: "2 Adults, 2 Children", amount: "$5,890", status: "Confirmed" },
-      { id: "BK-1198", dest: "Bali, Indonesia", dates: "20 May 2025 - 28 May 2025", travelers: "2 Adults", amount: "$3,460", status: "Completed" },
-      { id: "BK-1102", dest: "Singapore", dates: "10 Mar 2025 - 14 Mar 2025", travelers: "2 Adults", amount: "$1,980", status: "Completed" },
-    ],
-    activities: [
-      { icon: "bi-journal-bookmark-fill", bg: "#E9F4EE", color: "#1E6C45", title: "Booking created", detail: "Booking #BK-1278 to Maldives", time: "20 May 2025, 11:30 AM" },
-      { icon: "bi-credit-card-fill", bg: "#FEF7ED", color: "#B97C2B", title: "Payment received", detail: "Payment of $5,890 received", time: "19 May 2025, 02:15 PM" },
-    ],
-    summary: { totalBookings: 12, totalSpent: "$28,650", avgBookingValue: "$2,388", lastBooking: "20 May 2025", nextTrip: "15 Jul 2025" },
-    tags: ["Premium", "Luxury Traveler", "Family"],
-  },
 };
 
-// Fallback
 const createFallback = (id) => ({
-  id, custId: id, name: "Customer", badge: null, status: "Active",
+  id, custId: id, name: "Customer Profile", badge: null, status: "Active",
   addedOn: "—", source: "Website",
   avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80",
   stats: { totalBookings: 0, totalSpent: "$0", lastBooking: "—", nextTrip: "—" },
-  info: { fullName: "—", email: "—", phone: "—", altEmail: "—", dob: "—", gender: "—", customerType: "—", country: "—", countryFlag: "", city: "—", preferredLanguage: "English", customerSince: "—", statusLabel: "Active" },
+  info: { fullName: "—", email: "—", phone: "—", altEmail: "—", dob: "—", gender: "—", customerType: "Individual", country: "—", countryFlag: "", city: "—", preferredLanguage: "English", customerSince: "—", statusLabel: "Active" },
   billing: { line1: "—", line2: "—", line3: "—" },
-  comms: { email: false, sms: false, whatsapp: false },
+  comms: { email: true, sms: true, whatsapp: true },
   notes: [], bookings: [], activities: [],
   summary: { totalBookings: 0, totalSpent: "$0", avgBookingValue: "$0", lastBooking: "—", nextTrip: "—" },
   tags: [],
@@ -102,9 +81,76 @@ export default function CustomerDetailPage() {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Overview");
-  const customer = CUSTOMER_DB[id] || createFallback(id);
+  const [customer, setCustomer] = useState(() => CUSTOMER_DB[id] || createFallback(id));
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  useEffect(() => {
+    async function loadCustomerDetail() {
+      if (!id) return;
+      try {
+        const res = await agencyApi.customers.get(id);
+        const apiItem = res?.data;
+        if (apiItem) {
+          const createdDate = apiItem.created_at ? new Date(apiItem.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "—";
+          const dobFormatted = apiItem.date_of_birth ? new Date(apiItem.date_of_birth).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "—";
+          const sinceFormatted = apiItem.customer_since ? new Date(apiItem.customer_since).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : createdDate;
+
+          const dynamicCustomer = {
+            id: apiItem.customer_code || `C-00${apiItem.id}`,
+            custId: apiItem.customer_code || `CUST-${1000 + apiItem.id}`,
+            name: apiItem.full_name,
+            badge: apiItem.badge || null,
+            status: apiItem.status ? (apiItem.status.charAt(0).toUpperCase() + apiItem.status.slice(1)) : "Active",
+            addedOn: createdDate,
+            source: apiItem.source || "Website",
+            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80",
+            stats: { totalBookings: 0, totalSpent: "$0", lastBooking: "—", nextTrip: "—" },
+            info: {
+              fullName: apiItem.full_name,
+              email: apiItem.email,
+              phone: apiItem.phone_code ? `${apiItem.phone_code} ${apiItem.phone}` : apiItem.phone,
+              altEmail: apiItem.alt_email || "—",
+              dob: dobFormatted,
+              gender: apiItem.gender ? (apiItem.gender.charAt(0).toUpperCase() + apiItem.gender.slice(1)) : "—",
+              customerType: apiItem.customer_type || "Individual",
+              country: apiItem.country || "—",
+              countryFlag: getFlagUrl(apiItem.country),
+              city: apiItem.city || "—",
+              preferredLanguage: apiItem.preferred_language || "English",
+              customerSince: sinceFormatted,
+              statusLabel: apiItem.status ? (apiItem.status.charAt(0).toUpperCase() + apiItem.status.slice(1)) : "Active",
+            },
+            billing: {
+              line1: apiItem.address || "No primary address provided",
+              line2: `${apiItem.city || ''} ${apiItem.postal_code || ''}`.trim() || "—",
+              line3: apiItem.country || "—",
+            },
+            comms: {
+              email: !!apiItem.email_notifications,
+              sms: !!apiItem.sms_notifications,
+              whatsapp: !!apiItem.whatsapp_notifications,
+            },
+            notes: apiItem.notes ? [
+              { text: apiItem.notes, by: apiItem.creator?.name || "Agency Admin", date: createdDate }
+            ] : [],
+            bookings: [],
+            activities: [
+              { icon: "bi-person-plus-fill", bg: "#E9F4EE", color: "#1E6C45", title: "Customer profile created", detail: `Profile registered by ${apiItem.creator?.name || 'Admin'}`, time: createdDate }
+            ],
+            summary: { totalBookings: 0, totalSpent: "$0", avgBookingValue: "$0", lastBooking: "—", nextTrip: "—" },
+            tags: Array.isArray(apiItem.tags) ? apiItem.tags : [],
+          };
+
+          setCustomer(dynamicCustomer);
+        }
+      } catch (err) {
+        console.error("Could not fetch customer details from API, using fallback data:", err);
+      }
+    }
+
+    loadCustomerDetail();
+  }, [id]);
 
   const badgeStyle = customer.badge === "VIP"
     ? { bg: "#112E24", color: "#fff" }
@@ -117,6 +163,7 @@ export default function CustomerDetailPage() {
       className="btn text-white rounded-3 px-3 d-flex align-items-center gap-2"
       style={{ backgroundColor: "#112E24", height: "42px", fontWeight: "400" }}
       id="btn-new-customer-detail"
+      onClick={() => router.push("/customers/new")}
     >
       <i className="bi bi-plus-lg fs-6"></i>
       <span>New Customer</span>
@@ -125,7 +172,7 @@ export default function CustomerDetailPage() {
   );
 
   return (
-    <>
+    <ProtectedRoute>
       <style>{`
         .cust-detail-stat { border: 1px solid var(--border); border-radius: 14px; background: #fff; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
         .cust-detail-stat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
@@ -155,7 +202,7 @@ export default function CustomerDetailPage() {
             actionButton={newCustomerButton}
           />
 
-          <main className="main-content d-flex flex-column gap-3 py-4">
+          <main className="main-content d-flex flex-column gap-3 py-4 p-3 p-lg-4 flex-grow-1">
 
             {/* Breadcrumb */}
             <div>
@@ -200,15 +247,6 @@ export default function CustomerDetailPage() {
                 <button className="btn btn-light border border-light rounded-3 px-3 py-2 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.85rem" }}>
                   More Actions <i className="bi bi-chevron-down ms-1" style={{ fontSize: "0.7rem" }}></i>
                 </button>
-                <div className="btn-group border border-light rounded-3 bg-white shadow-sm" style={{ height: 38 }}>
-                  <button className="btn btn-light bg-transparent border-0 text-secondary" style={{ width: 36 }} aria-label="Previous">
-                    <i className="bi bi-chevron-left"></i>
-                  </button>
-                  <div className="border-start border-light h-75 my-auto"></div>
-                  <button className="btn btn-light bg-transparent border-0 text-secondary" style={{ width: 36 }} aria-label="Next">
-                    <i className="bi bi-chevron-right"></i>
-                  </button>
-                </div>
               </div>
             </div>
 
@@ -286,7 +324,7 @@ export default function CustomerDetailPage() {
                             <div className="d-flex flex-column gap-3" style={{ fontSize: "0.85rem" }}>
                               {[
                                 { label: "Customer Type", value: customer.info.customerType },
-                                { label: "Country", value: <><img src={customer.info.countryFlag} alt="" className="rounded-1 me-1" style={{ width: 18, height: 12, objectFit: "cover", verticalAlign: "middle" }} />{customer.info.country}</> },
+                                { label: "Country", value: <>{customer.info.countryFlag && <img src={customer.info.countryFlag} alt="" className="rounded-1 me-1" style={{ width: 18, height: 12, objectFit: "cover", verticalAlign: "middle" }} />}{customer.info.country}</> },
                                 { label: "City", value: customer.info.city },
                                 { label: "Preferred Language", value: customer.info.preferredLanguage },
                                 { label: "Customer Since", value: customer.info.customerSince },
@@ -348,66 +386,50 @@ export default function CustomerDetailPage() {
                           <table className="table table-hover align-middle mb-0" style={{ fontSize: "0.82rem" }}>
                             <thead>
                               <tr className="border-bottom border-light">
-                                {["Booking ID", "Destination", "Travel Dates", "Travelers", "Amount", "Status"].map(h => (
-                                  <th key={h} className="lablename pb-3" style={{ textTransform: "uppercase", whiteSpace: "nowrap", fontSize: "0.68rem" }}>{h}</th>
-                                ))}
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Booking ID</th>
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Destination</th>
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Dates</th>
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Travelers</th>
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Amount</th>
+                                <th className="pb-3 text-secondary" style={{ textTransform: "uppercase", fontSize: "0.72rem" }}>Status</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {customer.bookings.slice(0, 5).map(b => {
-                                const bs = BOOKING_STATUS[b.status] || { bg: "#F3F4F6", color: "#6B7280" };
-                                return (
-                                  <tr key={b.id} className="border-bottom border-light">
-                                    <td className="fw-700" style={{ color: "#1E6C45", padding: "0.75rem 0.5rem" }}>{b.id}</td>
-                                    <td className="fw-600 text-dark" style={{ padding: "0.75rem 0.5rem" }}>{b.dest}</td>
-                                    <td className="text-secondary fw-500" style={{ padding: "0.75rem 0.5rem", whiteSpace: "nowrap" }}>{b.dates}</td>
-                                    <td className="text-secondary fw-500" style={{ padding: "0.75rem 0.5rem" }}>{b.travelers}</td>
-                                    <td className="fw-700 text-dark" style={{ padding: "0.75rem 0.5rem" }}>{b.amount}</td>
-                                    <td style={{ padding: "0.75rem 0.5rem" }}>
-                                      <span className="badge rounded-2 px-2 py-1 fw-700" style={{ fontSize: "0.72rem", backgroundColor: bs.bg, color: bs.color }}>{b.status}</span>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
+                              {customer.bookings.length > 0 ? (
+                                customer.bookings.map(b => {
+                                  const st = BOOKING_STATUS[b.status] || { bg: "#F3F4F6", color: "#6B7280" };
+                                  return (
+                                    <tr key={b.id} className="border-bottom border-light">
+                                      <td className="fw-700 text-dark">{b.id}</td>
+                                      <td className="fw-600 text-dark">{b.dest}</td>
+                                      <td className="text-secondary fw-500">{b.dates}</td>
+                                      <td className="text-secondary fw-500">{b.travelers}</td>
+                                      <td className="fw-700 text-dark">{b.amount}</td>
+                                      <td>
+                                        <span className="badge px-2 py-1 rounded-2 fw-700" style={{ fontSize: "0.72rem", backgroundColor: st.bg, color: st.color }}>{b.status}</span>
+                                      </td>
+                                    </tr>
+                                  );
+                                })
+                              ) : (
+                                <tr>
+                                  <td colSpan={6} className="text-center py-4 text-secondary">
+                                    No bookings recorded for this customer yet.
+                                  </td>
+                                </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
-                        <div className="text-center mt-3">
-                          <button className="btn btn-light border border-light rounded-3 px-4 py-2 fw-700 d-inline-flex align-items-center gap-1" style={{ fontSize: "0.82rem" }} onClick={() => setActiveTab("Bookings")}>
-                            View All Bookings <i className="bi bi-arrow-right"></i>
-                          </button>
-                        </div>
                       </div>
 
-                      {/* Customer Notes */}
-                      <div className="section-card border border-light p-4">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                          <h3 className="fw-800 text-dark fs-6 m-0">Customer Notes</h3>
-                          <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
-                            <i className="bi bi-plus-lg" style={{ fontSize: "0.7rem" }}></i> Add Note
-                          </button>
-                        </div>
-                        <div className="d-flex flex-column gap-3">
-                          {customer.notes.map((n, i) => (
-                            <div key={i} className="p-3 rounded-3 border border-light bg-light-subtle">
-                              <p className="fw-600 text-dark mb-1" style={{ fontSize: "0.85rem" }}>{n.text}</p>
-                              <span className="text-secondary fw-500" style={{ fontSize: "0.72rem" }}>Added by {n.by} on {n.date}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="text-center mt-3">
-                          <button className="btn btn-light border border-light rounded-3 px-4 py-2 fw-700" style={{ fontSize: "0.82rem" }}>View All Notes</button>
-                        </div>
-                      </div>
                     </>
                   )}
 
-                  {/* Other tabs placeholder */}
                   {activeTab !== "Overview" && (
                     <div className="section-card border border-light p-5 text-center text-secondary">
-                      <i className="bi bi-tools fs-1 d-block mb-3 opacity-25"></i>
-                      <h5 className="fw-700 text-dark">{activeTab}</h5>
-                      <p className="mb-0">This section is coming soon.</p>
+                      <i className="bi bi-inbox fs-1 d-block mb-2"></i>
+                      <div className="fw-600">No {activeTab.toLowerCase()} records yet for this customer.</div>
                     </div>
                   )}
 
@@ -418,64 +440,63 @@ export default function CustomerDetailPage() {
               <div className="col-12 col-xl-4 cust-detail-right">
                 <div className="d-flex flex-column gap-3">
 
-                  {/* Activity Timeline */}
+                  {/* Customer Card */}
+                  <div className="section-card border border-light p-4 text-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={customer.avatar} alt={customer.name} className="rounded-circle border mb-3" style={{ width: 80, height: 80, objectFit: "cover" }} />
+                    <h2 className="fw-800 text-dark fs-5 m-0">{customer.name}</h2>
+                    <span className="text-secondary fs-8 fw-500 d-block mt-1">{customer.info.email}</span>
+
+                    {customer.tags.length > 0 && (
+                      <div className="d-flex flex-wrap gap-1 justify-content-center mt-3">
+                        {customer.tags.map(t => (
+                          <span key={t} className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-600" style={{ fontSize: "0.72rem" }}>{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Customer Notes */}
                   <div className="section-card border border-light p-4">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h3 className="section-card-title">Activity Timeline</h3>
-                      <a href="#" className="section-card-link" onClick={e => e.preventDefault()}>View All</a>
+                      <h3 className="fw-800 text-dark fs-6 m-0">Customer Notes</h3>
+                      <button className="btn btn-light border border-light rounded-2 px-2 py-1 fw-700 d-flex align-items-center gap-1" style={{ fontSize: "0.75rem" }}>
+                        <i className="bi bi-plus" style={{ fontSize: "0.8rem" }}></i> Add Note
+                      </button>
                     </div>
-                    <div className="d-flex flex-column" style={{ gap: "1.1rem" }}>
-                      {customer.activities.map((a, i) => (
-                        <div key={i} className="cust-activity-line d-flex gap-2">
-                          <div className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 position-absolute" style={{ left: 0, top: 0, width: 28, height: 28, backgroundColor: a.bg }}>
-                            <i className={`bi ${a.icon}`} style={{ fontSize: "0.75rem", color: a.color }}></i>
+                    <div className="d-flex flex-column gap-3">
+                      {customer.notes.length > 0 ? (
+                        customer.notes.map((n, i) => (
+                          <div key={i} className="bg-light p-3 rounded-3" style={{ fontSize: "0.82rem" }}>
+                            <p className="m-0 text-dark fw-500 mb-2">{n.text}</p>
+                            <div className="d-flex justify-content-between text-secondary fs-9 opacity-75">
+                              <span>By {n.by}</span>
+                              <span>{n.date}</span>
+                            </div>
                           </div>
-                          <div>
-                            <span className="fw-700 text-dark d-block" style={{ fontSize: "0.82rem" }}>{a.title}</span>
-                            <span className="text-secondary fw-500 d-block" style={{ fontSize: "0.75rem" }}>{a.detail}</span>
-                            <span className="text-secondary opacity-75 fw-500" style={{ fontSize: "0.7rem" }}>{a.time}</span>
-                          </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <div className="text-secondary fs-8 text-center py-2">No notes added.</div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Customer Summary */}
+                  {/* Activity Log */}
                   <div className="section-card border border-light p-4">
-                    <h3 className="section-card-title mb-3">Customer Summary</h3>
-                    <div className="d-flex flex-column gap-2" style={{ fontSize: "0.82rem" }}>
-                      {[
-                        { icon: "bi-suitcase-lg", label: "Total Bookings", value: customer.summary.totalBookings },
-                        { icon: "bi-currency-dollar", label: "Total Spent", value: customer.summary.totalSpent },
-                        { icon: "bi-graph-up", label: "Average Booking Value", value: customer.summary.avgBookingValue },
-                        { icon: "bi-calendar-check", label: "Last Booking", value: customer.summary.lastBooking },
-                        { icon: "bi-airplane", label: "Next Trip", value: customer.summary.nextTrip },
-                      ].map(s => (
-                        <div key={s.label} className="d-flex align-items-center justify-content-between py-1 border-bottom border-light">
-                          <div className="d-flex align-items-center gap-2 text-secondary">
-                            <i className={`bi ${s.icon}`} style={{ fontSize: "0.82rem", width: 16 }}></i>
-                            <span className="fw-600">{s.label}</span>
+                    <h3 className="fw-800 text-dark fs-6 mb-3">Activity Log</h3>
+                    <div className="d-flex flex-column gap-3">
+                      {customer.activities.map((act, idx) => (
+                        <div key={idx} className="cust-activity-line">
+                          <div className="d-flex align-items-center gap-2 mb-1">
+                            <div className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: 26, height: 26, backgroundColor: act.bg, position: "absolute", left: 0 }}>
+                              <i className={`bi ${act.icon}`} style={{ fontSize: "0.72rem", color: act.color }}></i>
+                            </div>
+                            <span className="fw-700 text-dark fs-8">{act.title}</span>
                           </div>
-                          <span className="fw-700 text-dark">{s.value}</span>
+                          <p className="m-0 text-secondary fs-8 fw-500">{act.detail}</p>
+                          <span className="text-secondary opacity-75 fs-9">{act.time}</span>
                         </div>
                       ))}
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="section-card border border-light p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h3 className="section-card-title">Tags</h3>
-                      <a href="#" className="section-card-link" onClick={e => e.preventDefault()}>Edit</a>
-                    </div>
-                    <div className="d-flex flex-wrap gap-2">
-                      {customer.tags.map((tag, i) => {
-                        const colors = ["#E9F4EE:#1E6C45", "#ECEFFE:#5D59E1", "#FEF7ED:#B97C2B", "#FDF0F0:#D05E5E"];
-                        const [bg, color] = colors[i % colors.length].split(":");
-                        return (
-                          <span key={tag} className="badge rounded-2 px-3 py-2 fw-700" style={{ fontSize: "0.78rem", backgroundColor: bg, color }}>{tag}</span>
-                        );
-                      })}
                     </div>
                   </div>
 
@@ -485,6 +506,7 @@ export default function CustomerDetailPage() {
             </div>
 
           </main>
+
           <Footer />
         </div>
 
@@ -492,6 +514,6 @@ export default function CustomerDetailPage() {
           <div className="position-fixed top-0 start-0 w-100 h-100 d-lg-none" style={{ backgroundColor: "rgba(0,0,0,0.4)", zIndex: 995 }} onClick={toggleSidebar}></div>
         )}
       </div>
-    </>
+    </ProtectedRoute>
   );
 }
