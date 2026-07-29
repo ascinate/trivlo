@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { agencyApi } from "@/lib/api";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -70,7 +72,38 @@ const TYPE_BADGE_STYLES = {
 export default function CustomersPage() {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [customers] = useState(baseCustomers);
+  const [customers, setCustomers] = useState(baseCustomers);
+
+  useEffect(() => {
+    async function loadBackendCustomers() {
+      try {
+        const res = await agencyApi.customers.list("?per_page=50");
+        const raw = res?.data;
+        const list = Array.isArray(raw) ? raw : (raw?.data || []);
+        if (list.length > 0) {
+          const mapped = list.map((item) => ({
+            id: item.customer_code || `C-00${item.id}`,
+            dbId: item.id,
+            name: item.full_name,
+            badge: item.badge || null,
+            email: item.email,
+            phone: item.phone_code ? `${item.phone_code} ${item.phone}` : item.phone,
+            country: item.country || "India",
+            countryCode: item.country || "India",
+            type: item.customer_type || "Individual",
+            status: item.status ? (item.status.charAt(0).toUpperCase() + item.status.slice(1)) : "Active",
+            bookings: 0,
+            spent: "$0",
+            lastBooking: item.customer_since || "—",
+          }));
+          setCustomers(mapped);
+        }
+      } catch (err) {
+        console.error("Could not load backend customers, using default static list:", err);
+      }
+    }
+    loadBackendCustomers();
+  }, []);
   const [countryFilter, setCountryFilter] = useState("All Countries");
   const [cityFilter, setCityFilter] = useState("All Cities");
   const [typeFilter, setTypeFilter] = useState("All Customer Types");
@@ -175,7 +208,8 @@ export default function CustomersPage() {
   );
 
   return (
-    <div className="d-flex position-relative">
+    <ProtectedRoute>
+      <div className="d-flex position-relative">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="app-container flex-grow-1 min-vh-100 d-flex flex-column justify-content-between">
@@ -489,5 +523,6 @@ export default function CustomersPage() {
         <div className="position-fixed top-0 start-0 w-100 h-100 d-lg-none" style={{ backgroundColor: "rgba(0,0,0,0.4)", zIndex: 995 }} onClick={toggleSidebar}></div>
       )}
     </div>
+    </ProtectedRoute>
   );
 }
