@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -19,6 +19,19 @@ export default function AddNewCustomerPage() {
   const [phoneCode, setPhoneCode] = useState("+91");
   const [phoneDropdownOpen, setPhoneDropdownOpen] = useState(false);
   const [phoneSearch, setPhoneSearch] = useState("");
+  const phoneDropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (phoneDropdownRef.current && !phoneDropdownRef.current.contains(event.target)) {
+        setPhoneDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedCountry = COUNTRY_CODES.find((c) => c.code === phoneCode) || COUNTRY_CODES[0];
   const [phone, setPhone] = useState("");
   const [altEmail, setAltEmail] = useState("");
   const [dob, setDob] = useState("");
@@ -599,11 +612,18 @@ export default function AddNewCustomerPage() {
                     {/* Phone */}
                     <div className="col-12 col-md-4">
                       <label className="cust-form-label">Phone <span className="req">*</span></label>
-                      <div className="phone-input-group">
-                        <button className="phone-flag-btn" type="button">
+                      <div className="phone-input-group" ref={phoneDropdownRef}>
+                        <button
+                          className="phone-flag-btn"
+                          type="button"
+                          onClick={() => setPhoneDropdownOpen(!phoneDropdownOpen)}
+                        >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src="https://flagcdn.com/w40/id.png" alt="ID" />
-                          <span>{phoneCode}</span>
+                          <img
+                            src={`https://flagcdn.com/w40/${selectedCountry.iso}.png`}
+                            alt={selectedCountry.country}
+                          />
+                          <span>{selectedCountry.code}</span>
                           <i className="bi bi-chevron-down" style={{ fontSize: "0.6rem" }}></i>
                         </button>
                         <input
@@ -613,6 +633,45 @@ export default function AddNewCustomerPage() {
                           value={phone}
                           onChange={e => setPhone(e.target.value)}
                         />
+
+                        {phoneDropdownOpen && (
+                          <div className="cc-dropdown">
+                            <input
+                              type="text"
+                              className="cc-search"
+                              placeholder="Search country or code..."
+                              value={phoneSearch}
+                              onChange={e => setPhoneSearch(e.target.value)}
+                              autoFocus
+                            />
+                            <div className="cc-list">
+                              {COUNTRY_CODES.filter(
+                                c =>
+                                  c.country.toLowerCase().includes(phoneSearch.toLowerCase()) ||
+                                  c.code.includes(phoneSearch)
+                              ).map(item => (
+                                <button
+                                  key={`${item.iso}-${item.code}`}
+                                  type="button"
+                                  className={`cc-item ${phoneCode === item.code ? "active" : ""}`}
+                                  onClick={() => {
+                                    setPhoneCode(item.code);
+                                    setPhoneDropdownOpen(false);
+                                    setPhoneSearch("");
+                                  }}
+                                >
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    src={`https://flagcdn.com/w40/${item.iso}.png`}
+                                    alt={item.country}
+                                  />
+                                  <span>{item.country}</span>
+                                  <span className="cc-code">{item.code}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     {/* Alternate Email */}
